@@ -1,0 +1,83 @@
+package com.randing.system.service.impl;
+
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.randing.common.utils.bean.BeanUtils;
+import com.randing.system.domain.common.OrderByEnum;
+import com.randing.system.domain.po.LandInfor;
+import com.randing.system.domain.vo.LandInforVo;
+import com.randing.system.mapper.LandInforMapper;
+import com.randing.system.service.ILandInforService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * <p>
+ *  服务实现类
+ * </p>
+ *
+ * @author Leen
+ * @since 2022-12-15
+ */
+@Service
+public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor> implements ILandInforService {
+    @Value("${baseimageurl}")
+    private String baseImageUrl;
+    @Override
+    public Page<LandInfor> listPage(LandInforVo landInforVo) {
+        Page<LandInfor> landInforPage = baseMapper.selectPage(new Page<>(landInforVo.getPage(), landInforVo.getPageSize()), Wrappers.lambdaQuery(LandInfor.class)
+                .like(StringUtils.isNotBlank(landInforVo.getLandName()), LandInfor::getLandName, landInforVo.getLandName())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilAcidBase()), LandInfor::getLandSoilAcidBase, landInforVo.getLandSoilAcidBase())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilType()), LandInfor::getLandSoilType, landInforVo.getLandSoilType())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandCropType()), LandInfor::getLandCropType, landInforVo.getLandCropType())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilNature()), LandInfor::getLandSoilNature, landInforVo.getLandSoilNature())
+                //土地可用面积
+                .ge(landInforVo.getLandAreaSurplusStart() != null, LandInfor::getLandAreaSurplus, landInforVo.getLandAreaSurplusStart())
+                .le(landInforVo.getLandAreaSurplusEnd() != null, LandInfor::getLandAreaSurplus, landInforVo.getLandAreaSurplusEnd())
+                //土地总面积
+                .ge(landInforVo.getLandAreaTotalStart() != null, LandInfor::getLandAreaTotal, landInforVo.getLandAreaTotalStart())
+                .le(landInforVo.getLandAreaTotalEnd() != null, LandInfor::getLandAreaTotal, landInforVo.getLandAreaTotalEnd())
+                //土地已用面积
+                .ge(landInforVo.getLandAreaUsableStart() != null, LandInfor::getLandAreaUsable, landInforVo.getLandAreaUsableStart())
+                .le(landInforVo.getLandAreaUsableEnd() != null, LandInfor::getLandAreaUsable, landInforVo.getLandAreaUsableEnd())
+                .ge(landInforVo.getLandPrice() != null, LandInfor::getLandPrice, landInforVo.getLandPrice())
+                .le(landInforVo.getLandMaxPrice() != null, LandInfor::getLandMaxPrice, landInforVo.getLandMaxPrice())
+                .orderBy(landInforVo.getLandAreaTotalOrder() != null, landInforVo.getLandAreaTotalOrder() == OrderByEnum.asc, LandInfor::getLandAreaTotal)
+                .orderBy(landInforVo.getLandPriceOrder() != null, landInforVo.getLandPriceOrder() == OrderByEnum.asc, LandInfor::getLandPrice)
+                .orderBy(landInforVo.getLandMaxPriceOrder() != null, landInforVo.getLandMaxPriceOrder() == OrderByEnum.asc, LandInfor::getLandMaxPrice)
+                .orderBy(landInforVo.getLandReleaseTimeOrder() != null, landInforVo.getLandReleaseTimeOrder() == OrderByEnum.asc, LandInfor::getLandReleaseTime)
+        );
+        if (!CollectionUtils.isEmpty(landInforPage.getRecords())) {
+            for (LandInfor record : landInforPage.getRecords()) {
+                if (StringUtils.isNotBlank(record.getLandImgUrl())) {
+                    record.setLandImgUrl(baseImageUrl + record.getLandImgUrl());
+                }
+            }
+        }
+        return landInforPage;
+
+    }
+    @Override
+    public LandInforVo findById(Long id) {
+        LandInfor landInfor = baseMapper.selectById(id);
+        LandInforVo landInforVo = new LandInforVo();
+        BeanUtils.copyProperties(landInfor, landInforVo);
+        return landInforVo;
+    }
+
+    @Override
+    public List<String> landAscriptionList() {
+        List<LandInfor> landInfors = baseMapper.selectList(Wrappers.lambdaQuery(LandInfor.class).select(LandInfor::getLandAscription));
+        if (!CollectionUtils.isEmpty(landInfors)) {
+            List<String> collect = landInfors.stream().map(LandInfor::getLandAscription).collect(Collectors.toList());
+            return collect;
+        }
+        return null;
+    }
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.LandInforMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.LandInfor">
+        <result column="id" property="id" />
+        <result column="land_number" property="landNumber" />
+        <result column="land_name" property="landName" />
+        <result column="land_price" property="landPrice" />
+        <result column="land_max_price" property="landMaxPrice" />
+        <result column="land_area_total" property="landAreaTotal" />
+        <result column="land_area_surplus" property="landAreaSurplus" />
+        <result column="land_area_usable" property="landAreaUsable" />
+        <result column="land_location" property="landLocation" />
+        <result column="load_gis_sign" property="loadGisSign" />
+        <result column="land_vr_url" property="landVrUrl" />
+        <result column="land_water" property="landWater" />
+        <result column="land_soil_type" property="landSoilType" />
+        <result column="land_road" property="landRoad" />
+        <result column="land_soil_nature" property="landSoilNature" />
+        <result column="land_soil_fertility" property="landSoilFertility" />
+        <result column="land_soil_acid_base" property="landSoilAcidBase" />
+        <result column="land_storage" property="landStorage" />
+        <result column="land_other" property="landOther" />
+        <result column="land_air_drying" property="landAirDrying" />
+        <result column="land_img_url" property="landImgUrl" />
+        <result column="land_crop_type" property="landCropType" />
+        <result column="land_apply_threshold" property="landApplyThreshold" />
+        <result column="land_release_time" property="landReleaseTime" />
+        <result column="land_create_time" property="landCreateTime" />
+        <result column="land_create_user_id" property="landCreateUserId" />
+        <result column="land_update_time" property="landUpdateTime" />
+        <result column="land_update_user_id" property="landUpdateUserId" />
+        <result column="land_periphery" property="landPeriphery" />
+        <result column="land_type" property="landType" />
+        <result column="land_sequence" property="landSequence" />
+        <result column="land_organic" property="landOrganic" />
+        <result column="land_salt" property="landSalt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        land_number, land_name, land_price, land_max_price, land_area_total, land_area_surplus, land_area_usable, land_location, load_gis_sign, land_vr_url, land_water, land_soil_type, land_road, land_soil_nature, land_soil_fertility, land_soil_acid_base, land_storage, land_other, land_air_drying, land_img_url, land_crop_type, land_apply_threshold, land_release_time, land_create_time, land_create_user_id, land_update_time, land_update_user_id, land_periphery, land_type, land_sequence, land_organic, land_salt
+    </sql>
+
+</mapper>

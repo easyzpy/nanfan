@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.FieldBreedServiceApplyFormMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.FieldBreedServiceApplyForm">
+        <result column="id" property="id" />
+        <result column="land_apply_unit" property="landApplyUnit" />
+        <result column="intpu_person" property="intpuPerson" />
+        <result column="land_apply_address" property="landApplyAddress" />
+        <result column="project_name" property="projectName" />
+        <result column="need_apply_service_mode_type" property="needApplyServiceModeType" />
+        <result column="field_service_need_report" property="fieldServiceNeedReport" />
+        <result column="breed_service" property="breedService" />
+        <result column="apply_unit_opinion_leader_opinion" property="applyUnitOpinionLeaderOpinion" />
+        <result column="apply_unit_opinion_seal" property="applyUnitOpinionSeal" />
+        <result column="apply_unit_opinion_date" property="applyUnitOpinionDate" />
+        <result column="holding_unit_bussiness_verify_opinion" property="holdingUnitBussinessVerifyOpinion" />
+        <result column="holding_unit_bussiness_verify_opinion_leader_sign" property="holdingUnitBussinessVerifyOpinionLeaderSign" />
+        <result column="apply_person_caontact" property="applyPersonCaontact" />
+        <result column="del_flag" property="delFlag" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="backup1" property="backup1" />
+        <result column="backup2" property="backup2" />
+        <result column="backup3" property="backup3" />
+        <result column="backup4" property="backup4" />
+        <result column="backup5" property="backup5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        land_apply_unit, intpu_person, land_apply_address, project_name, need_apply_service_mode_type, field_service_need_report, breed_service, apply_unit_opinion_leader_opinion, apply_unit_opinion_seal, apply_unit_opinion_date, holding_unit_bussiness_verify_opinion, holding_unit_bussiness_verify_opinion_leader_sign, apply_person_caontact, del_flag, create_user, create_time, update_user, update_time, backup1, backup2, backup3, backup4, backup5
+    </sql>
+
+</mapper>

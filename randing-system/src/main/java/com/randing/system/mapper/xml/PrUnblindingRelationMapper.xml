@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.PrUnblindingRelationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.PrUnblindingRelation">
+        <result column="id" property="id" />
+        <result column="pr_id" property="prId" />
+        <result column="cohort_id" property="cohortId" />
+        <result column="user_id" property="userId" />
+        <result column="reason" property="reason" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        pr_id, cohort_id, user_id, reason, create_by, create_time
+    </sql>
+
+</mapper>
