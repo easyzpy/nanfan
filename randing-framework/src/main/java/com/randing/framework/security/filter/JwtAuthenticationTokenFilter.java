@@ -1,6 +1,9 @@
 package com.randing.framework.security.filter;
 
+import cn.hutool.http.ContentType;
+import com.alibaba.fastjson.JSONObject;
 import com.randing.common.TokenService;
+import com.randing.common.core.domain.AjaxResult;
 import com.randing.common.core.domain.model.LoginUser;
 import com.randing.common.exception.BaseException;
 import com.randing.common.utils.SecurityUtils;
@@ -78,11 +81,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
         } else {
             String authorization = request.getHeader("authorization");
             if (StringUtils.isEmpty(authorization)) {
-                throw new BaseException("token为空");
+                response.setContentType(ContentType.JSON.getValue());
+                response.getWriter().write(JSONObject.toJSONString(AjaxResult.error("token is null")));
+                return;
             }
             JwtUser jwtUser = tokenService.parseToken(authorization);
             if (jwtUser.isExpired()) {
-                throw new BaseException("token过期");
+                response.setContentType(ContentType.JSON.getValue());
+                response.getWriter().write(JSONObject.toJSONString(AjaxResult.error("token is expire")));
+                return;
             }
             if (jwtUser.isExpiredHalf()) {
                 String token = tokenService.createToken(jwtUser);
