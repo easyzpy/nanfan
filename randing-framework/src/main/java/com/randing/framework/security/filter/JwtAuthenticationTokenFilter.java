@@ -82,13 +82,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
             String authorization = request.getHeader("authorization");
             if (StringUtils.isEmpty(authorization)) {
                 response.setContentType(ContentType.JSON.getValue());
-                response.getWriter().write(JSONObject.toJSONString(AjaxResult.error("token is null")));
+                response.getWriter().write(JSONObject.toJSONString(AjaxResult.error(501, "token is null")));
                 return;
             }
             JwtUser jwtUser = tokenService.parseToken(authorization);
             if (jwtUser.isExpired()) {
                 response.setContentType(ContentType.JSON.getValue());
-                response.getWriter().write(JSONObject.toJSONString(AjaxResult.error("token is expire")));
+                response.getWriter().write(JSONObject.toJSONString(AjaxResult.error(502, "token is expire")));
+
                 return;
             }
             if (jwtUser.isExpiredHalf()) {
