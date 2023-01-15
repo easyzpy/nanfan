@@ -1,13 +1,10 @@
 package com.randing.common.utils;
 
-import com.randing.common.core.domain.entity.SysUser;
+import com.randing.common.core.domain.model.LoginUser;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.randing.common.constant.HttpStatus;
-import com.randing.common.core.domain.model.LoginUser;
-import com.randing.common.exception.BaseException;
 
 /**
  * 安全服务工具类
@@ -19,17 +16,17 @@ public class SecurityUtils
     /**
      * 获取用户账户
      **/
-    public static String getUsername()
-    {
-        try
-        {
-            return getLoginUser().getUsername();
-        }
-        catch (Exception e)
-        {
-            throw new AccountExpiredException("获取用户账户异常");
-        }
-    }
+//    public static String getUsername()
+//    {
+//        try
+//        {
+//            return getLoginUser().getUsername();
+//        }
+//        catch (Exception e)
+//        {
+//            throw new AccountExpiredException("获取用户账户异常");
+//        }
+//    }
 
     /**
      * 获取用户
@@ -107,24 +104,6 @@ public class SecurityUtils
         } else {
             return 2;
         }
-    }
-
-    /**
-     * 判断是否有相关研究中心
-     * @param
-     * @return 研究中心id，多个以逗号分隔
-     */
-    public static String getRelateSite()
-    {
-        LoginUser loginUser= SecurityUtils.getLoginUser();
-        SysUser user = loginUser.getUser();
-        if(user.getIsPrOwner()!=null && user.getIsPrOwner()==1 &&
-                user.getUnitType()!=null && user.getUnitType()==0 )
-        {
-            //如果是项目所有者，则能看所有研究中心
-            return null;
-        }
-        return user.getRelateSite();
     }
 
 }

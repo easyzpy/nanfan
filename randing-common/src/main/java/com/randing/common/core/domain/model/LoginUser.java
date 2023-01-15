@@ -5,7 +5,6 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.randing.common.core.domain.entity.SysUser;
 
 /**
  * 登录用户身份权限
@@ -56,10 +55,6 @@ public class LoginUser implements UserDetails
      */
     private Set<String> permissions;
 
-    /**
-     * 用户信息
-     */
-    private SysUser user;
 
     public String getToken()
     {
@@ -73,25 +68,6 @@ public class LoginUser implements UserDetails
 
     public LoginUser()
     {
-    }
-
-    public LoginUser(SysUser user, Set<String> permissions)
-    {
-        this.user = user;
-        this.permissions = permissions;
-    }
-
-    @JsonIgnore
-    @Override
-    public String getPassword()
-    {
-        return user.getPassword();
-    }
-
-    @Override
-    public String getUsername()
-    {
-        return user.getAccount();
     }
 
     /**
@@ -210,19 +186,19 @@ public class LoginUser implements UserDetails
         this.permissions = permissions;
     }
 
-    public SysUser getUser()
-    {
-        return user;
-    }
-
-    public void setUser(SysUser user)
-    {
-        this.user = user;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities()
     {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
         return null;
     }
 }
