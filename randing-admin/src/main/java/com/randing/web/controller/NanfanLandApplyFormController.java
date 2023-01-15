@@ -2,7 +2,7 @@ package com.randing.web.controller;
 
 
 import com.randing.common.core.domain.AjaxResult;
-import com.randing.system.domain.vo.NanfanLandApplyFormVo;
+import com.randing.system.domain.vo.base.KeepApplyReqDTO;
 import com.randing.system.service.INanfanLandApplyFormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,16 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api("崖州湾实验室南繁配套用地申请表 前端控制器")
-@RequestMapping("/nanfanLandApplyForm")
+@RequestMapping("/land-apply")
 public class NanfanLandApplyFormController {
 
     @Autowired
     private INanfanLandApplyFormService nanfanLandApplyFormService;
 
-    @PostMapping("listPage")
+    @PostMapping("getKeepApplay")
     @ApiOperation("崖州湾实验室南繁配套用地申请表 列表")
-    public AjaxResult listPage(@RequestBody NanfanLandApplyFormVo nanfanLandApplyFormVo) {
-        return AjaxResult.success(nanfanLandApplyFormService.listPage(nanfanLandApplyFormVo));
+    public AjaxResult listPage(@RequestBody KeepApplyReqDTO keepApplyReqDTO) {
+        return AjaxResult.success(nanfanLandApplyFormService.getKeepApplay(keepApplyReqDTO));
     }
 
     @GetMapping("findById")

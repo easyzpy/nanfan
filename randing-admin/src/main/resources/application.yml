@@ -29,7 +29,7 @@ spring:
     # 国际化资源文件路径
     basename: i18n/messages
   profiles:
-    active: local
+    active: dev
   # 文件上传
   servlet:
      multipart:
@@ -82,7 +82,7 @@ mybatis-plus:
   # BATCH：该执行器类型会批量执行所有的更新语句
   executorType: SIMPLE
   # 指定外部化 MyBatis Properties 配置，通过该配置可以抽离配置，实现不同环境的配置部署
-  configurationProperties: null
+#  configurationProperties: null
   configuration:
     # 自动驼峰命名规则（camel case）映射
     # 如果您的数据库命名符合规则无需使用 @TableField 注解指定数据库字段名

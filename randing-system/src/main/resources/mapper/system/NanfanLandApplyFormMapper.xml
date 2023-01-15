@@ -3,7 +3,7 @@
 <mapper namespace="com.randing.system.mapper.NanfanLandApplyFormMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.NanfanLandApplyForm">
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.vo.base.NanfanLandApplyFormVo">
         <result column="id" property="id" />
         <result column="land_apply_unit" property="landApplyUnit" />
         <result column="input_person" property="inputPerson" />
@@ -47,6 +47,31 @@
         <result column="apply_label" property="applyLabel" />
         <result column="conversion" property="conversion" />
         <result column="train" property="train" />
+        <association property="landContract" javaType="landContract">
+            <result column="id" property="id" />
+            <result column="contract_id" property="contractId" />
+            <result column="apply_id" property="applyId" />
+            <result column="choice_land_id" property="choiceLandId" />
+            <result column="nail_name" property="nailName" />
+            <result column="nail_contacts" property="nailContacts" />
+            <result column="nail_phone" property="nailPhone" />
+            <result column="second_name" property="secondName" />
+            <result column="second_contacts" property="secondContacts" />
+            <result column="second_phone" property="secondPhone" />
+            <result column="land_area" property="landArea" />
+            <result column="contract_start_time" property="contractStartTime" />
+            <result column="contract_end_time" property="contractEndTime" />
+            <result column="contract_url" property="contractUrl" />
+            <result column="contract_status" property="contractStatus" />
+            <result column="add_time" property="addTime" />
+            <result column="add_user" property="addUser" />
+            <result column="update_time" property="updateTime" />
+            <result column="update_user" property="updateUser" />
+            <result column="land_status" property="landStatus" />
+            <result column="apply_user_id" property="applyUserId" />
+            <result column="sign_type" property="signType" />
+            <result column="offline_contract_url" property="offlineContractUrl" />
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -55,4 +80,10 @@
         land_apply_unit, input_person, land_apply_area, land_apply_type, land_apply_address, rely_project_source, rely_project_name, land_apply_reson, budget, apply_unit_opinion_leader_opinion, apply_unit_opinion_seal, apply_unit_opinon_date, holding_unit_business_opinion, holding_unit_business_leader_sign, holding_unit_leader_opinion, holding_unit_leader_sign, holding_unit_leader_date, land_apply_person_cantact, del_flag, holding_unit_business_leader_date, create_time, create_user, update_time, update_user, backup1, backup2, backup3, backup4, backup5, back_msg, land_apply_purpose, land_apply_reson_attach, infor_id, land_apply_year, land_security_fund, is_adjust, sum_score, batch_id, batch_name, apply_label, conversion, train
     </sql>
 
+    <select id="getKeepApplay" resultMap="BaseResultMap">
+        select *
+        from nanfan_land_apply_form as c
+         LEFT JOIN land_contract as lc on c.id = lc.apply_id
+        ${ew.customSqlSegment}
+    </select>
 </mapper>

@@ -3,7 +3,8 @@ package com.randing.system.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.system.domain.po.NanfanLandApplyForm;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.randing.system.domain.vo.NanfanLandApplyFormVo;
+import com.randing.system.domain.vo.base.KeepApplyReqDTO;
+import com.randing.system.domain.vo.base.NanfanLandApplyFormVo;
 
 /**
  * <p>
@@ -15,7 +16,7 @@ import com.randing.system.domain.vo.NanfanLandApplyFormVo;
  */
 public interface INanfanLandApplyFormService extends IService<NanfanLandApplyForm> {
 
-    Page<NanfanLandApplyForm> listPage(NanfanLandApplyFormVo nanfanLandApplyFormVo);
+    Page<NanfanLandApplyFormVo> getKeepApplay(KeepApplyReqDTO keepApplyReqDTO);
 
     NanfanLandApplyFormVo findById(Long id);
 }

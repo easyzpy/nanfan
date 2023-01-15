@@ -3,6 +3,7 @@ package com.randing.system.domain.po;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,6 +17,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@TableName("nanfan_land_apply_form")
 public class NanfanLandApplyForm implements Serializable {
 
     private static final long serialVersionUID = 1L;

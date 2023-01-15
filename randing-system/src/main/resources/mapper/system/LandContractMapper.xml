@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.LandContractMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.LandContract">
+        <result column="id" property="id" />
+        <result column="contract_id" property="contractId" />
+        <result column="apply_id" property="applyId" />
+        <result column="choice_land_id" property="choiceLandId" />
+        <result column="nail_name" property="nailName" />
+        <result column="nail_contacts" property="nailContacts" />
+        <result column="nail_phone" property="nailPhone" />
+        <result column="second_name" property="secondName" />
+        <result column="second_contacts" property="secondContacts" />
+        <result column="second_phone" property="secondPhone" />
+        <result column="land_area" property="landArea" />
+        <result column="contract_start_time" property="contractStartTime" />
+        <result column="contract_end_time" property="contractEndTime" />
+        <result column="contract_url" property="contractUrl" />
+        <result column="contract_status" property="contractStatus" />
+        <result column="add_time" property="addTime" />
+        <result column="add_user" property="addUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="land_status" property="landStatus" />
+        <result column="apply_user_id" property="applyUserId" />
+        <result column="sign_type" property="signType" />
+        <result column="offline_contract_url" property="offlineContractUrl" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        contract_id, apply_id, choice_land_id, nail_name, nail_contacts, nail_phone, second_name, second_contacts, second_phone, land_area, contract_start_time, contract_end_time, contract_url, contract_status, add_time, add_user, update_time, update_user, land_status, apply_user_id, sign_type, offline_contract_url
+    </sql>
+
+</mapper>

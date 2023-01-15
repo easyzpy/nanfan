@@ -1,6 +1,7 @@
-package com.randing.system.domain.vo;
+package com.randing.system.domain.vo.base;
 
 import com.randing.system.domain.common.OrderByEnum;
+import com.randing.system.domain.po.LandContract;
 import com.randing.system.domain.vo.base.BasePage;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -256,5 +257,7 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
      */
     @ApiModelProperty("申请单位/作物类型 / 用地用途")
     private String text;
+
+    private LandContract landContract;
 
 }
