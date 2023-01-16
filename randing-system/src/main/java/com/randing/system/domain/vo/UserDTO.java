@@ -1,28 +1,19 @@
-package com.randing.system.domain.po;
+package com.randing.system.domain.vo;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-/**
- * <p>
- * 用户
- * </p>
- *
- * @author Leen
- * @since 2023-01-15
- */
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class User implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
 
-    /**
-     * 登录名
-     */
+    private Long id;
     private String loginName;
 
     /**
@@ -63,5 +54,5 @@ public class User implements Serializable {
      */
     private String systemType;
 
-
+//    private List<Menu>
 }

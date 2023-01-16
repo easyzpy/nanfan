@@ -5,6 +5,7 @@ import com.randing.common.utils.jwt.JwtUser;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,6 @@ public class TokenService {
     private int expireTime;
 
     private static final String ClaimsKey = "user";
-
 
     public String createToken(JwtUser jwtUser) {
         if (jwtUser == null) {

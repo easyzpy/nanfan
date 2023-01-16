@@ -2,6 +2,8 @@ package com.randing.system.domain.po;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,99 +16,116 @@ import lombok.EqualsAndHashCode;
  * @since 2023-01-15
  */
 @Data
-  @EqualsAndHashCode(callSuper = false)
-    public class LandApplyScore implements Serializable {
+@EqualsAndHashCode(callSuper = false)
+public class LandApplyScore implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String landApplyUnitScoreAttach;
 
-      /**
+    /**
      * 用地申报单位评分标注
      */
-      private String landApplyUnitScore;
+    @ApiModelProperty("用地申报单位评分标注")
+    private String landApplyUnitScore;
 
-      /**
+    /**
      * 用地申报单位评分标注附件
      */
-      private String researchDirectionsScoreAttach;
+    @ApiModelProperty("用地申报单位评分标注附件")
+    private String researchDirectionsScoreAttach;
 
-      /**
+    /**
      * 科研方向评分标准
      */
-      private String researchDirectionsScore;
+    @ApiModelProperty("科研方向评分标准")
+    private String researchDirectionsScore;
 
-      /**
+    /**
      * 科研方向评分标准附件
      */
-      private String startResearchActivityScoreAttach;
+    @ApiModelProperty("科研方向评分标准附件")
+    private String startResearchActivityScoreAttach;
 
-      /**
+    /**
      * 开展科研活动评分标准
      */
-      private String startResearchActivityScore;
+    @ApiModelProperty("开展科研活动评分标准")
+    private String startResearchActivityScore;
 
-      /**
+    /**
      * 开展科研活动评分标准附件
      */
-      private String landQuitLandRestoreScoreAttach;
+    @ApiModelProperty("开展科研活动评分标准附件")
+    private String landQuitLandRestoreScoreAttach;
 
-      /**
+    /**
      * 用地退出土地评分标准
      */
-      private String landQuitLandRestoreScore;
+    @ApiModelProperty("用地退出土地评分标准")
+    private String landQuitLandRestoreScore;
 
-      /**
+    /**
      * 用地退出土地评分标准附件
      */
-      private String driveLandGrowScoreAttach;
+    @ApiModelProperty("用地退出土地评分标准附件")
+    private String driveLandGrowScoreAttach;
 
-      /**
+    /**
      * 带动当地发展评分标准
      */
-      private String driveLandGrowScore;
+    @ApiModelProperty("带动当地发展评分标准")
+    private String driveLandGrowScore;
 
-      /**
+    /**
      * 带动当地发展评分标准附件
      */
-      private String onLandTransformScoreAttach;
+    @ApiModelProperty("带动当地发展评分标准附件")
+    private String onLandTransformScoreAttach;
 
-      /**
+    /**
      * 就地转化评分标准
      */
-      private String onLandTransformScore;
+    @ApiModelProperty("就地转化评分标准")
+    private String onLandTransformScore;
 
-      /**
+    /**
      * 就地转化评分标准附件
      */
-      private String landFulfillPromiseScoreAttach;
+    @ApiModelProperty("就地转化评分标准附件")
+    private String landFulfillPromiseScoreAttach;
 
-      /**
+    /**
      * 用地承诺兑现程度评分标准
      */
-      private String landFulfillPromiseScore;
+    @ApiModelProperty("用地承诺兑现程度评分标准")
+    private String landFulfillPromiseScore;
 
-      /**
+    /**
      * 总分
      */
-      private Double sumScore;
+    @ApiModelProperty("总分")
+    private Double sumScore;
 
-      /**
+    /**
      * 申请表id
      */
-      private Integer applyFormId;
+    @ApiModelProperty("申请表id")
+    private Integer applyFormId;
 
-      /**
+    /**
      * 申请表类型
      */
-      private String applyFormType;
+    @ApiModelProperty("申请表类型")
+    private String applyFormType;
 
     private String recordEachScoreByOrder;
 
-      /**
+    /**
      * 是否删除 0 使用 1 删除
      */
-      private Integer delFlag;
+    @ApiModelProperty("是否删除 0 使用 1 删除")
+    private Integer delFlag;
 
     private Integer createUser;
 
@@ -116,30 +135,35 @@ import lombok.EqualsAndHashCode;
 
     private LocalDateTime updateTime;
 
-      /**
+    /**
      * 调整分数的理由
      */
-      private String scoreReason;
+    @ApiModelProperty("调整分数的理由")
+    private String scoreReason;
 
-      /**
+    /**
      * 调整的分数
      */
-      private Double adjustmentScore;
+    @ApiModelProperty("调整的分数")
+    private Double adjustmentScore;
 
-      /**
+    /**
      * 申报单位科研机构选项（科研机构、高校、涉农企业）
      */
-      private String researchSbdw;
+    @ApiModelProperty("申报单位科研机构选项（科研机构、高校、涉农企业）")
+    private String researchSbdw;
 
-      /**
+    /**
      * 新品种就地转化评分
      */
-      private String newVarietiesScore;
+    @ApiModelProperty("新品种就地转化评分")
+    private String newVarietiesScore;
 
-      /**
+    /**
      * 新技术就地转化评分
      */
-      private String newTechniqueScore;
+    @ApiModelProperty("新技术就地转化评分")
+    private String newTechniqueScore;
 
 
 }

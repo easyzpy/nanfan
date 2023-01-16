@@ -9,6 +9,9 @@ import com.randing.common.utils.iface.dto.GetTokenResDTO;
 import com.randing.common.utils.iface.dto.YzbResDTO;
 import com.randing.common.utils.iface.dto.YzbUserInfo;
 import com.randing.common.utils.jwt.JwtUser;
+import com.randing.system.mapper.RoleMapper;
+import com.randing.system.mapper.UserMapper;
+import com.randing.system.mapper.UserRoleMapper;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,13 @@ public class ApiController {
     private YzbApiUtils apiUtils;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private RoleMapper roleMapper;
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+
 
 
 
@@ -61,8 +71,6 @@ public class ApiController {
         String token = tokenService.createToken(jwtUser);
 
         return AjaxResult.success(token);
-
-
 
     }
 }
