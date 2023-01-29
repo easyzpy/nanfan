@@ -24,7 +24,7 @@ public class LandContractServiceImpl extends ServiceImpl<LandContractMapper, Lan
 
     @Override
     public Page<LandContract> listPage(LandContract landContract) {
-        Page<LandContract> landContractPage = baseMapper.selectPage(new Page<LandContract>(landContract.getPage(), landContract.getPageSize()), Wrappers.lambdaQuery(LandContract.class)
+        Page<LandContract> landContractPage = baseMapper.selectPage(new Page<>(landContract.getPage(), landContract.getPageSize()), Wrappers.lambdaQuery(LandContract.class)
                 .eq(LandContract::getContractStatus, landContract.getContractId())
                 .like(LandContract::getNailName, landContract.getNailName())
                 .like(LandContract::getSecondName, landContract.getNailName()));

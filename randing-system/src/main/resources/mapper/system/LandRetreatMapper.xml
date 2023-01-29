@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.LandRetreatMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.LandRetreat">
+        <result column="id" property="id" />
+        <result column="retreat_id" property="retreatId" />
+        <result column="retreat_applicant" property="retreatApplicant" />
+        <result column="retreat_time" property="retreatTime" />
+        <result column="is_conservation" property="isConservation" />
+        <result column="is_organic" property="isOrganic" />
+        <result column="is_green" property="isGreen" />
+        <result column="land_restoration" property="landRestoration" />
+        <result column="drive_development" property="driveDevelopment" />
+        <result column="situ_conversion" property="situConversion" />
+        <result column="situ_conversion_js" property="situConversionJs" />
+        <result column="is_next_yaer" property="isNextYaer" />
+        <result column="system_score" property="systemScore" />
+        <result column="adjustment_score" property="adjustmentScore" />
+        <result column="final_score" property="finalScore" />
+        <result column="status" property="status" />
+        <result column="return_marks" property="returnMarks" />
+        <result column="add_time" property="addTime" />
+        <result column="add_user" property="addUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="contract_id" property="contractId" />
+        <result column="is_questionnaire" property="isQuestionnaire" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        retreat_id, retreat_applicant, retreat_time, is_conservation, is_organic, is_green, land_restoration, drive_development, situ_conversion, situ_conversion_js, is_next_yaer, system_score, adjustment_score, final_score, status, return_marks, add_time, add_user, update_time, update_user, contract_id, is_questionnaire
+    </sql>
+
+</mapper>
