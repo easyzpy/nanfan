@@ -1,5 +1,6 @@
 package com.randing.common.utils.jwt;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,15 +20,17 @@ public class UserRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
+    private Long id;
     /**
      * 用户id
      */
+    @ApiModelProperty("用户id")
     private Integer userId;
 
     /**
      * 角色id
      */
+    @ApiModelProperty("角色id")
     private String roleId;
 
 
