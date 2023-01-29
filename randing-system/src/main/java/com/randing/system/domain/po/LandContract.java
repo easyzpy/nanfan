@@ -149,6 +149,10 @@ public class LandContract extends BasePage implements Serializable {
 
     private String offlineContractUrl;
 
+    /**
+     * 合同附件
+     */
+    @ApiModelProperty("合同附件")
     private List<LandContractContent> landContractContentList;
 
 

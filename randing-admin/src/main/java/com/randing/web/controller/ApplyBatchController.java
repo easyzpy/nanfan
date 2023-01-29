@@ -2,6 +2,7 @@ package com.randing.web.controller;
 
 
 import com.randing.common.core.domain.AjaxResult;
+import com.randing.system.domain.vo.ApplyBatchVo;
 import com.randing.system.service.IApplyBatchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -27,7 +30,7 @@ public class ApplyBatchController {
     private IApplyBatchService applyBatchService;
     @GetMapping("getList")
     @ApiOperation("申请批次 列表")
-    public AjaxResult getList() {
+    public AjaxResult<List<ApplyBatchVo>> getList() {
         return AjaxResult.success(applyBatchService.getList());
     }
 

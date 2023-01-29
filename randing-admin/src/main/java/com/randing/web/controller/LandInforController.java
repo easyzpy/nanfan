@@ -1,7 +1,9 @@
 package com.randing.web.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.common.core.domain.AjaxResult;
+import com.randing.system.domain.po.LandInfor;
 import com.randing.system.domain.vo.LandInforVo;
 import com.randing.system.service.ILandInforService;
 import io.swagger.annotations.Api;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -33,18 +37,18 @@ public class LandInforController {
 
     @PostMapping("listPage")
     @ApiOperation("用地信息列表")
-    public AjaxResult listPage(@RequestBody LandInforVo landInforVo) {
+    public AjaxResult<Page<LandInfor>> listPage(@RequestBody LandInforVo landInforVo) {
         return AjaxResult.success(iLandInforService.listPage(landInforVo));
     }
 
     @GetMapping("findById")
     @ApiOperation("土地信息详情")
-    public AjaxResult findById(@RequestParam("id") Long id) {
+    public AjaxResult<LandInforVo> findById(@RequestParam("id") Long id) {
         return AjaxResult.success(iLandInforService.findById(id));
     }
     @GetMapping("landAscriptionList")
     @ApiOperation("所属区域列表 eg. 三亚,陵水")
-    public AjaxResult landAscriptionList() {
+    public AjaxResult<List<String>> landAscriptionList() {
         return AjaxResult.success(iLandInforService.landAscriptionList());
     }
 }

@@ -2,6 +2,7 @@ package com.randing.system.domain.po;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -156,4 +157,6 @@ public class LandRetreat implements Serializable {
     private Integer isQuestionnaire;
 
 
+    @ApiModelProperty("退地附件")
+    private List<LandRetreatFile> landRetreatFileList;
 }

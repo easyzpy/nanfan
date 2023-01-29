@@ -9,7 +9,8 @@ import com.randing.common.utils.StringUtils;
  * 
  * @author randing
  */
-public class AjaxResult extends HashMap<String, Object>
+
+public class AjaxResult<T> extends HashMap<String, Object>
 {
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +49,7 @@ public class AjaxResult extends HashMap<String, Object>
      * @param msg 返回内容
      * @param data 数据对象
      */
-    public AjaxResult(int code, String msg, Object data)
+    public AjaxResult(int code, String msg, T data)
     {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
