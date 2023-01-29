@@ -52,6 +52,10 @@ public class TokenService {
         return Bearer + token;
     }
 
+    public void findUserRole() {
+
+    }
+
     public JwtUser parseToken(String token) {
         String s = token.replaceFirst(Bearer, "");
         Jwt jwt = Jwts.parser().setSigningKey(secret).parse(s);

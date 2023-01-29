@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class UserDTO implements Serializable {
 
 
-    private Long id;
+    private Integer id;
     private String loginName;
 
     /**

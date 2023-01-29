@@ -9,9 +9,12 @@ import com.randing.common.exception.BaseException;
 import com.randing.common.utils.SecurityUtils;
 import com.randing.common.utils.StringUtils;
 import com.randing.common.utils.jwt.JwtUser;
+import com.randing.common.utils.jwt.Role;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * token过滤器 验证token有效性
@@ -33,6 +37,7 @@ import java.util.Collection;
  * @author randing
  */
 @Component
+@Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
 {
     @Autowired
@@ -73,7 +78,17 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
 //            }
 //        }
         String url = request.getRequestURI();
-        if (url.startsWith("/api/token/getToken")) {
+        log.info(url);
+
+        if (
+                url.startsWith("/api/token/getToken")
+                ||url.startsWith("/doc.html")
+                ||url.startsWith("/webjars")
+                ||url.startsWith("/swagger-resources")
+                ||url.startsWith("/v2/api-docs")
+
+
+        ) {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(new JwtUser(), null, null);
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -103,42 +118,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
             chain.doFilter(request, response);
         }
     }
-    static class MyUserDetails implements UserDetails {
 
-        @Override
-        public Collection<? extends GrantedAuthority> getAuthorities() {
+    public static List<Role> getRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser principal = (JwtUser) authentication.getPrincipal();
+        if (principal == null) {
             return null;
         }
-
-        @Override
-        public String getPassword() {
-            return null;
-        }
-
-        @Override
-        public String getUsername() {
-            return "";
-        }
-
-        @Override
-        public boolean isAccountNonExpired() {
-            return true;
-        }
-
-        @Override
-        public boolean isAccountNonLocked() {
-            return true;
-        }
-
-        @Override
-        public boolean isCredentialsNonExpired() {
-            return true;
-        }
-
-        @Override
-        public boolean isEnabled() {
-            return true;
-        }
+        return principal.getNanUser().getRoles();
     }
 
 }

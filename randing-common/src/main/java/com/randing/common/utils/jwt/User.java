@@ -1,12 +1,12 @@
-package com.randing.system.domain.po;
-
-import java.time.LocalDateTime;
-import java.io.Serializable;
-import java.util.List;
+package com.randing.common.utils.jwt;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -22,7 +22,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Integer id;
     /**
      * 登录名
      */

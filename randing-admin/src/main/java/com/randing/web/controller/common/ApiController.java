@@ -1,5 +1,6 @@
 package com.randing.web.controller.common;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.randing.common.TokenService;
 import com.randing.common.core.domain.AjaxResult;
 import com.randing.common.exception.BaseException;
@@ -9,21 +10,31 @@ import com.randing.common.utils.iface.dto.GetTokenResDTO;
 import com.randing.common.utils.iface.dto.YzbResDTO;
 import com.randing.common.utils.iface.dto.YzbUserInfo;
 import com.randing.common.utils.jwt.JwtUser;
+import com.randing.system.domain.po.Role;
+import com.randing.system.domain.po.User;
+import com.randing.system.domain.po.UserRole;
 import com.randing.system.mapper.RoleMapper;
 import com.randing.system.mapper.UserMapper;
 import com.randing.system.mapper.UserRoleMapper;
 import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @Api("apicontroller")
 @RequestMapping("/token")
+@Slf4j
 public class ApiController {
 
     @Autowired
@@ -63,14 +74,40 @@ public class ApiController {
         } catch (Exception e) {
             throw new BaseException("获取用户信息失败");
         }
+        log.info("user origin phone :{}", userInfo.getData().getPhone());
+        userInfo.getData().setPhone("13635452958");
+        User userByPhone = getUserByPhone(userInfo.getData().getPhone());
+        com.randing.common.utils.jwt.User user = new com.randing.common.utils.jwt.User();
+        BeanUtils.copyProperties(userByPhone, user);
         //生成token
         JwtUser jwtUser = new JwtUser();
         jwtUser.setYzbToken(accessToken);
         jwtUser.setRefreshKey(refreshKey);
         jwtUser.setUserInfo(userInfo.getData());
+        jwtUser.setNanUser(user);
         String token = tokenService.createToken(jwtUser);
+        HashMap<String, Object> resMap = new HashMap<>();
+        resMap.put("nanUser", user);
+        resMap.put("token", token);
+        return AjaxResult.success(resMap);
 
-        return AjaxResult.success(token);
+    }
 
+    public User getUserByPhone(String phone) {
+        User user = userMapper.selectOne(Wrappers.lambdaQuery(User.class).eq(User::getContactPhone, phone));
+        if (user == null) {
+            log.info("user is null");
+            return null;
+        }
+        List<UserRole> userRoles = userRoleMapper.selectList(Wrappers.lambdaQuery(UserRole.class)
+                .eq(UserRole::getUserId, user.getId())
+        );
+        if (CollectionUtils.isEmpty(userRoles)) {
+            throw new BaseException("此用户竟然没有角色");
+        }
+        List<Role> roles = roleMapper.selectList(Wrappers.lambdaQuery(Role.class).in(Role::getRoleId, userRoles.stream().map(UserRole::getRoleId).collect(Collectors.toList())));
+
+        user.setRoles(roles);
+        return user;
     }
 }

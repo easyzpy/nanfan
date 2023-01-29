@@ -1,9 +1,9 @@
-package com.randing.system.domain.po;
-
-import java.io.Serializable;
+package com.randing.common.utils.jwt;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ public class UserRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Integer id;
     /**
      * 用户id
      */

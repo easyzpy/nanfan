@@ -21,6 +21,7 @@ public class ApplyBatch implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Long id;
     /**
      * 批次id
      */

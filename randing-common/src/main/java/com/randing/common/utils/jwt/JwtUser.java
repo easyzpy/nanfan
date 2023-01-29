@@ -14,15 +14,26 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class JwtUser implements Serializable {
     private static final long serialVersionUID = 7789540131797529083L;
-//    private String userId;
-//    private String name;
-//    private String username;
 
+    /**
+     * apptoken
+     */
     private String yzbToken;
 
+    /**
+     * app refreshToken
+     */
     private String refreshKey;
 
+    /**
+     * app userInfo
+     */
     private YzbUserInfo userInfo;
+
+    /**
+     * 南繁 user
+     */
+    private User nanUser;
 
     private LocalDateTime iat;
     private LocalDateTime exp;

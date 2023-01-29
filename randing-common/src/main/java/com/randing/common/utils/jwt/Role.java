@@ -1,10 +1,10 @@
-package com.randing.system.domain.po;
-
-import java.time.LocalDateTime;
-import java.io.Serializable;
+package com.randing.common.utils.jwt;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -20,7 +20,7 @@ public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Integer id;
     /**
      * 角色id
      */

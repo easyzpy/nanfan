@@ -2,7 +2,9 @@ package com.randing.system.domain.po;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
 
+import com.randing.system.domain.vo.base.BasePage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +20,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class LandContract implements Serializable {
+public class LandContract extends BasePage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -146,6 +148,8 @@ public class LandContract implements Serializable {
     private String signType;
 
     private String offlineContractUrl;
+
+    private List<LandContractContent> landContractContentList;
 
 
 }
