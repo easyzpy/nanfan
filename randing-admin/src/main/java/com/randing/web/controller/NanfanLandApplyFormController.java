@@ -1,8 +1,10 @@
 package com.randing.web.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.common.core.domain.AjaxResult;
 import com.randing.system.domain.vo.base.KeepApplyReqDTO;
+import com.randing.system.domain.vo.base.NanfanLandApplyFormVo;
 import com.randing.system.service.INanfanLandApplyFormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,14 +35,15 @@ public class NanfanLandApplyFormController {
 
     @PostMapping("getKeepApplay")
     @ApiOperation("崖州湾实验室南繁配套用地申请表 列表")
-    public AjaxResult listPage(@RequestBody KeepApplyReqDTO keepApplyReqDTO) {
+    public AjaxResult<Page<NanfanLandApplyFormVo>> listPage(@RequestBody KeepApplyReqDTO keepApplyReqDTO) {
         return AjaxResult.success(nanfanLandApplyFormService.getKeepApplay(keepApplyReqDTO));
     }
 
     @GetMapping("findById")
     @ApiOperation("崖州湾实验室南繁配套用地申请表 详情")
-    public AjaxResult findById(@RequestParam("id") Long id) {
-        return AjaxResult.success(nanfanLandApplyFormService.findById(id));
+    public NanfanLandApplyFormVo findById(@RequestParam("id") Long id) {
+//        return AjaxResult.success(nanfanLandApplyFormService.findById(id));
+        return nanfanLandApplyFormService.findById(id);
     }
 }
 
