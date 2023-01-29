@@ -3,6 +3,8 @@ package com.randing.system.domain.po;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,6 +36,7 @@ public class Role implements Serializable {
     /**
      * 角色类别：0：公共角色，1：申请单位，2：审批单位，3：应用管理员，4：系统管理员，5：系统所有者（本系统中最顶级角色，不可被修改，不可被删除，拥有所有权限）
      */
+    @ApiModelProperty("角色类别：0：公共角色，1：申请单位，2：审批单位，3：应用管理员，4：系统管理员，5：系统所有者（本系统中最顶级角色，不可被修改，不可被删除，拥有所有权限）")
     private Integer roleType;
 
     /**

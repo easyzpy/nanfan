@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-01-15
  */
 @RestController
+
 @RequestMapping("/landApplyScore")
 public class LandApplyScoreController {
 

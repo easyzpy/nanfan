@@ -3,6 +3,7 @@ package com.randing.system.domain.po;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -25,36 +26,43 @@ public class LandRetreatFile implements Serializable {
     /**
      * 退地申请附件材料id
      */
+    @ApiModelProperty("退地申请附件材料id")
     private String retreatFileId;
 
     /**
      * 退地申请表id
      */
+    @ApiModelProperty("退地申请表id")
     private String landRetreatId;
 
     /**
      * 材料Url路径
      */
+    @ApiModelProperty("材料Url路径")
     private String fileUrl;
 
     /**
      * 材料名称
      */
+    @ApiModelProperty("材料名称")
     private String fileName;
 
     /**
      * 材料类别（1：保育材料，2：有机质量材料，3：绿色发展材料，4：土地恢复措施，5：劳务合同，6：退地方案）
      */
+    @ApiModelProperty("材料类别（1：保育材料，2：有机质量材料，3：绿色发展材料，4：土地恢复措施，5：劳务合同，6：退地方案）")
     private Integer fileType;
 
     /**
      * 添加时间
      */
+    @ApiModelProperty("添加时间")
     private LocalDateTime addTime;
 
     /**
      * 添加的用户id
      */
+    @ApiModelProperty("添加的用户id")
     private String addUser;
 
 

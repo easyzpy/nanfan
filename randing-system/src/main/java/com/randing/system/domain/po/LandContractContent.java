@@ -1,9 +1,10 @@
 package com.randing.system.domain.po;
 
-import java.io.Serializable;
-
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -23,26 +24,31 @@ public class LandContractContent implements Serializable {
     /**
      * 批次id
      */
+    @ApiModelProperty("批次id")
     private String batchId;
 
     /**
      * 合同id
      */
+    @ApiModelProperty("合同id")
     private String contractId;
 
     /**
      * 合同字段
      */
+    @ApiModelProperty("合同字段")
     private String keyName;
 
     /**
      * 合同字段的内容
      */
+    @ApiModelProperty("合同字段的内容")
     private String value;
 
     /**
      * 描述
      */
+    @ApiModelProperty("描述")
     private String mark;
 
 

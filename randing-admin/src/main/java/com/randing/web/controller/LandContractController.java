@@ -5,6 +5,7 @@ import com.randing.common.core.domain.AjaxResult;
 import com.randing.system.domain.po.LandContract;
 import com.randing.system.domain.vo.LandInforVo;
 import com.randing.system.service.ILandContractService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-01-15
  */
 @RestController
+@Api("合同api")
 @RequestMapping("/landContract")
 public class LandContractController {
     private ILandContractService landContractService;
