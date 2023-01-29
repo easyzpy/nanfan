@@ -22,7 +22,7 @@ import java.util.List;
  * @since 2022-12-21
  */
 @RestController
-@Api("申请批次")
+@Api(value = "申请批次")
 @RequestMapping("/applyBatch")
 public class ApplyBatchController {
 

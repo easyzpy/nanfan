@@ -9,6 +9,7 @@ import com.randing.common.utils.iface.YzbApiUtils;
 import com.randing.common.utils.iface.dto.GetTokenResDTO;
 import com.randing.common.utils.iface.dto.YzbResDTO;
 import com.randing.common.utils.iface.dto.YzbUserInfo;
+import com.randing.common.utils.jwt.JwtResBean;
 import com.randing.common.utils.jwt.JwtUser;
 import com.randing.system.domain.po.Role;
 import com.randing.system.domain.po.User;
@@ -17,6 +18,9 @@ import com.randing.system.mapper.RoleMapper;
 import com.randing.system.mapper.UserMapper;
 import com.randing.system.mapper.UserRoleMapper;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +36,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@Api("apicontroller")
+@Api("通用接口")
 @RequestMapping("/token")
 @Slf4j
 public class ApiController {
@@ -52,7 +56,12 @@ public class ApiController {
 
 
     @GetMapping("getToken")
-    public AjaxResult getToken(@RequestParam("userId")String userId, @RequestParam("code")String code) {
+    @ApiOperation(value = "获取token")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "用户id", name = "userId", required = true, paramType = "query"),
+            @ApiImplicitParam(value = "code 通过跳转链接获取", name = "code", required = true, paramType = "query")
+    })
+    public AjaxResult<JwtResBean> getToken(@RequestParam("userId")String userId, @RequestParam("code")String code) {
         if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(code)) {
             throw new BaseException("参数错误");
         }
@@ -75,7 +84,7 @@ public class ApiController {
             throw new BaseException("获取用户信息失败");
         }
         log.info("user origin phone :{}", userInfo.getData().getPhone());
-        userInfo.getData().setPhone("13635452958");
+//        userInfo.getData().setPhone("13635452958");
         User userByPhone = getUserByPhone(userInfo.getData().getPhone());
         com.randing.common.utils.jwt.User user = new com.randing.common.utils.jwt.User();
         BeanUtils.copyProperties(userByPhone, user);
@@ -87,9 +96,8 @@ public class ApiController {
         jwtUser.setNanUser(user);
         String token = tokenService.createToken(jwtUser);
         HashMap<String, Object> resMap = new HashMap<>();
-        resMap.put("nanUser", user);
-        resMap.put("token", token);
-        return AjaxResult.success(resMap);
+        JwtResBean build = JwtResBean.builder().nanUser(user).token(token).build();
+        return AjaxResult.success(build);
 
     }
 

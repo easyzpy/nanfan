@@ -78,7 +78,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
 //            }
 //        }
         String url = request.getRequestURI();
-        log.info(url);
+//        log.info(url);
 
         if (
                 url.startsWith("/api/token/getToken")
