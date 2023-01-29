@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-01-29
  */
 @RestController
-@RequestMapping("//landRetreat")
+@RequestMapping("/landRetreat")
 public class LandRetreatController {
 
 }
