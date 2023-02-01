@@ -84,7 +84,7 @@ public class ApiController {
             throw new BaseException("获取用户信息失败");
         }
         log.info("user origin phone :{}", userInfo.getData().getPhone());
-//        userInfo.getData().setPhone("13635452958");
+        userInfo.getData().setPhone("13635452958");
         User userByPhone = getUserByPhone(userInfo.getData().getPhone());
         com.randing.common.utils.jwt.User user = new com.randing.common.utils.jwt.User();
         BeanUtils.copyProperties(userByPhone, user);
