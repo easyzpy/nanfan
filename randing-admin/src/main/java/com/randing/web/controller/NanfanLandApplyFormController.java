@@ -41,9 +41,9 @@ public class NanfanLandApplyFormController {
 
     @GetMapping("findById")
     @ApiOperation("崖州湾实验室南繁配套用地申请表 详情")
-    public NanfanLandApplyFormVo findById(@RequestParam("id") Long id) {
+    public AjaxResult<NanfanLandApplyFormVo> findById(@RequestParam("id") Long id) {
 //        return AjaxResult.success(nanfanLandApplyFormService.findById(id));
-        return nanfanLandApplyFormService.findById(id);
+        return AjaxResult.success(nanfanLandApplyFormService.findById(id));
     }
 }
 
