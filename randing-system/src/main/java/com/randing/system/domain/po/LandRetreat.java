@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -158,5 +159,6 @@ public class LandRetreat implements Serializable {
 
 
     @ApiModelProperty("退地附件")
+    @TableField(exist = false)
     private List<LandRetreatFile> landRetreatFileList;
 }
