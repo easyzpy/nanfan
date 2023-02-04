@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.randing.system.domain.vo.base.BasePage;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +21,7 @@ import org.aspectj.lang.annotation.Around;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class LandRetreat implements Serializable {
+public class LandRetreat extends BasePage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

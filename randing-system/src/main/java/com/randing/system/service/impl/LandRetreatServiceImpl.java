@@ -1,6 +1,7 @@
 package com.randing.system.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.system.domain.po.LandRetreat;
 import com.randing.system.domain.po.LandRetreatFile;
 import com.randing.system.mapper.LandRetreatFileMapper;
@@ -26,8 +27,8 @@ public class LandRetreatServiceImpl extends ServiceImpl<LandRetreatMapper, LandR
     @Autowired
     private LandRetreatFileMapper landRetreatFileMapper;
     @Override
-    public List<LandRetreat> listPage(LandRetreat landRetreat) {
-        return baseMapper.selectList(Wrappers.lambdaQuery(LandRetreat.class)
+    public Page<LandRetreat> listPage(LandRetreat landRetreat) {
+        return baseMapper.selectPage(new Page<>(landRetreat.getPage(), landRetreat.getPageSize()), Wrappers.lambdaQuery(LandRetreat.class)
                 .eq(LandRetreat::getStatus, landRetreat.getStatus())
                 .eq(LandRetreat::getRetreatApplicant, landRetreat.getRetreatApplicant())
 

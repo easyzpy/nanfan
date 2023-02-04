@@ -1,6 +1,7 @@
 package com.randing.web.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.common.core.domain.AjaxResult;
 import com.randing.system.domain.po.LandRetreat;
 import com.randing.system.domain.vo.LandInforVo;
@@ -37,7 +38,7 @@ public class LandRetreatController {
 
     @PostMapping("listPage")
     @ApiOperation("退地列表")
-    public AjaxResult<List<LandRetreat>> listPage(@RequestBody LandRetreat landRetreat) {
+    public AjaxResult<Page<LandRetreat>> listPage(@RequestBody LandRetreat landRetreat) {
         return AjaxResult.success(landRetreatService.listPage(landRetreat));
     }
 
