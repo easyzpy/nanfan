@@ -40,6 +40,11 @@ public class LandInforController {
     public AjaxResult<Page<LandInfor>> listPage(@RequestBody LandInforVo landInforVo) {
         return AjaxResult.success(iLandInforService.listPage(landInforVo));
     }
+    @PostMapping("listPage")
+    @ApiOperation("用地信息收藏列表")
+    public AjaxResult<Page<LandInfor>> favorite(@RequestBody LandInforVo landInforVo) {
+        return AjaxResult.success(iLandInforService.favorite(landInforVo));
+    }
 
     @GetMapping("findById")
     @ApiOperation("土地信息详情")

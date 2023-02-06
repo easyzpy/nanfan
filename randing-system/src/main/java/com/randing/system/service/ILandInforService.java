@@ -19,6 +19,8 @@ public interface ILandInforService extends IService<LandInfor> {
 
     Page<LandInfor> listPage(LandInforVo landInforVo);
 
+    Page<LandInfor> favorite(LandInforVo landInforVo);
+
     LandInforVo findById(Long id);
 
     List<String> landAscriptionList();

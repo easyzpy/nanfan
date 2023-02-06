@@ -5,13 +5,20 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.common.utils.bean.BeanUtils;
+import com.randing.common.utils.jwt.JwtUser;
 import com.randing.system.domain.common.OrderByEnum;
+import com.randing.system.domain.po.LandFavorites;
 import com.randing.system.domain.po.LandInfor;
 import com.randing.system.domain.vo.LandInforVo;
+import com.randing.system.mapper.LandFavoritesMapper;
 import com.randing.system.mapper.LandInforMapper;
+import com.randing.system.service.ILandFavoritesService;
 import com.randing.system.service.ILandInforService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -30,6 +37,8 @@ import java.util.stream.Collectors;
 public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor> implements ILandInforService {
     @Value("${baseimageurl}")
     private String baseImageUrl;
+    @Autowired
+    private LandFavoritesMapper landFavoritesMapper;
     @Override
     public Page<LandInfor> listPage(LandInforVo landInforVo) {
         Page<LandInfor> landInforPage = baseMapper.selectPage(new Page<>(landInforVo.getPage(), landInforVo.getPageSize()), Wrappers.lambdaQuery(LandInfor.class)
@@ -49,6 +58,7 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
                 .le(landInforVo.getLandAreaUsableEnd() != null, LandInfor::getLandAreaUsable, landInforVo.getLandAreaUsableEnd())
                 .ge(landInforVo.getLandPrice() != null, LandInfor::getLandPrice, landInforVo.getLandPrice())
                 .le(landInforVo.getLandMaxPrice() != null, LandInfor::getLandMaxPrice, landInforVo.getLandMaxPrice())
+                .in(!CollectionUtils.isEmpty(landInforVo.getIds()), LandInfor::getId, landInforVo.getIds())
                 .orderBy(landInforVo.getLandAreaTotalOrder() != null, landInforVo.getLandAreaTotalOrder() == OrderByEnum.asc, LandInfor::getLandAreaTotal)
                 .orderBy(landInforVo.getLandPriceOrder() != null, landInforVo.getLandPriceOrder() == OrderByEnum.asc, LandInfor::getLandPrice)
                 .orderBy(landInforVo.getLandMaxPriceOrder() != null, landInforVo.getLandMaxPriceOrder() == OrderByEnum.asc, LandInfor::getLandMaxPrice)
@@ -62,6 +72,19 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
             }
         }
         return landInforPage;
+
+    }
+    @Override
+    public Page<LandInfor> favorite(LandInforVo landInforVo) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        Long nanUserId = jwtUser.getNanUser().getId();
+        List<LandFavorites> landFavorites = landFavoritesMapper.selectList(Wrappers.lambdaQuery(LandFavorites.class).eq(LandFavorites::getUserId, nanUserId));
+        if (CollectionUtils.isEmpty(landFavorites)) {
+            return null;
+        }
+        landInforVo.setIds(landFavorites.stream().map(LandFavorites::getLandId).collect(Collectors.toList()));
+        return this.listPage(landInforVo);
 
     }
     @Override

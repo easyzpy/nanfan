@@ -1,5 +1,6 @@
 package com.randing.system.domain.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.randing.system.domain.common.OrderByEnum;
 import com.randing.system.domain.vo.base.BasePage;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Blob;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -251,6 +253,10 @@ public class LandInforVo extends BasePage {
      */
     @ApiModelProperty("发布时间排序")
     private OrderByEnum landReleaseTimeOrder;
+
+    @ApiModelProperty("")
+    @TableField(exist = false)
+    private List<Long> ids;
 
 
 }
