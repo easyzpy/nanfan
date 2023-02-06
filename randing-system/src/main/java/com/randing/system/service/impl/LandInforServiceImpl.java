@@ -1,5 +1,6 @@
 package com.randing.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -73,7 +74,7 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
 
     @Override
     public List<String> landAscriptionList() {
-        List<LandInfor> landInfors = baseMapper.selectList(Wrappers.lambdaQuery(LandInfor.class).select(LandInfor::getLandAscription));
+        List<LandInfor> landInfors = baseMapper.selectList(new QueryWrapper<LandInfor>().select("DISTINCT land_ascription"));
         if (!CollectionUtils.isEmpty(landInfors)) {
             List<String> collect = landInfors.stream().map(LandInfor::getLandAscription).collect(Collectors.toList());
             return collect;
