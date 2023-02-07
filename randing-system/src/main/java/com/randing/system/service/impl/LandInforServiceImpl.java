@@ -35,8 +35,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor> implements ILandInforService {
-    @Value("${baseimageurl}")
-    private String baseImageUrl;
+//    @Value("${baseimageurl}")
+//    private String baseImageUrl;
     @Autowired
     private LandFavoritesMapper landFavoritesMapper;
     @Override
@@ -64,13 +64,13 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
                 .orderBy(landInforVo.getLandMaxPriceOrder() != null, landInforVo.getLandMaxPriceOrder() == OrderByEnum.asc, LandInfor::getLandMaxPrice)
                 .orderBy(landInforVo.getLandReleaseTimeOrder() != null, landInforVo.getLandReleaseTimeOrder() == OrderByEnum.asc, LandInfor::getLandReleaseTime)
         );
-        if (!CollectionUtils.isEmpty(landInforPage.getRecords())) {
-            for (LandInfor record : landInforPage.getRecords()) {
-                if (StringUtils.isNotBlank(record.getLandImgUrl())) {
-                    record.setLandImgUrl(baseImageUrl + record.getLandImgUrl());
-                }
-            }
-        }
+//        if (!CollectionUtils.isEmpty(landInforPage.getRecords())) {
+//            for (LandInfor record : landInforPage.getRecords()) {
+//                if (StringUtils.isNotBlank(record.getLandImgUrl())) {
+//                    record.setLandImgUrl(baseImageUrl + record.getLandImgUrl());
+//                }
+//            }
+//        }
         return landInforPage;
 
     }
