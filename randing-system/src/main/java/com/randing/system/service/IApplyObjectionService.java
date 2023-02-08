@@ -1,7 +1,11 @@
 package com.randing.system.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.system.domain.po.ApplyObjection;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.randing.system.domain.vo.ApplyObjectionReqDTO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IApplyObjectionService extends IService<ApplyObjection> {
 
+    Page<ApplyObjection> getList(ApplyObjectionReqDTO applyObjectionReqDTO);
 }

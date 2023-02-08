@@ -3,7 +3,7 @@ package com.randing.web.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.common.core.domain.AjaxResult;
-import com.randing.system.domain.vo.base.KeepApplyReqDTO;
+import com.randing.system.domain.vo.KeepApplyReqDTO;
 import com.randing.system.domain.vo.base.NanfanLandApplyFormVo;
 import com.randing.system.service.INanfanLandApplyFormService;
 import io.swagger.annotations.Api;

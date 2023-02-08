@@ -1,6 +1,7 @@
-package com.randing.system.domain.vo.base;
+package com.randing.system.domain.vo;
 
 import com.randing.system.domain.common.OrderByEnum;
+import com.randing.system.domain.vo.base.BasePage;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;

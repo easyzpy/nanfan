@@ -3,7 +3,7 @@ package com.randing.system.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.system.domain.po.NanfanLandApplyForm;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.randing.system.domain.vo.base.KeepApplyReqDTO;
+import com.randing.system.domain.vo.KeepApplyReqDTO;
 import com.randing.system.domain.vo.base.NanfanLandApplyFormVo;
 
 /**

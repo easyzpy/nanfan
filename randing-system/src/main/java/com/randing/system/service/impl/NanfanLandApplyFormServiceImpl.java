@@ -8,7 +8,7 @@ import com.randing.system.domain.common.OrderByEnum;
 import com.randing.system.domain.po.LandApplyInfor;
 import com.randing.system.domain.po.LandInfor;
 import com.randing.system.domain.po.NanfanLandApplyForm;
-import com.randing.system.domain.vo.base.KeepApplyReqDTO;
+import com.randing.system.domain.vo.KeepApplyReqDTO;
 import com.randing.system.domain.vo.base.NanfanLandApplyFormVo;
 import com.randing.system.mapper.LandApplyInforMapper;
 import com.randing.system.mapper.LandInforMapper;

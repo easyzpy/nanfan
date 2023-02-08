@@ -15,11 +15,100 @@
         <result column="return_reason" property="returnReason" />
         <result column="apply_infor_id" property="applyInforId" />
         <result column="infor_id" property="inforId" />
+        <association property="formEntity" column="apply_id" javaType="com.randing.system.domain.po.NanfanLandApplyForm" >
+            <result column="id" property="id" />
+            <result column="land_apply_unit" property="landApplyUnit" />
+            <result column="input_person" property="inputPerson" />
+            <result column="land_apply_area" property="landApplyArea" />
+            <result column="land_apply_type" property="landApplyType" />
+            <result column="land_apply_address" property="landApplyAddress" />
+            <result column="rely_project_source" property="relyProjectSource" />
+            <result column="rely_project_name" property="relyProjectName" />
+            <result column="land_apply_reson" property="landApplyReson" />
+            <result column="budget" property="budget" />
+            <result column="apply_unit_opinion_leader_opinion" property="applyUnitOpinionLeaderOpinion" />
+            <result column="apply_unit_opinion_seal" property="applyUnitOpinionSeal" />
+            <result column="apply_unit_opinon_date" property="applyUnitOpinonDate" />
+            <result column="holding_unit_business_opinion" property="holdingUnitBusinessOpinion" />
+            <result column="holding_unit_business_leader_sign" property="holdingUnitBusinessLeaderSign" />
+            <result column="holding_unit_leader_opinion" property="holdingUnitLeaderOpinion" />
+            <result column="holding_unit_leader_sign" property="holdingUnitLeaderSign" />
+            <result column="holding_unit_leader_date" property="holdingUnitLeaderDate" />
+            <result column="land_apply_person_cantact" property="landApplyPersonCantact" />
+            <result column="del_flag" property="delFlag" />
+            <result column="holding_unit_business_leader_date" property="holdingUnitBusinessLeaderDate" />
+            <result column="create_time" property="createTime" />
+            <result column="create_user" property="createUser" />
+            <result column="update_time" property="updateTime" />
+            <result column="update_user" property="updateUser" />
+            <result column="backup1" property="backup1" />
+            <result column="backup2" property="backup2" />
+            <result column="backup3" property="backup3" />
+            <result column="backup4" property="backup4" />
+            <result column="backup5" property="backup5" />
+            <result column="back_msg" property="backMsg" />
+            <result column="land_apply_purpose" property="landApplyPurpose" />
+            <result column="land_apply_reson_attach" property="landApplyResonAttach" />
+            <result column="infor_id" property="inforId" />
+            <result column="land_apply_year" property="landApplyYear" />
+            <result column="land_security_fund" property="landSecurityFund" />
+            <result column="is_adjust" property="isAdjust" />
+            <result column="sum_score" property="sumScore" />
+            <result column="batch_id" property="batchId" />
+            <result column="batch_name" property="batchName" />
+            <result column="apply_label" property="applyLabel" />
+            <result column="conversion" property="conversion" />
+            <result column="train" property="train" />
+        </association>
+        <association property="landInforEntity" javaType="landInfor" resultMap="landInfoResultMap"></association>
+
+    </resultMap>
+    <resultMap id="landInfoResultMap" type="landInfor">
+        <result column="id" property="id" />
+        <result column="land_number" property="landNumber" />
+        <result column="land_name" property="landName" />
+        <result column="land_price" property="landPrice" />
+        <result column="land_max_price" property="landMaxPrice" />
+        <result column="land_area_total" property="landAreaTotal" />
+        <result column="land_area_surplus" property="landAreaSurplus" />
+        <result column="land_area_usable" property="landAreaUsable" />
+        <result column="land_location" property="landLocation" />
+        <result column="load_gis_sign" property="loadGisSign" />
+        <result column="land_vr_url" property="landVrUrl" />
+        <result column="land_water" property="landWater" />
+        <result column="land_soil_type" property="landSoilType" />
+        <result column="land_road" property="landRoad" />
+        <result column="land_soil_nature" property="landSoilNature" />
+        <result column="land_soil_fertility" property="landSoilFertility" />
+        <result column="land_soil_acid_base" property="landSoilAcidBase" />
+        <result column="land_storage" property="landStorage" />
+        <result column="land_other" property="landOther" />
+        <result column="land_air_drying" property="landAirDrying" />
+        <result column="land_img_url" property="landImgUrl" />
+        <result column="land_crop_type" property="landCropType" />
+        <result column="land_apply_threshold" property="landApplyThreshold" />
+        <result column="land_release_time" property="landReleaseTime" />
+        <result column="land_create_time" property="landCreateTime" />
+        <result column="land_create_user_id" property="landCreateUserId" />
+        <result column="land_update_time" property="landUpdateTime" />
+        <result column="land_update_user_id" property="landUpdateUserId" />
+        <result column="land_periphery" property="landPeriphery" />
+        <result column="land_type" property="landType" />
+        <result column="land_sequence" property="landSequence" />
+        <result column="land_organic" property="landOrganic" />
+        <result column="land_salt" property="landSalt" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         objcetion_id, objection_reason, user_id, apply_id, objection_type, add_time, update_time, update_user, return_reason, apply_infor_id, infor_id
     </sql>
+    <select id="getList" resultMap="BaseResultMap">
+        select *
+        from apply_objection as c
+         LEFT JOIN nanfan_land_apply_form as d on c.apply_id = d.id
+         LEFT JOIN land_infor on land_infor.id = c.infor_id
+            ${ew.customSqlSegment}
+    </select>
 
 </mapper>
