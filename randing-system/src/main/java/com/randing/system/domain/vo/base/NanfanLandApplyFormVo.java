@@ -1,7 +1,9 @@
 package com.randing.system.domain.vo.base;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.randing.system.domain.common.OrderByEnum;
 import com.randing.system.domain.po.LandContract;
+import com.randing.system.domain.po.LandInfor;
 import com.randing.system.domain.vo.base.BasePage;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,6 +11,7 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -259,5 +262,9 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
     private String text;
 
     private LandContract landContract;
+
+    @ApiModelProperty("土地信息")
+    @TableField(exist = false)
+    private List<LandInfor> applyInfors;
 
 }

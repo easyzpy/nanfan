@@ -38,6 +38,21 @@ public class NanfanLandApplyFormController {
     public AjaxResult<Page<NanfanLandApplyFormVo>> listPage(@RequestBody KeepApplyReqDTO keepApplyReqDTO) {
         return AjaxResult.success(nanfanLandApplyFormService.getKeepApplay(keepApplyReqDTO));
     }
+    @PostMapping("getPushApply")
+    @ApiOperation("崖州湾实验室南繁配套用地申请表 待审核列表")
+    public AjaxResult<Page<NanfanLandApplyFormVo>> getPushApply(@RequestBody KeepApplyReqDTO keepApplyReqDTO) {
+        return AjaxResult.success(nanfanLandApplyFormService.getPushApply(keepApplyReqDTO));
+    }
+    @PostMapping("getAdoptApplay")
+    @ApiOperation("崖州湾实验室南繁配套用地申请表 已审核列表")
+    public AjaxResult<Page<NanfanLandApplyFormVo>> getAdoptApplay(@RequestBody KeepApplyReqDTO keepApplyReqDTO) {
+        return AjaxResult.success(nanfanLandApplyFormService.getAdoptApplay(keepApplyReqDTO));
+    }
+    @PostMapping("getfailApplay")
+    @ApiOperation("崖州湾实验室南繁配套用地申请表 已退回列表")
+    public AjaxResult<Page<NanfanLandApplyFormVo>> getfailApplay(@RequestBody KeepApplyReqDTO keepApplyReqDTO) {
+        return AjaxResult.success(nanfanLandApplyFormService.getfailApplay(keepApplyReqDTO));
+    }
 
     @GetMapping("findById")
     @ApiOperation("崖州湾实验室南繁配套用地申请表 详情")

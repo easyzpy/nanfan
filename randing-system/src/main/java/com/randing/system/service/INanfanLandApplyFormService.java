@@ -19,4 +19,25 @@ public interface INanfanLandApplyFormService extends IService<NanfanLandApplyFor
     Page<NanfanLandApplyFormVo> getKeepApplay(KeepApplyReqDTO keepApplyReqDTO);
 
     NanfanLandApplyFormVo findById(Long id);
+
+    /**
+     * 待审核列表
+     * @param keepApplyReqDTO
+     * @return
+     */
+    Page<NanfanLandApplyFormVo> getPushApply(KeepApplyReqDTO keepApplyReqDTO);
+
+    /**
+     * 已审核列表
+     * @param keepApplyReqDTO
+     * @return
+     */
+    Page<NanfanLandApplyFormVo> getAdoptApplay(KeepApplyReqDTO keepApplyReqDTO);
+
+    /**
+     * 已退回列表
+     * @param keepApplyReqDTO
+     * @return
+     */
+    Page<NanfanLandApplyFormVo> getfailApplay(KeepApplyReqDTO keepApplyReqDTO);
 }
