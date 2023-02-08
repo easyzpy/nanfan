@@ -81,7 +81,7 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
         if (!CollectionUtils.isEmpty(keepApplay.getRecords())) {
             List<Long> applyIds = keepApplay.getRecords().stream().map(NanfanLandApplyFormVo::getId).collect(Collectors.toList());
             if (!CollectionUtils.isEmpty(applyIds)) {
-                List<LandApplyInfor> landApplyInfors = landApplyInforMapper.selectList(Wrappers.lambdaQuery(LandApplyInfor.class).in(LandApplyInfor::getApplyId));
+                List<LandApplyInfor> landApplyInfors = landApplyInforMapper.selectList(Wrappers.lambdaQuery(LandApplyInfor.class).in(LandApplyInfor::getApplyId, applyIds));
                 if (!CollectionUtils.isEmpty(landApplyInfors)) {
                     List<Integer> landInfoIds = landApplyInfors.stream().map(LandApplyInfor::getInforId).collect(Collectors.toList());
                     List<LandInfor> landInfors = landInforMapper.selectList(Wrappers.lambdaQuery(LandInfor.class).in(LandInfor::getId, landInfoIds));
