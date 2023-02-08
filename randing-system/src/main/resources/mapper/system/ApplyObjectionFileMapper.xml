@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.ApplyObjectionFileMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.ApplyObjectionFile">
+        <id column="file_id" property="fileId" />
+        <result column="objection_id" property="objectionId" />
+        <result column="objection_file_name" property="objectionFileName" />
+        <result column="objection_url" property="objectionUrl" />
+        <result column="add_time" property="addTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        file_id, objection_id, objection_file_name, objection_url, add_time
+    </sql>
+
+</mapper>
