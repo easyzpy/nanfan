@@ -40,4 +40,6 @@ public interface INanfanLandApplyFormService extends IService<NanfanLandApplyFor
      * @return
      */
     Page<NanfanLandApplyFormVo> getfailApplay(KeepApplyReqDTO keepApplyReqDTO);
+
+    Page<NanfanLandApplyFormVo> AllApproApply(KeepApplyReqDTO keepApplyReqDTO);
 }

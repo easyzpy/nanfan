@@ -24,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -70,6 +71,7 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
                 .eq(StringUtils.isNotBlank(keepApplyReqDTO.getLandApplyUnit()), NanfanLandApplyForm::getLandApplyUnit, keepApplyReqDTO.getLandApplyUnit())
                 .eq(StringUtils.isNotBlank(keepApplyReqDTO.getBatchId()), NanfanLandApplyForm::getBatchId, keepApplyReqDTO.getBatchId())
                 .eq(keepApplyReqDTO.getDelFlag() != null, NanfanLandApplyForm::getDelFlag, keepApplyReqDTO.getDelFlag())
+                .in(!CollectionUtils.isEmpty(keepApplyReqDTO.getDelFlagArr()), NanfanLandApplyForm::getDelFlag, keepApplyReqDTO.getDelFlagArr())
                 //TODO 过滤创建者 暂时不加 不然没有数据了
 //                .eq()
                 .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("budget"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, NanfanLandApplyForm::getBudget)
@@ -127,6 +129,11 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
     @Override
     public Page<NanfanLandApplyFormVo> getfailApplay(KeepApplyReqDTO keepApplyReqDTO) {
         keepApplyReqDTO.setDelFlag("5");
+        return this.getKeepApplay(keepApplyReqDTO);
+    }
+    @Override
+    public Page<NanfanLandApplyFormVo> AllApproApply(KeepApplyReqDTO keepApplyReqDTO) {
+        keepApplyReqDTO.setDelFlagArr(Arrays.asList("3","4","5"));
         return this.getKeepApplay(keepApplyReqDTO);
     }
 }

@@ -54,6 +54,12 @@ public class NanfanLandApplyFormController {
         return AjaxResult.success(nanfanLandApplyFormService.getfailApplay(keepApplyReqDTO));
     }
 
+    @PostMapping("AllApproApply")
+    @ApiOperation("崖州湾实验室南繁配套用地申请表 审批列表全部")
+    public AjaxResult<Page<NanfanLandApplyFormVo>> AllApproApply(@RequestBody KeepApplyReqDTO keepApplyReqDTO) {
+        return AjaxResult.success(nanfanLandApplyFormService.AllApproApply(keepApplyReqDTO));
+    }
+
     @GetMapping("findById")
     @ApiOperation("崖州湾实验室南繁配套用地申请表 详情")
     public AjaxResult<NanfanLandApplyFormVo> findById(@RequestParam("id") Long id) {

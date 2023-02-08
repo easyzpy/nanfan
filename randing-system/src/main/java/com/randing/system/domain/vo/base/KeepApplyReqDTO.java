@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,4 +25,6 @@ public class KeepApplyReqDTO extends BasePage implements Serializable {
     private String orderName;
     @ApiModelProperty("asc 或 desc")
     private OrderByEnum orderType;
+    @ApiModelProperty("delflag arr")
+    private List<String> delFlagArr;
 }
