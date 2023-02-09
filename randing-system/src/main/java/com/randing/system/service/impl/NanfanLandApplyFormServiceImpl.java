@@ -145,6 +145,8 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
     public NanfanLandApplyFormVo getApplyDetail(Long id) {
         KeepApplyReqDTO keepApplyReqDTO = new KeepApplyReqDTO();
         keepApplyReqDTO.setId(id);
+        keepApplyReqDTO.setPage(1L);
+        keepApplyReqDTO.setPageSize(1L);
         Page<NanfanLandApplyFormVo> keepApplay = this.getKeepApplay(keepApplyReqDTO);
         if (CollectionUtils.isEmpty(keepApplay.getRecords())) {
             return null;
