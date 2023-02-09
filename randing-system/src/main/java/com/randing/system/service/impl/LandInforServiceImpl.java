@@ -93,8 +93,11 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
         LandInforVo landInforVo = new LandInforVo();
         BeanUtils.copyProperties(landInfor, landInforVo);
         //查询收藏状态
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+        Long nanUserId = jwtUser.getNanUser().getId();
         Integer integer = landFavoritesMapper.selectCount(Wrappers.lambdaQuery(LandFavorites.class).eq(LandFavorites::getLandId, id)
-                .eq(LandFavorites::getUserId, ((JwtUser) SecurityContextHolder.getContext().getAuthentication()).getNanUser().getId()));
+                .eq(LandFavorites::getUserId, ((JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNanUser().getId()));
         landInforVo.setFavoriteStatus(integer ==0?0:1);
         return landInforVo;
     }
