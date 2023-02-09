@@ -2,6 +2,8 @@ package com.randing.system.service;
 
 import com.randing.system.domain.po.LandFavorites;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.randing.system.domain.vo.FavoriteReqDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -13,4 +15,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ILandFavoritesService extends IService<LandFavorites> {
 
+
+    @Transactional
+    int addFavoriteLand(FavoriteReqDTO favoriteReqDTO);
+
+    int removeFavoriteLand(FavoriteReqDTO favoriteReqDTO);
 }
