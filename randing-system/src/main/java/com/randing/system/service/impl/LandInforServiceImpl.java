@@ -92,6 +92,10 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
         LandInfor landInfor = baseMapper.selectById(id);
         LandInforVo landInforVo = new LandInforVo();
         BeanUtils.copyProperties(landInfor, landInforVo);
+        //查询收藏状态
+        Integer integer = landFavoritesMapper.selectCount(Wrappers.lambdaQuery(LandFavorites.class).eq(LandFavorites::getLandId, id)
+                .eq(LandFavorites::getUserId, ((JwtUser) SecurityContextHolder.getContext().getAuthentication()).getNanUser().getId()));
+        landInforVo.setFavoriteStatus(integer ==0?0:1);
         return landInforVo;
     }
 

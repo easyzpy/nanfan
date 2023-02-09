@@ -258,5 +258,8 @@ public class LandInforVo extends BasePage {
     @TableField(exist = false)
     private List<Long> ids;
 
+    @TableField(exist = false)
+    private Integer favoriteStatus;
+
 
 }

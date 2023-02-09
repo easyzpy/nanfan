@@ -10,6 +10,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +33,7 @@ public class LandFavoritesController {
 
     @Autowired
     private ILandFavoritesService landFavoritesService;
-    @GetMapping("addFavoriteLand")
+    @PostMapping("addFavoriteLand")
     @ApiOperation("加入收藏")
     public AjaxResult addFavoriteLand(@RequestBody FavoriteReqDTO favoriteReqDTO) {
         int i = landFavoritesService.addFavoriteLand(favoriteReqDTO);
@@ -41,7 +43,7 @@ public class LandFavoritesController {
         return AjaxResult.error("收藏失败");
     }
 
-    @GetMapping("removeFavoriteLand")
+    @PutMapping("removeFavoriteLand")
     @ApiOperation("加入收藏")
     public AjaxResult removeFavoriteLand(@RequestBody FavoriteReqDTO favoriteReqDTO) {
         int i = landFavoritesService.removeFavoriteLand(favoriteReqDTO);
