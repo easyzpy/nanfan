@@ -72,6 +72,7 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
                 .eq(StringUtils.isNotBlank(keepApplyReqDTO.getBatchId()), NanfanLandApplyForm::getBatchId, keepApplyReqDTO.getBatchId())
                 .eq(keepApplyReqDTO.getDelFlag() != null, NanfanLandApplyForm::getDelFlag, keepApplyReqDTO.getDelFlag())
                 .in(!CollectionUtils.isEmpty(keepApplyReqDTO.getDelFlagArr()), NanfanLandApplyForm::getDelFlag, keepApplyReqDTO.getDelFlagArr())
+                .eq(keepApplyReqDTO.getId() != null, NanfanLandApplyForm::getId, keepApplyReqDTO.getId())
                 //TODO 过滤创建者 暂时不加 不然没有数据了
 //                .eq()
                 .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("budget"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, NanfanLandApplyForm::getBudget)
@@ -139,4 +140,16 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
         keepApplyReqDTO.setDelFlagArr(Arrays.asList("3","4","5"));
         return this.getKeepApplay(keepApplyReqDTO);
     }
+
+    @Override
+    public NanfanLandApplyFormVo getApplyDetail(Long id) {
+        KeepApplyReqDTO keepApplyReqDTO = new KeepApplyReqDTO();
+        keepApplyReqDTO.setId(id);
+        Page<NanfanLandApplyFormVo> keepApplay = this.getKeepApplay(keepApplyReqDTO);
+        if (CollectionUtils.isEmpty(keepApplay.getRecords())) {
+            return null;
+        }
+        return keepApplay.getRecords().get(0);
+    }
+
 }
