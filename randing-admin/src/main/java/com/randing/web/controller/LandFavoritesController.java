@@ -48,9 +48,9 @@ public class LandFavoritesController {
     public AjaxResult removeFavoriteLand(@RequestBody FavoriteReqDTO favoriteReqDTO) {
         int i = landFavoritesService.removeFavoriteLand(favoriteReqDTO);
         if (i == 0) {
-            return AjaxResult.success("取消收藏成功");
+            return AjaxResult.success("取消收藏失败");
         }
-        return AjaxResult.error("取消收藏失败");
+        return AjaxResult.error("取消收藏成功");
     }
 
 

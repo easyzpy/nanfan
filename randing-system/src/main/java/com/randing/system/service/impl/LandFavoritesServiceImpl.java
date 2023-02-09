@@ -67,6 +67,7 @@ public class LandFavoritesServiceImpl extends ServiceImpl<LandFavoritesMapper, L
     }
 
     @Override
+    @Transactional
     public int removeFavoriteLand(FavoriteReqDTO favoriteReqDTO) {
         if (favoriteReqDTO == null || favoriteReqDTO.getLandInfoId() == null) {
             throw new BaseException("土地id不能为空");
