@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Api("通用接口")
-@RequestMapping("/token")
+//@RequestMapping("/")
 @Slf4j
 public class ApiController {
 
@@ -52,10 +52,12 @@ public class ApiController {
     @Autowired
     private UserRoleMapper userRoleMapper;
 
+    @GetMapping("ping")
+    public String ping() {
+        return "ping";
+    }
 
-
-
-    @GetMapping("getToken")
+    @GetMapping("token/getToken")
     @ApiOperation(value = "获取token")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "用户id", name = "userId", required = true, paramType = "query"),

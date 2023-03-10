@@ -1,7 +1,7 @@
 # 环境配置
 server:
     # 服务器的HTTP端口，默认为8080
-    port: 8103
+    port: 8095
     servlet:
         # 应用的访问路径
         context-path: /
@@ -13,8 +13,6 @@ server:
         # Tomcat启动初始化的线程数，默认值25
         min-spare-threads: 30
 
-
-
 # 数据源配置
 spring:
     datasource:
@@ -23,16 +21,10 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://rm-bp17psx3qte4l318w.mysql.rds.aliyuncs.com/rand_prod?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-                username: randing_prd
-                password: Rd98345!#
+                url: jdbc:mysql://10.130.34.252:3306/nfland?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                username: nfland
+                password: nfland@#123
             # 从库数据源
-            slave:
-                # 从数据源开关/默认关闭
-                enabled: false
-                url: 
-                username: 
-                password: 
             # 初始连接数
             initialSize: 5
             # 最小连接池数量
@@ -52,7 +44,7 @@ spring:
             testWhileIdle: true
             testOnBorrow: false
             testOnReturn: false
-            webStatFilter: 
+            webStatFilter:
                 enabled: true
             statViewServlet:
                 enabled: true
@@ -61,7 +53,7 @@ spring:
                 url-pattern: /druid/*
                 # 控制台管理用户名和密码
                 login-username: randing
-                login-password: Rd98765!
+                login-password: 123456
             filter:
                 stat:
                     enabled: true
@@ -74,6 +66,16 @@ spring:
                         multi-statement-allow: true
 
 yzapi:
-    hostname: https://api.prod.yzbays.com
-    clientId: 1
-    clientSecret: 2
+    hostname: https://api.test.yzbays.com
+    clientId: yzb-nfyd
+    clientSecret: 20c7de12-3225-485b-b572-0d6421b48e62
+baseimageurl: https://nf.yazhou-bay.com/yznfland/common/preview?url=
+
+# token配置
+token:
+    # 令牌自定义标识
+    header: Authorization
+    # 令牌密钥
+    secret: abcdefghijklmnopqrstuvwxyz
+    # 令牌有效期（默认30分钟）
+    expireTime: 86400

@@ -78,15 +78,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
 //            }
 //        }
         String url = request.getRequestURI();
-//        log.info(url);
+        log.info(url);
 
         if (
-                url.startsWith("/api/token/getToken")
+                url.startsWith("/nanland/api/token/getToken")
                 ||url.startsWith("/doc.html")
                 ||url.startsWith("/webjars")
                 ||url.startsWith("/swagger-resources")
                 ||url.startsWith("/v2/api-docs")
-
+                ||url.startsWith("/nanland/api/ping")
 
         ) {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(new JwtUser(), null, null);
