@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.randing.system.domain.vo.base.BasePage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
@@ -153,6 +154,7 @@ public class LandContract extends BasePage implements Serializable {
      * 合同附件
      */
     @ApiModelProperty("合同附件")
+    @TableField(exist = false)
     private List<LandContractContent> landContractContentList;
 
 

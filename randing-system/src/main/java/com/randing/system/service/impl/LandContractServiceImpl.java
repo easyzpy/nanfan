@@ -1,7 +1,9 @@
 package com.randing.system.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.randing.common.utils.LoginUser;
 import com.randing.system.domain.po.LandContract;
 import com.randing.system.domain.po.LandContractContent;
 import com.randing.system.domain.vo.LandInforVo;
@@ -30,11 +32,18 @@ public class LandContractServiceImpl extends ServiceImpl<LandContractMapper, Lan
     private LandContractContentMapper landContractContentMapper;
     @Override
     public Page<LandContract> listPage(LandContract landContract) {
+        Long loginUserId = LoginUser.getLoginUserId();
         Page<LandContract> landContractPage = baseMapper.selectPage(new Page<>(landContract.getPage(), landContract.getPageSize())
                 , Wrappers.lambdaQuery(LandContract.class)
-                .eq(LandContract::getContractStatus, landContract.getContractId())
-                .like(LandContract::getNailName, landContract.getNailName())
-                .like(LandContract::getSecondName, landContract.getNailName()));
+                        .eq(StringUtils.isNotBlank(landContract.getContractId()), LandContract::getContractStatus, landContract.getContractId())
+                        //搜索的都是生效合同
+                        .in(LandContract::getContractStatus, 1, 2)
+                        .like(StringUtils.isNotBlank(landContract.getNailName()), LandContract::getNailName, landContract.getNailName())
+                        .like(StringUtils.isNotBlank(landContract.getNailName()), LandContract::getSecondName, landContract.getNailName())
+                        .eq(loginUserId!=null, LandContract::getAddUser, loginUserId)
+                        .orderByAsc(LandContract::getContractStatus)
+        );
+
         return landContractPage;
     }
 

@@ -1,7 +1,10 @@
 package com.randing.system.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.randing.common.utils.LoginUser;
+import com.randing.common.utils.jwt.JwtUser;
 import com.randing.system.domain.po.LandRetreat;
 import com.randing.system.domain.po.LandRetreatFile;
 import com.randing.system.mapper.LandRetreatFileMapper;
@@ -28,9 +31,11 @@ public class LandRetreatServiceImpl extends ServiceImpl<LandRetreatMapper, LandR
     private LandRetreatFileMapper landRetreatFileMapper;
     @Override
     public Page<LandRetreat> listPage(LandRetreat landRetreat) {
+        Long loginUserId = LoginUser.getLoginUserId();
         return baseMapper.selectPage(new Page<>(landRetreat.getPage(), landRetreat.getPageSize()), Wrappers.lambdaQuery(LandRetreat.class)
-                .eq(LandRetreat::getStatus, landRetreat.getStatus())
-                .eq(LandRetreat::getRetreatApplicant, landRetreat.getRetreatApplicant())
+                .eq(landRetreat.getStatus() != null, LandRetreat::getStatus, landRetreat.getStatus())
+                .eq(StringUtils.isNotBlank(landRetreat.getRetreatApplicant()), LandRetreat::getRetreatApplicant, landRetreat.getRetreatApplicant())
+                .eq(loginUserId != null, LandRetreat::getAddUser, loginUserId)
 
         );
 

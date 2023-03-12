@@ -63,14 +63,12 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
                 .orderBy(landInforVo.getLandPriceOrder() != null, landInforVo.getLandPriceOrder() == OrderByEnum.asc, LandInfor::getLandPrice)
                 .orderBy(landInforVo.getLandMaxPriceOrder() != null, landInforVo.getLandMaxPriceOrder() == OrderByEnum.asc, LandInfor::getLandMaxPrice)
                 .orderBy(landInforVo.getLandReleaseTimeOrder() != null, landInforVo.getLandReleaseTimeOrder() == OrderByEnum.asc, LandInfor::getLandReleaseTime)
+                .orderBy(landInforVo.getLandAreaTotalOrder() == null
+                        && landInforVo.getLandPriceOrder() == null
+                        && landInforVo.getLandMaxPriceOrder()== null
+                        && landInforVo.getLandReleaseTimeOrder()== null, false, LandInfor::getLandReleaseTime
+                )
         );
-//        if (!CollectionUtils.isEmpty(landInforPage.getRecords())) {
-//            for (LandInfor record : landInforPage.getRecords()) {
-//                if (StringUtils.isNotBlank(record.getLandImgUrl())) {
-//                    record.setLandImgUrl(baseImageUrl + record.getLandImgUrl());
-//                }
-//            }
-//        }
         return landInforPage;
 
     }
