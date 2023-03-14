@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.randing.common.utils.LoginUser;
 import com.randing.common.utils.bean.BeanUtils;
 import com.randing.system.domain.common.OrderByEnum;
 import com.randing.system.domain.po.LandApplyInfor;
@@ -49,46 +50,23 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
     private LandInforMapper landInforMapper;
     @Override
     public Page<NanfanLandApplyFormVo> getKeepApplay(KeepApplyReqDTO keepApplyReqDTO) {
-//        Page<NanfanLandApplyForm> nanfanLandApplyFormPage = baseMapper.selectPage(new Page<>(keepApplyReqDTO.getPage(), keepApplyReqDTO.getPageSize()), Wrappers.lambdaQuery(NanfanLandApplyForm.class)
-////                        .and(StringUtils.isNotBlank(nanfanLandApplyFormVo.getText()),and->{
-////                            and
-////                                    .like(NanfanLandApplyForm::getLandApplyUnit, nanfanLandApplyFormVo.getText())
-////                                    .or()
-////                                    .like(NanfanLandApplyForm::getLandApplyPurpose, nanfanLandApplyFormVo.getText());
-////                                    //TODO 作物类型
-//////                                    .or()
-//////                                    .like(NanfanLandApplyForm::getLandApplyUnit, nanfanLandApplyFormVo.getText())
-////                        })
-//                .eq(StringUtils.isNotBlank(keepApplyReqDTO.getBatchId()), NanfanLandApplyForm::getBatchId, keepApplyReqDTO.getBatchId())
-//                .eq(keepApplyReqDTO.getDelFlag() != null, NanfanLandApplyForm::getDelFlag, keepApplyReqDTO.getDelFlag())
-//                .orderBy(keepApplyReqDTO.getOrderName()!=null && keepApplyReqDTO.getOrderName().equals("budget"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, NanfanLandApplyForm::getBudget)
-//                .orderBy(keepApplyReqDTO.getOrderName()!=null && keepApplyReqDTO.getOrderName().equals("landApplyArea"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, NanfanLandApplyForm::getLandApplyArea)
-//                .orderBy(keepApplyReqDTO.getOrderName()!=null && keepApplyReqDTO.getOrderName().equals("createTime"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, NanfanLandApplyForm::getCreateTime)
-//        );
-//        return nanfanLandApplyFormPage;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-//        Wrapper<NanfanLandApplyForm> wrapper = Wrappers.lambdaQuery(NanfanLandApplyForm.class)
-//                .eq(StringUtils.isNotBlank(keepApplyReqDTO.getLandApplyUnit()), NanfanLandApplyForm::getLandApplyUnit, keepApplyReqDTO.getLandApplyUnit())
-//                .eq(StringUtils.isNotBlank(keepApplyReqDTO.getBatchId()), NanfanLandApplyForm::getBatchId, keepApplyReqDTO.getBatchId())
-//                .eq(keepApplyReqDTO.getDelFlag() != null, NanfanLandApplyForm::getDelFlag, keepApplyReqDTO.getDelFlag())
-//                .in(!CollectionUtils.isEmpty(keepApplyReqDTO.getDelFlagArr()), NanfanLandApplyForm::getDelFlag, keepApplyReqDTO.getDelFlagArr())
-//                .eq(keepApplyReqDTO.getId() != null, NanfanLandApplyForm::getId, keepApplyReqDTO.getId())
-//                //TODO 过滤创建者 暂时不加 不然没有数据了
-////                .eq()
-//                .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("budget"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, NanfanLandApplyForm::getBudget)
-//                .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("landApplyArea"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, NanfanLandApplyForm::getLandApplyArea)
-//                .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("createTime"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, NanfanLandApplyForm::getCreateTime);
-        QueryWrapper<Object> wrapper = Wrappers.query().eq(StringUtils.isNotBlank(keepApplyReqDTO.getLandApplyUnit()), "c.land_apply_unit", keepApplyReqDTO.getLandApplyUnit())
+        Long loginUserId = LoginUser.getLoginUserId();
+        QueryWrapper<Object> wrapper = Wrappers.query()
+                .like(StringUtils.isNotBlank(keepApplyReqDTO.getLandApplyUnit()), "c.land_apply_unit", keepApplyReqDTO.getLandApplyUnit())
                 .eq(StringUtils.isNotBlank(keepApplyReqDTO.getBatchId()), "c.batch_id", keepApplyReqDTO.getBatchId())
                 .eq(keepApplyReqDTO.getDelFlag() != null, "c.del_flag", keepApplyReqDTO.getDelFlag())
                 .in(!CollectionUtils.isEmpty(keepApplyReqDTO.getDelFlagArr()), "c.del_flag", keepApplyReqDTO.getDelFlagArr())
                 .eq(keepApplyReqDTO.getId() != null, "c.id", keepApplyReqDTO.getId())
-//                //TODO 过滤创建者 暂时不加 不然没有数据了
-////                .eq()
+                .like(keepApplyReqDTO.getLandApplyPurpose() != null, "c.land_apply_purpose", keepApplyReqDTO.getLandApplyPurpose())
+//                //过滤创建者 暂时不加 不然没有数据了
+                .eq(loginUserId != null, "c.create_user", loginUserId)
                 .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("budget"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.budget")
                 .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("landApplyArea"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.land_apply_area")
-                .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("createTime"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.create_time");
+                .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("createTime"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.create_time")
+                .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("sumScore"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.sum_score")
+                .orderByDesc(keepApplyReqDTO.getOrderName() == null, "c.create_time")
+                ;
+
 
         Page<NanfanLandApplyFormVo> keepApplay = nanfanLandApplyFormMapper.getKeepApplay(new Page<>(keepApplyReqDTO.getPage(), keepApplyReqDTO.getPageSize()), keepApplyReqDTO, wrapper);
         if (!CollectionUtils.isEmpty(keepApplay.getRecords())) {

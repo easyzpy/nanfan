@@ -48,7 +48,7 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
     /**
      * 申请用地类型
      */
-    @ApiModelProperty("申请用地类型")
+    @ApiModelProperty("申请用地类型;new:作物类型")
     private String landApplyType;
 
     /**
@@ -66,7 +66,7 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
     /**
      * 依托项目名称
      */
-    @ApiModelProperty("依托项目名称")
+    @ApiModelProperty("依托项目名称; new:用地用途")
     private String relyProjectName;
 
     /**

@@ -2,6 +2,7 @@ package com.randing.system.domain.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.randing.system.domain.common.OrderByEnum;
+import com.randing.system.domain.po.LandSevice;
 import com.randing.system.domain.vo.base.BasePage;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -249,6 +250,12 @@ public class LandInforVo extends BasePage {
     @ApiModelProperty("最高单价")
     private OrderByEnum landMaxPriceOrder;
     /**
+     *  所属区域管理:三亚,陵水
+     */
+    @ApiModelProperty("所属区域管理:三亚,陵水")
+    private String landAscription;
+
+    /**
      * 面积
      */
     @ApiModelProperty("发布时间排序")
@@ -260,6 +267,10 @@ public class LandInforVo extends BasePage {
 
     @TableField(exist = false)
     private Integer favoriteStatus;
+
+    @TableField(exist = false)
+    private List<LandSevice> landServices;
+
 
 
 }

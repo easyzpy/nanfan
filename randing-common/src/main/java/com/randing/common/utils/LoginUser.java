@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class LoginUser {
     public static Long getLoginUserId() {
         JwtUser user = getUser();
-        List<Role> collect = user.getNanUser().getRoles().stream().filter(f -> f.getRoleType() == 4).collect(Collectors.toList());
+        List<Role> collect = user.getNanUser().getRoles().stream().filter(f -> f.getRoleType() == 5).collect(Collectors.toList());
         if (!collect.isEmpty()) {
             return null;
         }

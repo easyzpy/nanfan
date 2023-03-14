@@ -9,9 +9,13 @@ import com.randing.common.utils.jwt.JwtUser;
 import com.randing.system.domain.common.OrderByEnum;
 import com.randing.system.domain.po.LandFavorites;
 import com.randing.system.domain.po.LandInfor;
+import com.randing.system.domain.po.LandInforService;
+import com.randing.system.domain.po.LandSevice;
 import com.randing.system.domain.vo.LandInforVo;
 import com.randing.system.mapper.LandFavoritesMapper;
 import com.randing.system.mapper.LandInforMapper;
+import com.randing.system.mapper.LandInforServiceMapper;
+import com.randing.system.mapper.LandSeviceMapper;
 import com.randing.system.service.ILandFavoritesService;
 import com.randing.system.service.ILandInforService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -39,6 +43,11 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
 //    private String baseImageUrl;
     @Autowired
     private LandFavoritesMapper landFavoritesMapper;
+    @Autowired
+    private LandInforServiceMapper landInforServiceMapper;
+
+    @Autowired
+    private LandSeviceMapper landSeviceMapper;
     @Override
     public Page<LandInfor> listPage(LandInforVo landInforVo) {
         Page<LandInfor> landInforPage = baseMapper.selectPage(new Page<>(landInforVo.getPage(), landInforVo.getPageSize()), Wrappers.lambdaQuery(LandInfor.class)
@@ -47,6 +56,8 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
                 .eq(StringUtils.isNotBlank(landInforVo.getLandSoilType()), LandInfor::getLandSoilType, landInforVo.getLandSoilType())
                 .eq(StringUtils.isNotBlank(landInforVo.getLandCropType()), LandInfor::getLandCropType, landInforVo.getLandCropType())
                 .eq(StringUtils.isNotBlank(landInforVo.getLandSoilNature()), LandInfor::getLandSoilNature, landInforVo.getLandSoilNature())
+                //三亚陵水
+                .eq(StringUtils.isNotBlank(landInforVo.getLandAscription()), LandInfor::getLandAscription, landInforVo.getLandAscription())
                 //土地可用面积
                 .ge(landInforVo.getLandAreaSurplusStart() != null, LandInfor::getLandAreaSurplus, landInforVo.getLandAreaSurplusStart())
                 .le(landInforVo.getLandAreaSurplusEnd() != null, LandInfor::getLandAreaSurplus, landInforVo.getLandAreaSurplusEnd())
@@ -85,6 +96,7 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
         return this.listPage(landInforVo);
 
     }
+
     @Override
     public LandInforVo findById(Long id) {
         LandInfor landInfor = baseMapper.selectById(id);
@@ -97,6 +109,12 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
         Integer integer = landFavoritesMapper.selectCount(Wrappers.lambdaQuery(LandFavorites.class).eq(LandFavorites::getLandId, id)
                 .eq(LandFavorites::getUserId, ((JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNanUser().getId()));
         landInforVo.setFavoriteStatus(integer ==0?0:1);
+        //查询相关服务
+        List<LandInforService> landInforServices = landInforServiceMapper.selectList(Wrappers.lambdaQuery(LandInforService.class).eq(LandInforService::getInforId, id));
+        if (!landInforServices.isEmpty()) {
+            List<LandSevice> landSevices = landSeviceMapper.selectList(Wrappers.lambdaQuery(LandSevice.class).in(LandSevice::getId, landInforServices.stream().map(LandInforService::getServiceId).collect(Collectors.toList())));
+            landInforVo.setLandServices(landSevices);
+        }
         return landInforVo;
     }
 

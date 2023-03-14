@@ -28,4 +28,6 @@ public class KeepApplyReqDTO extends BasePage implements Serializable {
     private OrderByEnum orderType;
     @ApiModelProperty("delflag arr")
     private List<String> delFlagArr;
+    @ApiModelProperty("申请用地用途")
+    private String landApplyPurpose;
 }

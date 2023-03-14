@@ -40,7 +40,8 @@ public class LandContractServiceImpl extends ServiceImpl<LandContractMapper, Lan
                         .in(LandContract::getContractStatus, 1, 2)
                         .like(StringUtils.isNotBlank(landContract.getNailName()), LandContract::getNailName, landContract.getNailName())
                         .like(StringUtils.isNotBlank(landContract.getNailName()), LandContract::getSecondName, landContract.getNailName())
-                        .eq(loginUserId!=null, LandContract::getAddUser, loginUserId)
+                        //合同通过applyUserId区分
+                        .eq(loginUserId!=null, LandContract::getApplyUserId, loginUserId)
                         .orderByAsc(LandContract::getContractStatus)
         );
 
