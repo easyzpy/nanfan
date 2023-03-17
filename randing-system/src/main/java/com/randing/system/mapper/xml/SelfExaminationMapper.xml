@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.SelfExaminationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.SelfExamination">
+        <result column="id" property="id" />
+        <result column="self_examination_id" property="selfExaminationId" />
+        <result column="company_name" property="companyName" />
+        <result column="base_contact" property="baseContact" />
+        <result column="contact_phone" property="contactPhone" />
+        <result column="contact_weixing" property="contactWeixing" />
+        <result column="base_address" property="baseAddress" />
+        <result column="administrator_number" property="administratorNumber" />
+        <result column="scientific_research_number" property="scientificResearchNumber" />
+        <result column="worker_number" property="workerNumber" />
+        <result column="register" property="register" />
+        <result column="core_area" property="coreArea" />
+        <result column="construction_facilities" property="constructionFacilities" />
+        <result column="keep_record" property="keepRecord" />
+        <result column="construction_facilities_ares" property="constructionFacilitiesAres" />
+        <result column="unit_nature" property="unitNature" />
+        <result column="circulation_source" property="circulationSource" />
+        <result column="circulation_source_year" property="circulationSourceYear" />
+        <result column="circulation_source_end_year" property="circulationSourceEndYear" />
+        <result column="land_rent" property="landRent" />
+        <result column="check_in" property="checkIn" />
+        <result column="use_type" property="useType" />
+        <result column="ordinary_worker" property="ordinaryWorker" />
+        <result column="technical_worker" property="technicalWorker" />
+        <result column="other_worker" property="otherWorker" />
+        <result column="test_land" property="testLand" />
+        <result column="implementation_land" property="implementationLand" />
+        <result column="service_demand" property="serviceDemand" />
+        <result column="service_demand_describe" property="serviceDemandDescribe" />
+        <result column="entrusted_breeding" property="entrustedBreeding" />
+        <result column="entrusted_breeding_describe" property="entrustedBreedingDescribe" />
+        <result column="laboratory_requirements" property="laboratoryRequirements" />
+        <result column="laboratory_requirements_describe" property="laboratoryRequirementsDescribe" />
+        <result column="other_requirements" property="otherRequirements" />
+        <result column="other_requirements_describe" property="otherRequirementsDescribe" />
+        <result column="toxic_crops" property="toxicCrops" />
+        <result column="public_security_organ_filing" property="publicSecurityOrganFiling" />
+        <result column="transgene" property="transgene" />
+        <result column="approval" property="approval" />
+        <result column="transgene_keep_record" property="transgeneKeepRecord" />
+        <result column="transgene_spotcheck" property="transgeneSpotcheck" />
+        <result column="transgene_time" property="transgeneTime" />
+        <result column="transgene_crop" property="transgeneCrop" />
+        <result column="transgene_address" property="transgeneAddress" />
+        <result column="transgene_through" property="transgeneThrough" />
+        <result column="transgene_latitude" property="transgeneLatitude" />
+        <result column="transgene_company" property="transgeneCompany" />
+        <result column="abroad" property="abroad" />
+        <result column="quarantine_approval" property="quarantineApproval" />
+        <result column="Isolation_test_and_quarantine" property="isolationTestAndQuarantine" />
+        <result column="abroad_keep_recode" property="abroadKeepRecode" />
+        <result column="original_area_quarantine_inspection" property="originalAreaQuarantineInspection" />
+        <result column="quarantine_results" property="quarantineResults" />
+        <result column="promotion_number" property="promotionNumber" />
+        <result column="promotion_name" property="promotionName" />
+        <result column="promotion_area" property="promotionArea" />
+        <result column="promotion_money" property="promotionMoney" />
+        <result column="country_promotion_number" property="countryPromotionNumber" />
+        <result column="country_promotion_name" property="countryPromotionName" />
+        <result column="country_promotion_area" property="countryPromotionArea" />
+        <result column="country_promotion_money" property="countryPromotionMoney" />
+        <result column="scientific_research_investment" property="scientificResearchInvestment" />
+        <result column="service_suggestions" property="serviceSuggestions" />
+        <result column="admin_phone" property="adminPhone" />
+        <result column="remarks" property="remarks" />
+        <result column="add_time" property="addTime" />
+        <result column="add_people" property="addPeople" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_people" property="updatePeople" />
+        <result column="audit_status" property="auditStatus" />
+        <result column="audit_status_reason" property="auditStatusReason" />
+        <result column="credit_code" property="creditCode" />
+        <result column="register_address" property="registerAddress" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        self_examination_id, company_name, base_contact, contact_phone, contact_weixing, base_address, administrator_number, scientific_research_number, worker_number, register, core_area, construction_facilities, keep_record, construction_facilities_ares, unit_nature, circulation_source, circulation_source_year, circulation_source_end_year, land_rent, check_in, use_type, ordinary_worker, technical_worker, other_worker, test_land, implementation_land, service_demand, service_demand_describe, entrusted_breeding, entrusted_breeding_describe, laboratory_requirements, laboratory_requirements_describe, other_requirements, other_requirements_describe, toxic_crops, public_security_organ_filing, transgene, approval, transgene_keep_record, transgene_spotcheck, transgene_time, transgene_crop, transgene_address, transgene_through, transgene_latitude, transgene_company, abroad, quarantine_approval, Isolation_test_and_quarantine, abroad_keep_recode, original_area_quarantine_inspection, quarantine_results, promotion_number, promotion_name, promotion_area, promotion_money, country_promotion_number, country_promotion_name, country_promotion_area, country_promotion_money, scientific_research_investment, service_suggestions, admin_phone, remarks, add_time, add_people, update_time, update_people, audit_status, audit_status_reason, credit_code, register_address
+    </sql>
+
+</mapper>

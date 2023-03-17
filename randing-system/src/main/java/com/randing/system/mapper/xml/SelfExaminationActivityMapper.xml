@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.SelfExaminationActivityMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.SelfExaminationActivity">
+        <result column="id" property="id" />
+        <result column="activity_id" property="activityId" />
+        <result column="self_examination_id" property="selfExaminationId" />
+        <result column="activity_breeding_name" property="activityBreedingName" />
+        <result column="activity_breeding_varieties" property="activityBreedingVarieties" />
+        <result column="activity_breeding_sum" property="activityBreedingSum" />
+        <result column="activity_breeding_project" property="activityBreedingProject" />
+        <result column="activity_breeding_area" property="activityBreedingArea" />
+        <result column="activity_breeding_start" property="activityBreedingStart" />
+        <result column="activity_breeding_end" property="activityBreedingEnd" />
+        <result column="activity_breeding_gene" property="activityBreedingGene" />
+        <result column="activity_make_name" property="activityMakeName" />
+        <result column="activity_make_varieties" property="activityMakeVarieties" />
+        <result column="activity_make_area" property="activityMakeArea" />
+        <result column="activity_make_amount" property="activityMakeAmount" />
+        <result column="activity_people" property="activityPeople" />
+        <result column="activity_admin" property="activityAdmin" />
+        <result column="activity_skill" property="activitySkill" />
+        <result column="activity_work" property="activityWork" />
+        <result column="activity_other" property="activityOther" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        activity_id, self_examination_id, activity_breeding_name, activity_breeding_varieties, activity_breeding_sum, activity_breeding_project, activity_breeding_area, activity_breeding_start, activity_breeding_end, activity_breeding_gene, activity_make_name, activity_make_varieties, activity_make_area, activity_make_amount, activity_people, activity_admin, activity_skill, activity_work, activity_other, create_time, create_by, update_time, update_by
+    </sql>
+
+</mapper>

@@ -61,10 +61,10 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://10.130.34.252:3306/nfland_test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://10.130.34.252:3306/nfland?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("shagri11!!");
+        dsc.setUsername("nfland");
+        dsc.setPassword("nfland@#123");
         mpg.setDataSource(dsc);
 
         // 包配置

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.SelfExaminationBaseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.SelfExaminationBase">
+        <result column="id" property="id" />
+        <result column="base_id" property="baseId" />
+        <result column="self_examination_id" property="selfExaminationId" />
+        <result column="base_address" property="baseAddress" />
+        <result column="base_area" property="baseArea" />
+        <result column="base_obtain" property="baseObtain" />
+        <result column="base_start" property="baseStart" />
+        <result column="base_end" property="baseEnd" />
+        <result column="base_matching_occupy" property="baseMatchingOccupy" />
+        <result column="base_matching_erect" property="baseMatchingErect" />
+        <result column="base_matching_erect_type" property="baseMatchingErectType" />
+        <result column="base_matching_floor" property="baseMatchingFloor" />
+        <result column="base_matching_create" property="baseMatchingCreate" />
+        <result column="base_matching_procedures" property="baseMatchingProcedures" />
+        <result column="base_wall_area" property="baseWallArea" />
+        <result column="base_wall_time" property="baseWallTime" />
+        <result column="base_wall_procedures" property="baseWallProcedures" />
+        <result column="base_road_area" property="baseRoadArea" />
+        <result column="base_road_time" property="baseRoadTime" />
+        <result column="base_road_procedures" property="baseRoadProcedures" />
+        <result column="base_vehicle_area" property="baseVehicleArea" />
+        <result column="base_vehicle_time" property="baseVehicleTime" />
+        <result column="base_vehicle_procedures" property="baseVehicleProcedures" />
+        <result column="base_site_area" property="baseSiteArea" />
+        <result column="base_site_time" property="baseSiteTime" />
+        <result column="base_site_procedures" property="baseSiteProcedures" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        base_id, self_examination_id, base_address, base_area, base_obtain, base_start, base_end, base_matching_occupy, base_matching_erect, base_matching_erect_type, base_matching_floor, base_matching_create, base_matching_procedures, base_wall_area, base_wall_time, base_wall_procedures, base_road_area, base_road_time, base_road_procedures, base_vehicle_area, base_vehicle_time, base_vehicle_procedures, base_site_area, base_site_time, base_site_procedures, create_time, create_by, update_time, update_by
+    </sql>
+
+</mapper>

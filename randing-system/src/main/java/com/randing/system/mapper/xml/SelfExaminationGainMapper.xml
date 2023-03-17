@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.SelfExaminationGainMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.SelfExaminationGain">
+        <result column="id" property="id" />
+        <result column="gain_id" property="gainId" />
+        <result column="self_examination_id" property="selfExaminationId" />
+        <result column="gain_patent_sum" property="gainPatentSum" />
+        <result column="gain_prize" property="gainPrize" />
+        <result column="gain_old_investment" property="gainOldInvestment" />
+        <result column="gain_science_investment" property="gainScienceInvestment" />
+        <result column="gain_basic_investment" property="gainBasicInvestment" />
+        <result column="gain_money_investment" property="gainMoneyInvestment" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        gain_id, self_examination_id, gain_patent_sum, gain_prize, gain_old_investment, gain_science_investment, gain_basic_investment, gain_money_investment, create_time, create_by, update_time, update_by
+    </sql>
+
+</mapper>

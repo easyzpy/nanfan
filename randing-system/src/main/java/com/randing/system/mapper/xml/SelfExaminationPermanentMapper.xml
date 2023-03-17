@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.SelfExaminationPermanentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.SelfExaminationPermanent">
+        <result column="id" property="id" />
+        <result column="permanent_id" property="permanentId" />
+        <result column="self_examination_id" property="selfExaminationId" />
+        <result column="permanent_name" property="permanentName" />
+        <result column="permanent_phone" property="permanentPhone" />
+        <result column="permanent_major" property="permanentMajor" />
+        <result column="permanent_education" property="permanentEducation" />
+        <result column="permanent_title" property="permanentTitle" />
+        <result column="permanent_age" property="permanentAge" />
+        <result column="permanent_role" property="permanentRole" />
+        <result column="permanent_remarks" property="permanentRemarks" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        permanent_id, self_examination_id, permanent_name, permanent_phone, permanent_major, permanent_education, permanent_title, permanent_age, permanent_role, permanent_remarks, create_time, create_by, update_time, update_by
+    </sql>
+
+</mapper>

@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -33,11 +34,17 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements IU
     public static void main(String[] args) {
         System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
         Pattern compile = Pattern.compile(socialCodeRex);
-        System.out.println(compile.matcher("9135052155323005XL").matches());
+        System.out.println(compile.matcher("17372818388292").matches());
         System.out.println(compile.matcher("91460200MA5T89HQ12").matches());
         System.out.println(compile.matcher("91350526557596032H").matches());
         System.out.println(compile.matcher("12460200MB1D76498X").matches());
         System.out.println(compile.matcher("12460200MB1E85571Y").matches());
         System.out.println(compile.matcher("91110000100000438C").matches());
+    }
+
+    public static boolean patternCreditCode(String registerCode) {
+        Pattern compile = Pattern.compile(socialCodeRex);
+        Matcher matcher = compile.matcher(registerCode);
+        return matcher.matches();
     }
 }
