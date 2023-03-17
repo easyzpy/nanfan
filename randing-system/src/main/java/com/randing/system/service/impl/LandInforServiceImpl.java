@@ -70,14 +70,15 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
                 .ge(landInforVo.getLandPrice() != null, LandInfor::getLandPrice, landInforVo.getLandPrice())
                 .le(landInforVo.getLandMaxPrice() != null, LandInfor::getLandMaxPrice, landInforVo.getLandMaxPrice())
                 .in(!CollectionUtils.isEmpty(landInforVo.getIds()), LandInfor::getId, landInforVo.getIds())
+                .orderByAsc(LandInfor::getLandType)
                 .orderBy(landInforVo.getLandAreaTotalOrder() != null, landInforVo.getLandAreaTotalOrder() == OrderByEnum.asc, LandInfor::getLandAreaTotal)
                 .orderBy(landInforVo.getLandPriceOrder() != null, landInforVo.getLandPriceOrder() == OrderByEnum.asc, LandInfor::getLandPrice)
                 .orderBy(landInforVo.getLandMaxPriceOrder() != null, landInforVo.getLandMaxPriceOrder() == OrderByEnum.asc, LandInfor::getLandMaxPrice)
                 .orderBy(landInforVo.getLandReleaseTimeOrder() != null, landInforVo.getLandReleaseTimeOrder() == OrderByEnum.asc, LandInfor::getLandReleaseTime)
                 .orderBy(landInforVo.getLandAreaTotalOrder() == null
                         && landInforVo.getLandPriceOrder() == null
-                        && landInforVo.getLandMaxPriceOrder()== null
-                        && landInforVo.getLandReleaseTimeOrder()== null, false, LandInfor::getLandReleaseTime
+                        && landInforVo.getLandMaxPriceOrder() == null
+                        && landInforVo.getLandReleaseTimeOrder() == null, false, LandInfor::getLandReleaseTime
                 )
         );
         return landInforPage;

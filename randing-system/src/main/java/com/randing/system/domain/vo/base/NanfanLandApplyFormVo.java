@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.randing.system.domain.common.OrderByEnum;
 import com.randing.system.domain.po.LandContract;
 import com.randing.system.domain.po.LandInfor;
-import com.randing.system.domain.vo.base.BasePage;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -243,6 +242,22 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
     @ApiModelProperty("预计培训农民人次")
     private Integer train;
 
+    @ApiModelProperty("根据本年科研计划需求，租地时间是否能足够（0：否，1：是）")
+    private Integer timeEnough;
+    @ApiModelProperty("满足本年科研计划需要延长租地(天)")
+    private Integer timeEnoughTime;
+    @ApiModelProperty("是否继续续租")
+    private Integer renewal;
+    @ApiModelProperty("是否续租下一个南繁季")
+    private Integer renewalQuarter;
+    @ApiModelProperty("地块租赁方式(短租、长租)")
+    private String leaseMethod;
+    @ApiModelProperty("长租时间（由用户输入）")
+    private String longLeaseTime;
+    @ApiModelProperty("提交时间")
+    private LocalDateTime pushTime;
+
+
     @ApiModelProperty("费用预算-排序")
     private OrderByEnum budgetOrder;
     /**
@@ -267,4 +282,136 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
     @TableField(exist = false)
     private List<LandInfor> applyInfors;
 
+/*----------评分start---------*/
+    @ApiModelProperty("中标地块")
+    private String landInforName;
+    @ApiModelProperty("中标地块id")
+    private String landInforId;
+
+
+    private String landApplyUnitScoreAttach;
+
+    /**
+     * 用地申报单位评分标注
+     */
+    @ApiModelProperty("用地申报单位评分标注")
+    private String landApplyUnitScore;
+
+    /**
+     * 用地申报单位评分标注附件
+     */
+    @ApiModelProperty("用地申报单位评分标注附件")
+    private String researchDirectionsScoreAttach;
+
+    /**
+     * 科研方向评分标准
+     */
+    @ApiModelProperty("科研方向评分标准")
+    private String researchDirectionsScore;
+
+    /**
+     * 科研方向评分标准附件
+     */
+    @ApiModelProperty("科研方向评分标准附件")
+    private String startResearchActivityScoreAttach;
+
+    /**
+     * 开展科研活动评分标准
+     */
+    @ApiModelProperty("开展科研活动评分标准")
+    private String startResearchActivityScore;
+
+    /**
+     * 开展科研活动评分标准附件
+     */
+    @ApiModelProperty("开展科研活动评分标准附件")
+    private String landQuitLandRestoreScoreAttach;
+
+    /**
+     * 用地退出土地评分标准
+     */
+    @ApiModelProperty("用地退出土地评分标准")
+    private String landQuitLandRestoreScore;
+
+    /**
+     * 用地退出土地评分标准附件
+     */
+    @ApiModelProperty("用地退出土地评分标准附件")
+    private String driveLandGrowScoreAttach;
+
+    /**
+     * 带动当地发展评分标准
+     */
+    @ApiModelProperty("带动当地发展评分标准")
+    private String driveLandGrowScore;
+
+    /**
+     * 带动当地发展评分标准附件
+     */
+    @ApiModelProperty("带动当地发展评分标准附件")
+    private String onLandTransformScoreAttach;
+
+    /**
+     * 就地转化评分标准
+     */
+    @ApiModelProperty("就地转化评分标准")
+    private String onLandTransformScore;
+
+    /**
+     * 就地转化评分标准附件
+     */
+    @ApiModelProperty("就地转化评分标准附件")
+    private String landFulfillPromiseScoreAttach;
+
+    /**
+     * 用地承诺兑现程度评分标准
+     */
+    @ApiModelProperty("用地承诺兑现程度评分标准")
+    private String landFulfillPromiseScore;
+
+
+    /**
+     * 申请表id
+     */
+    @ApiModelProperty("申请表id")
+    private Integer applyFormId;
+
+    /**
+     * 申请表类型
+     */
+    @ApiModelProperty("申请表类型")
+    private String applyFormType;
+
+    private String recordEachScoreByOrder;
+
+    /**
+     * 调整分数的理由
+     */
+    @ApiModelProperty("调整分数的理由")
+    private String scoreReason;
+
+    /**
+     * 调整的分数
+     */
+    @ApiModelProperty("调整的分数")
+    private Double adjustmentScore;
+
+    /**
+     * 申报单位科研机构选项（科研机构、高校、涉农企业）
+     */
+    @ApiModelProperty("申报单位科研机构选项（科研机构、高校、涉农企业）")
+    private String researchSbdw;
+
+    /**
+     * 新品种就地转化评分
+     */
+    @ApiModelProperty("新品种就地转化评分")
+    private String newVarietiesScore;
+
+    /**
+     * 新技术就地转化评分
+     */
+    @ApiModelProperty("新技术就地转化评分")
+    private String newTechniqueScore;
+    /*----------评分end---------*/
 }

@@ -163,6 +163,11 @@ public class LandInfor implements Serializable {
 
     private String landPeriphery;
 
+    /**
+     * 0空闲<p/>
+     * 1锁定<p/>
+     * 2使用中<p/>
+     */
     private String landType;
 
     /**
@@ -186,7 +191,10 @@ public class LandInfor implements Serializable {
     private String landAscription;
 
     /**
-     *  地块类型:1,可选地块 2,项目用地 3,不可选地块
+     *  地块类型:
+     *  1,可选地块  空闲<p/>
+     *  2,项目用地  锁定<p/>
+     *  3,不可选地块  使用中<p/>
      */
     private Integer landMold;
 

@@ -47,31 +47,43 @@
         <result column="apply_label" property="applyLabel" />
         <result column="conversion" property="conversion" />
         <result column="train" property="train" />
-<!--        <association property="landContract" javaType="landContract">-->
-<!--            <result column="id" property="id" />-->
-<!--            <result column="contract_id" property="contractId" />-->
-<!--            <result column="apply_id" property="applyId" />-->
-<!--            <result column="choice_land_id" property="choiceLandId" />-->
-<!--            <result column="nail_name" property="nailName" />-->
-<!--            <result column="nail_contacts" property="nailContacts" />-->
-<!--            <result column="nail_phone" property="nailPhone" />-->
-<!--            <result column="second_name" property="secondName" />-->
-<!--            <result column="second_contacts" property="secondContacts" />-->
-<!--            <result column="second_phone" property="secondPhone" />-->
-<!--            <result column="land_area" property="landArea" />-->
-<!--            <result column="contract_start_time" property="contractStartTime" />-->
-<!--            <result column="contract_end_time" property="contractEndTime" />-->
-<!--            <result column="contract_url" property="contractUrl" />-->
-<!--            <result column="contract_status" property="contractStatus" />-->
-<!--            <result column="add_time" property="addTime" />-->
-<!--            <result column="add_user" property="addUser" />-->
-<!--            <result column="update_time" property="updateTime" />-->
-<!--            <result column="update_user" property="updateUser" />-->
-<!--            <result column="land_status" property="landStatus" />-->
-<!--            <result column="apply_user_id" property="applyUserId" />-->
-<!--            <result column="sign_type" property="signType" />-->
-<!--            <result column="offline_contract_url" property="offlineContractUrl" />-->
-<!--        </association>-->
+
+        <result column="timeEnough" property="time_enough" />
+        <result column="timeEnoughTime" property="time_enough_time" />
+        <result column="renewal" property="renewal" />
+        <result column="renewalQuarter" property="renewal_quarter" />
+        <result column="leaseMethod" property="lease_method" />
+        <result column="longLeaseTime" property="long_lease_time" />
+        <result column="pushTime" property="push_time" />
+
+        <result column="land_infor_name" property="landInforName"/>
+        <result column="land_infor_id" property="landInforId"/>
+
+        <!--评分start-->
+        <result column="land_apply_unit_score_attach" property="landApplyUnitScoreAttach" />
+        <result column="land_apply_unit_score" property="landApplyUnitScore" />
+        <result column="research_directions_score_attach" property="researchDirectionsScoreAttach" />
+        <result column="research_directions_score" property="researchDirectionsScore" />
+        <result column="start_research_activity_score_attach" property="startResearchActivityScoreAttach" />
+        <result column="start_research_activity_score" property="startResearchActivityScore" />
+        <result column="land_quit_land_restore_score_attach" property="landQuitLandRestoreScoreAttach" />
+        <result column="land_quit_land_restore_score" property="landQuitLandRestoreScore" />
+        <result column="drive_land_grow_score_attach" property="driveLandGrowScoreAttach" />
+        <result column="drive_land_grow_score" property="driveLandGrowScore" />
+        <result column="on_land_transform_score_attach" property="onLandTransformScoreAttach" />
+        <result column="on_land_transform_score" property="onLandTransformScore" />
+        <result column="land_fulfill_promise_score_attach" property="landFulfillPromiseScoreAttach" />
+        <result column="land_fulfill_promise_score" property="landFulfillPromiseScore" />
+        <result column="sum_score" property="sumScore" />
+        <result column="apply_form_id" property="applyFormId" />
+        <result column="apply_form_type" property="applyFormType" />
+        <result column="record_each_score_by_order" property="recordEachScoreByOrder" />
+        <result column="score_reason" property="scoreReason" />
+        <result column="adjustment_score" property="adjustmentScore" />
+        <result column="research_sbdw" property="researchSbdw" />
+        <result column="new_varieties_score" property="newVarietiesScore" />
+        <result column="new_technique_score" property="newTechniqueScore" />
+        <!--评分end-->
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -81,9 +93,13 @@
     </sql>
 
     <select id="getKeepApplay" resultMap="BaseResultMap">
-        select *
+        select c.*, d.land_infor_id, e.land_name land_infor_name, f.*
         from nanfan_land_apply_form as c
-         LEFT JOIN land_contract as lc on c.id = lc.apply_id
+--          LEFT JOIN land_contract as lc on c.id = lc.apply_id
+            LEFT JOIN land_infor_usage as d on c.id = d.apply_id
+            LEFT JOIN land_infor as e on d.land_infor_id = e.id
+            LEFT JOIN land_apply_score as f on c.id = f.apply_form_id
+
         ${ew.customSqlSegment}
     </select>
 </mapper>

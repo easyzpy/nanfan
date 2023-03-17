@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.UnitMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.Unit">
+        <result column="id" property="id" />
+        <result column="unit_id" property="unitId" />
+        <result column="unit_name" property="unitName" />
+        <result column="legal_person" property="legalPerson" />
+        <result column="unit_contacts" property="unitContacts" />
+        <result column="contacts_phone" property="contactsPhone" />
+        <result column="unit_address" property="unitAddress" />
+        <result column="credit_code" property="creditCode" />
+        <result column="create_date" property="createDate" />
+        <result column="create_user" property="createUser" />
+        <result column="update_date" property="updateDate" />
+        <result column="update_user" property="updateUser" />
+        <result column="unit_simple_name" property="unitSimpleName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        unit_id, unit_name, legal_person, unit_contacts, contacts_phone, unit_address, credit_code, create_date, create_user, update_date, update_user, unit_simple_name
+    </sql>
+
+</mapper>
