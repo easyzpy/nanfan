@@ -8,19 +8,30 @@ import com.randing.common.utils.iface.dto.YzbUserInfo;
 import com.randing.system.domain.po.SelfExamination;
 import com.randing.system.domain.po.SelfExaminationActivity;
 import com.randing.system.domain.po.SelfExaminationBase;
+import com.randing.system.domain.po.SelfExaminationExtension;
 import com.randing.system.domain.po.SelfExaminationGain;
 import com.randing.system.domain.po.SelfExaminationGainCheck;
+import com.randing.system.domain.po.SelfExaminationNewCategory;
 import com.randing.system.domain.po.SelfExaminationPermanent;
 import com.randing.system.domain.vo.SelfStep1ReqVo;
 import com.randing.system.domain.vo.Step2SelfExaminationPermanentReqVo;
 import com.randing.system.domain.vo.Step3SelfExaminationBaseReqVo;
 import com.randing.system.domain.vo.Step4SelfExaminationActivityReqVo;
+import com.randing.system.domain.vo.Step5SelfExaminationGainCheckReqVo;
 import com.randing.system.domain.vo.Step5SelfExaminationGainReqVo;
+import com.randing.system.domain.vo.Step6SelfExamination;
+import com.randing.system.domain.vo.Step7SelfExamination;
+import com.randing.system.domain.vo.Step8SelfExamination;
+import com.randing.system.domain.vo.Step8SelfExaminationExtension;
+import com.randing.system.domain.vo.Step8SelfExaminationNewCategory;
+import com.randing.system.domain.vo.Step9SelfExamination;
 import com.randing.system.mapper.SelfExaminationMapper;
 import com.randing.system.service.ISelfExaminationActivityService;
 import com.randing.system.service.ISelfExaminationBaseService;
+import com.randing.system.service.ISelfExaminationExtensionService;
 import com.randing.system.service.ISelfExaminationGainCheckService;
 import com.randing.system.service.ISelfExaminationGainService;
+import com.randing.system.service.ISelfExaminationNewCategoryService;
 import com.randing.system.service.ISelfExaminationPermanentService;
 import com.randing.system.service.ISelfExaminationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -56,6 +67,10 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
     private ISelfExaminationGainService selfExaminationGainService;
     @Autowired
     private ISelfExaminationGainCheckService selfExaminationGainCheckService;
+    @Autowired
+    private ISelfExaminationNewCategoryService selfExaminationNewCategoryService;
+    @Autowired
+    private ISelfExaminationExtensionService selfExaminationExtensionService;
     @Override
     @Transactional
     public int step1save(SelfStep1ReqVo reqVo) {
@@ -89,7 +104,7 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
         BeanUtils.copyProperties(reqVo, selfExaminationPermanent);
         selfExaminationPermanent.setPermanentId(getUUID());
         selfExaminationPermanent.setSelfExaminationId(selfExamination.getSelfExaminationId());
-        selfExaminationPermanentService.save(selfExaminationPermanent);
+        selfExaminationPermanentService.saveOrUpdate(selfExaminationPermanent);
         return 0;
     }
 
@@ -116,7 +131,13 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
         BeanUtils.copyProperties(reqVo, selfExaminationBase);
         selfExaminationBase.setBaseId(getUUID());
         selfExaminationBase.setSelfExaminationId(selfExamination.getSelfExaminationId());
-        selfExaminationBaseService.save(selfExaminationBase);
+        List<SelfExaminationBase> list = selfExaminationBaseService.list(Wrappers.lambdaQuery(SelfExaminationBase.class).eq(SelfExaminationBase::getSelfExaminationId, selfExamination.getSelfExaminationId()));
+        if (!list.isEmpty()) {
+            Long id = list.get(0).getId();
+            selfExaminationBase.setId(id);
+        }
+
+        selfExaminationBaseService.saveOrUpdate(selfExaminationBase);
         return 0;
     }
 
@@ -141,6 +162,11 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
         BeanUtils.copyProperties(reqVo, selfExaminationActivity);
         selfExaminationActivity.setActivityId(getUUID());
         selfExaminationActivity.setSelfExaminationId(selfExamination.getSelfExaminationId());
+        List<SelfExaminationActivity> list = selfExaminationActivityService.list(Wrappers.lambdaQuery(SelfExaminationActivity.class).eq(SelfExaminationActivity::getSelfExaminationId, selfExamination.getSelfExaminationId()));
+        if (!list.isEmpty()) {
+            Long id = list.get(0).getId();
+            selfExaminationActivity.setId(id);
+        }
         selfExaminationActivityService.save(selfExaminationActivity);
         return 0;
     }
@@ -165,15 +191,34 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
         BeanUtils.copyProperties(reqVo, selfExaminationGain);
         selfExaminationGain.setGainId(getUUID());
         selfExaminationGain.setSelfExaminationId(selfExamination.getSelfExaminationId());
-        selfExaminationGainService.save(selfExaminationGain);
-        List<SelfExaminationGain> list = selfExaminationGainService.list(Wrappers.lambdaQuery(SelfExaminationGain.class).eq(SelfExaminationGain::getGainId, selfExaminationGain.getGainId()).eq(SelfExaminationGain::getSelfExaminationId, selfExamination.getSelfExaminationId()).last(" limit 1"));
-        SelfExaminationGain selfExaminationGain1 = list.get(0);
-        //保存check
-        SelfExaminationGainCheck selfExaminationGainCheck = new SelfExaminationGainCheck();
-        BeanUtils.copyProperties(reqVo, selfExaminationGainCheck);
-        selfExaminationGainCheck.setGainId(selfExaminationGain1.getGainId());
-        selfExaminationGainCheck.setCheckId(getUUID());
-        selfExaminationGainCheckService.save(selfExaminationGainCheck);
+        List<SelfExaminationGain> list = selfExaminationGainService.list(Wrappers.lambdaQuery(SelfExaminationGain.class)
+                .eq(SelfExaminationGain::getGainId, selfExaminationGain.getGainId())
+                .eq(SelfExaminationGain::getSelfExaminationId, selfExamination.getSelfExaminationId()).last(" limit 1"));
+        SelfExaminationGain selfExaminationGain1 = null;
+        if (CollectionUtils.isEmpty(list)) {
+            selfExaminationGainService.save(selfExaminationGain);
+            list = selfExaminationGainService.list(Wrappers.lambdaQuery(SelfExaminationGain.class)
+                    .eq(SelfExaminationGain::getGainId, selfExaminationGain.getGainId())
+                    .eq(SelfExaminationGain::getSelfExaminationId, selfExamination.getSelfExaminationId()).last(" limit 1"));
+            selfExaminationGain1 = list.get(0);
+        }else {
+            selfExaminationGain.setId(list.get(0).getId());
+            selfExaminationGainService.updateById(selfExaminationGain);
+            selfExaminationGain1 = selfExaminationGain;
+        }
+
+
+        if (CollectionUtils.isEmpty(reqVo.getGainCheck())) {
+            throw new BaseException("锁定品种信息不能为空");
+        }
+        for (Step5SelfExaminationGainCheckReqVo step5SelfExaminationGainCheckReqVo : reqVo.getGainCheck()) {
+            //保存check
+            SelfExaminationGainCheck selfExaminationGainCheck = new SelfExaminationGainCheck();
+            BeanUtils.copyProperties(step5SelfExaminationGainCheckReqVo, selfExaminationGainCheck);
+            selfExaminationGainCheck.setGainId(selfExaminationGain1.getGainId());
+            selfExaminationGainCheck.setCheckId(getUUID());
+            selfExaminationGainCheckService.save(selfExaminationGainCheck);
+        }
 
         return 0;
     }
@@ -199,6 +244,130 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
             }
         }
         return list;
+    }
+
+    @Override
+    public int step6Emp(Step6SelfExamination reqVo) {
+        SelfExamination selfExamination = new SelfExamination();
+        BeanUtils.copyProperties(reqVo, selfExamination);
+        SelfExamination dbSelfExamination = this.getSelfExamination();
+        if (dbSelfExamination == null) {
+            throw new BaseException("请先保存基本信息");
+        }
+        selfExamination.setId(dbSelfExamination.getId());
+        updateById(selfExamination);
+        return 0;
+    }
+
+    @Override
+    public int step7Secure(Step7SelfExamination reqVo) {
+        SelfExamination selfExamination = new SelfExamination();
+        BeanUtils.copyProperties(reqVo, selfExamination);
+        SelfExamination dbSelfExamination = this.getSelfExamination();
+        if (dbSelfExamination == null) {
+            throw new BaseException("请先保存基本信息");
+        }
+        selfExamination.setId(dbSelfExamination.getId());
+        updateById(selfExamination);
+        return 0;
+    }
+
+    @Override
+    public List<SelfExaminationNewCategory> step8CategoryList() {
+        SelfExamination selfExamination = getSelfExamination();
+        if (selfExamination == null) {
+            return null;
+        }
+        List<SelfExaminationNewCategory> list = selfExaminationNewCategoryService.list(Wrappers.lambdaQuery(SelfExaminationNewCategory.class).eq(SelfExaminationNewCategory::getSelfExaminationId, selfExamination.getSelfExaminationId()));
+
+        return list;
+    }
+
+    @Override
+    public List<SelfExaminationExtension> step8ExtensionList() {
+        SelfExamination selfExamination = getSelfExamination();
+        if (selfExamination == null) {
+            return null;
+        }
+        List<SelfExaminationExtension> list = selfExaminationExtensionService.list(Wrappers.lambdaQuery(SelfExaminationExtension.class).eq(SelfExaminationExtension::getSelfExaminationId, selfExamination.getSelfExaminationId()));
+
+        return list;
+    }
+
+    @Override
+    public int step8Science(Step8SelfExamination reqVo) {
+        SelfExamination selfExamination = new SelfExamination();
+        BeanUtils.copyProperties(reqVo, selfExamination);
+        SelfExamination dbSelfExamination = this.getSelfExamination();
+        if (dbSelfExamination == null) {
+            throw new BaseException("请先保存基本信息");
+        }
+        selfExamination.setId(dbSelfExamination.getId());
+        updateById(selfExamination);
+        return 0;
+    }
+
+    @Override
+    public void step8Category(Step8SelfExaminationNewCategory reqVo) {
+        SelfExamination selfExamination = this.getSelfExamination();
+        if (selfExamination == null) {
+            throw new BaseException("请先保存基本信息");
+        }
+        SelfExaminationNewCategory selfExaminationNewCategory = new SelfExaminationNewCategory();
+        BeanUtils.copyProperties(reqVo, selfExaminationNewCategory);
+        selfExaminationNewCategory.setNewCategoryId(getUUID());
+        selfExaminationNewCategory.setSelfExaminationId(selfExamination.getSelfExaminationId());
+        selfExaminationNewCategoryService.save(selfExaminationNewCategory);
+    }
+
+    @Override
+    public void step8Extension(Step8SelfExaminationExtension reqVo) {
+        SelfExamination selfExamination = this.getSelfExamination();
+        if (selfExamination == null) {
+            throw new BaseException("请先保存基本信息");
+        }
+        SelfExaminationExtension selfExaminationExtension = new SelfExaminationExtension();
+        BeanUtils.copyProperties(reqVo, selfExaminationExtension);
+        selfExaminationExtension.setExtensionId(getUUID());
+        selfExaminationExtension.setSelfExaminationId(selfExamination.getSelfExaminationId());
+        selfExaminationExtensionService.save(selfExaminationExtension);
+    }
+
+    @Override
+    public int step9Remark(Step9SelfExamination reqVo) {
+        SelfExamination selfExamination = new SelfExamination();
+        BeanUtils.copyProperties(reqVo, selfExamination);
+        SelfExamination dbSelfExamination = this.getSelfExamination();
+        if (dbSelfExamination == null) {
+            throw new BaseException("请先保存基本信息");
+        }
+        selfExamination.setId(dbSelfExamination.getId());
+        updateById(selfExamination);
+        return 0;
+    }
+
+    @Override
+    public SelfExamination findMyExamination() {
+        return this.getSelfExamination();
+//        return baseMapper.selectById()
+    }
+
+    @Override
+    public void step2DeletePermanent(Long id) {
+//        SelfExamination selfExamination = getSelfExamination();
+        selfExaminationPermanentService.remove(Wrappers.lambdaQuery(SelfExaminationPermanent.class).eq(SelfExaminationPermanent::getId, id));
+    }
+
+    @Override
+    @Transactional
+    public void step8DeleteCategory(Long id) {
+        boolean b = selfExaminationNewCategoryService.removeById(id);
+    }
+
+    @Override
+    @Transactional
+    public void step8DeleteExtension(Long id) {
+        selfExaminationExtensionService.removeById(id);
     }
 
     public SelfExaminationPermanent getExaminationPermanentByExaminationId(String examinationId) {

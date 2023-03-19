@@ -153,7 +153,7 @@ public class SelfExamination implements Serializable {
      */
     @ApiModelProperty("使用类型（0、常年，1、当年）（土地租赁年限及租金）")
     private String useType;
-/*用工需求--------------------------*/
+    /*用工需求--------------------------*/
     /**
      * 普通工人数（南翻服务需求—用工需求）
      */
@@ -171,7 +171,7 @@ public class SelfExamination implements Serializable {
      */
     @ApiModelProperty("其他人数（南翻服务需求—用工需求）")
     private Integer otherWorker;
-/*用地需求---------------------*/
+    /*用地需求---------------------*/
     /**
      * 试验用地面积（南繁服务需求—用地需求）
      */
@@ -183,7 +183,7 @@ public class SelfExamination implements Serializable {
      */
     @ApiModelProperty("实施用地面积（南繁服务需求—用地需求）")
     private Double implementationLand;
-/*服务需求------------------------*/
+    /*服务需求------------------------*/
     /**
      * 农事服务需求（0、无，1、有）（南繁服务需求）
      */
@@ -231,7 +231,7 @@ public class SelfExamination implements Serializable {
      */
     @ApiModelProperty("具体其他需求（南繁服务需求）")
     private String otherRequirementsDescribe;
-/*------------*/
+    /*------------*/
     /**
      * 是否种植毒原作物（0、否，1、是）（毒原作物）
      */

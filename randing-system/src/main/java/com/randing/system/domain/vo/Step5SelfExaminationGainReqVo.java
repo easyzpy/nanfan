@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -75,57 +75,57 @@ public class Step5SelfExaminationGainReqVo implements Serializable {
     @NotNull(message = "劳务用工投入不能为空")
     private BigDecimal gainLwygInvestment;
 /*审定品种信息*/
-//    @ApiModelProperty("审定品种信息")
-//    private Step5SelfExaminationGainCheckReqVo gainCheck;
+    @ApiModelProperty("审定品种信息")
+    private List<Step5SelfExaminationGainCheckReqVo> gainCheck;
 
-    /**
-     * 审定时间
-     */
-    @NotNull(message = "审定时间不能为空")
-    @ApiModelProperty("审定时间-审定品种信息")
-    private LocalDateTime checkTime;
-
-    /**
-     * 审定机构
-     */
-    @NotBlank(message = "审定机构不能为空")
-    @ApiModelProperty("审定机构-审定品种信息")
-    private String checkMechanism;
-
-    /**
-     * 品种名称
-     */
-    @ApiModelProperty("品种名称-审定品种信息")
-    @NotBlank(message = "品种名称不能为空")
-    private String checkVarieties;
-
-    /**
-     * 作物类型
-     */
-    @ApiModelProperty("作物类型-审定品种信息")
-    @NotBlank(message = "作物类型不能为空")
-    private String checkCropType;
-
-    /**
-     * 上一年度销售额（万元）
-     */
-    @ApiModelProperty("上一年度销售额（万元）-审定品种信息")
-    @NotNull(message = "上一年度销售额审定机构不能为空")
-    private BigDecimal checkOldMoney;
-
-    /**
-     * 累计全国推广面积（亩）
-     */
-    @ApiModelProperty("累计全国推广面积（亩）-审定品种信息")
-    @NotNull(message = "累计全国推广面积（亩）审定时间不能为空")
-    private BigDecimal checkWholeCountry;
-
-    /**
-     * 累计海南推广面积（亩）
-     */
-    @ApiModelProperty("累计海南推广面积（亩）-审定品种信息")
-    @NotNull(message = "累计海南推广面积（亩）不能为空")
-    private BigDecimal checkHainan;
+//    /**
+//     * 审定时间
+//     */
+//    @NotNull(message = "审定时间不能为空")
+//    @ApiModelProperty("审定时间-审定品种信息")
+//    private LocalDateTime checkTime;
+//
+//    /**
+//     * 审定机构
+//     */
+//    @NotBlank(message = "审定机构不能为空")
+//    @ApiModelProperty("审定机构-审定品种信息")
+//    private String checkMechanism;
+//
+//    /**
+//     * 品种名称
+//     */
+//    @ApiModelProperty("品种名称-审定品种信息")
+//    @NotBlank(message = "品种名称不能为空")
+//    private String checkVarieties;
+//
+//    /**
+//     * 作物类型
+//     */
+//    @ApiModelProperty("作物类型-审定品种信息")
+//    @NotBlank(message = "作物类型不能为空")
+//    private String checkCropType;
+//
+//    /**
+//     * 上一年度销售额（万元）
+//     */
+//    @ApiModelProperty("上一年度销售额（万元）-审定品种信息")
+//    @NotNull(message = "上一年度销售额审定机构不能为空")
+//    private BigDecimal checkOldMoney;
+//
+//    /**
+//     * 累计全国推广面积（亩）
+//     */
+//    @ApiModelProperty("累计全国推广面积（亩）-审定品种信息")
+//    @NotNull(message = "累计全国推广面积（亩）审定时间不能为空")
+//    private BigDecimal checkWholeCountry;
+//
+//    /**
+//     * 累计海南推广面积（亩）
+//     */
+//    @ApiModelProperty("累计海南推广面积（亩）-审定品种信息")
+//    @NotNull(message = "累计海南推广面积（亩）不能为空")
+//    private BigDecimal checkHainan;
 
 }
 

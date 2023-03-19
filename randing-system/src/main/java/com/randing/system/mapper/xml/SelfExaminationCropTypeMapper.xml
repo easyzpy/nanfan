@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.SelfExaminationCropTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.SelfExaminationCropType">
+        <result column="id" property="id" />
+        <result column="crop_type_id" property="cropTypeId" />
+        <result column="crop_type" property="cropType" />
+        <result column="crop_type_area" property="cropTypeArea" />
+        <result column="self_examination_id" property="selfExaminationId" />
+        <result column="add_time" property="addTime" />
+        <result column="add_people" property="addPeople" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_people" property="updatePeople" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        crop_type_id, crop_type, crop_type_area, self_examination_id, add_time, add_people, update_time, update_people
+    </sql>
+
+</mapper>

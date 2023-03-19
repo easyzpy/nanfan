@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,6 +29,8 @@ public class SelfExaminationGainCheck implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId
+    private Long id;
     /**
      * 审定品种的信息id
      */
