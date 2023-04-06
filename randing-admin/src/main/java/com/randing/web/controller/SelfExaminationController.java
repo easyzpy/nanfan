@@ -4,6 +4,7 @@ package com.randing.web.controller;
 import com.randing.common.core.domain.AjaxResult;
 import com.randing.common.exception.BaseException;
 import com.randing.common.utils.StringUtils;
+import com.randing.system.domain.po.ReturnPeople;
 import com.randing.system.domain.po.SelfExamination;
 import com.randing.system.domain.po.SelfExaminationActivity;
 import com.randing.system.domain.po.SelfExaminationBase;
@@ -12,6 +13,7 @@ import com.randing.system.domain.po.SelfExaminationGain;
 import com.randing.system.domain.po.SelfExaminationNewCategory;
 import com.randing.system.domain.po.SelfExaminationPermanent;
 import com.randing.system.domain.vo.SelfStep1ReqVo;
+import com.randing.system.domain.vo.Step10ReturnPeople;
 import com.randing.system.domain.vo.Step2SelfExaminationPermanentReqVo;
 import com.randing.system.domain.vo.Step3SelfExaminationBaseReqVo;
 import com.randing.system.domain.vo.Step4SelfExaminationActivityReqVo;
@@ -281,6 +283,30 @@ public class SelfExaminationController {
             throw new BaseException("参数错误");
         }
         selfExaminationService.step9Remark(reqVo);
+        return AjaxResult.success();
+    }
+
+//    基地往返人员信息处理模块：单位名称，基地位置，人员姓名，学历，联系电话，到达时间，离岛时间、主要科研工作内容
+    @PostMapping("step10ReturnPeople")
+    @ApiOperation("step10returnPeople-保存")
+    public AjaxResult step10Remark(@RequestBody Step10ReturnPeople reqVo) {
+        if (reqVo == null) {
+            throw new BaseException("参数错误");
+        }
+        selfExaminationService.step10ReturnPeople(reqVo);
+        return AjaxResult.success();
+    }
+
+    @GetMapping("step10ReturnPeopleList")
+    @ApiOperation("step10returnPeople-列表")
+    public AjaxResult<List<ReturnPeople>> step10RemarkList() {
+        List<ReturnPeople> list = selfExaminationService.step10RemarkList();
+        return AjaxResult.success(list);
+    }
+    @DeleteMapping("step10ReturnPeople")
+    @ApiOperation("step10returnPeople-删除")
+    public AjaxResult step10DeleteReturnPeople(@RequestParam("id")Long id) {
+        selfExaminationService.step10DeleteReturnPeople(id);
         return AjaxResult.success();
     }
 }

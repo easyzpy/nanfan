@@ -3,6 +3,7 @@ package com.randing.system.domain.po;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -222,7 +223,7 @@ public class SelfExaminationBase implements Serializable {
     @ApiModelProperty("综合办公楼-报建手续")
     private String baseZhbglProcedures;
 
-/*---------------仓库----------------*/
+    /*---------------仓库----------------*/
 
     /**
      * 仓库-面积
@@ -272,4 +273,7 @@ public class SelfExaminationBase implements Serializable {
     @ApiModelProperty("食堂-报建手续")
     private String baseStProcedures;
 
+    @ApiModelProperty("附件")
+    @TableField(exist = false)
+    private List<SelfExamFile> selfExamFileList;
 }

@@ -18,4 +18,8 @@ public class ApplyObjectionReqDTO extends BasePage implements Serializable {
 
     @ApiModelProperty("异议状态：0 发起异议 1异议通过 2申请答辩")
     private Integer type;
+
+    @ApiModelProperty("批次id 通过applybatch/getList获取")
+    private String batchId;
 }
+

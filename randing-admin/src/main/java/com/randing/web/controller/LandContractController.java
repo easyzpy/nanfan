@@ -4,6 +4,7 @@ package com.randing.web.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.common.core.domain.AjaxResult;
 import com.randing.system.domain.po.LandContract;
+import com.randing.system.domain.vo.LandContractDTO;
 import com.randing.system.domain.vo.LandInforVo;
 import com.randing.system.service.ILandContractService;
 import io.swagger.annotations.Api;
@@ -34,7 +35,7 @@ public class LandContractController {
 
     @PostMapping("listPage")
     @ApiOperation("合同列表")
-    public AjaxResult<Page<LandContract>> listPage(@RequestBody LandContract landContract) {
+    public AjaxResult<Page<LandContractDTO>> listPage(@RequestBody LandContract landContract) {
         return AjaxResult.success(landContractService.listPage(landContract));
     }
 

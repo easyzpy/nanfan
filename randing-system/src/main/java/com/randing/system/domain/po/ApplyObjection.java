@@ -96,5 +96,21 @@ public class ApplyObjection implements Serializable {
     @ApiModelProperty("申请新的地块")
     private LandInfor landInforEntity;
 
+    @TableField(exist = false)
+    @ApiModelProperty("批次id")
+    private String batchId;
+
+    @TableField(exist = false)
+    @ApiModelProperty("批次名称")
+    private String batchName;
+
+    @TableField(exist = false)
+    private String oriInfoName;
+
+    @TableField(exist = false)
+    private String newInfoName;
+
+
+
 
 }

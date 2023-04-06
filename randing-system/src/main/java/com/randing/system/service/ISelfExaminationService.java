@@ -1,5 +1,6 @@
 package com.randing.system.service;
 
+import com.randing.system.domain.po.ReturnPeople;
 import com.randing.system.domain.po.SelfExamination;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.randing.system.domain.po.SelfExaminationActivity;
@@ -9,6 +10,7 @@ import com.randing.system.domain.po.SelfExaminationGain;
 import com.randing.system.domain.po.SelfExaminationNewCategory;
 import com.randing.system.domain.po.SelfExaminationPermanent;
 import com.randing.system.domain.vo.SelfStep1ReqVo;
+import com.randing.system.domain.vo.Step10ReturnPeople;
 import com.randing.system.domain.vo.Step2SelfExaminationPermanentReqVo;
 import com.randing.system.domain.vo.Step3SelfExaminationBaseReqVo;
 import com.randing.system.domain.vo.Step4SelfExaminationActivityReqVo;
@@ -76,4 +78,10 @@ public interface ISelfExaminationService extends IService<SelfExamination> {
     void step8DeleteCategory(Long id);
 
     void step8DeleteExtension(Long id);
+
+    void step10ReturnPeople(Step10ReturnPeople reqVo);
+
+    List<ReturnPeople> step10RemarkList();
+
+    void step10DeleteReturnPeople(Long id);
 }

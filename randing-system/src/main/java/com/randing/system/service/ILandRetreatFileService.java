@@ -3,6 +3,8 @@ package com.randing.system.service;
 import com.randing.system.domain.po.LandRetreatFile;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ILandRetreatFileService extends IService<LandRetreatFile> {
 
+
+    List<LandRetreatFile> getArtificialById(String id, Integer fileType);
 }

@@ -1,8 +1,10 @@
 package com.randing.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.randing.common.utils.LoginUser;
 import com.randing.system.domain.po.ApplyObjection;
 import com.randing.system.domain.vo.ApplyObjectionReqDTO;
 import com.randing.system.mapper.ApplyObjectionMapper;
@@ -28,10 +30,13 @@ public class ApplyObjectionServiceImpl extends ServiceImpl<ApplyObjectionMapper,
 
     @Override
     public Page<ApplyObjection> getList(ApplyObjectionReqDTO applyObjectionReqDTO) {
-//        List<ApplyObjection> applyBatches = baseMapper.selectList(Wrappers.emptyWrapper());
-        LambdaQueryWrapper<ApplyObjection> wrapper = Wrappers.lambdaQuery(ApplyObjection.class);
+        Long loginUserId = LoginUser.getLoginUserId();
+
+        QueryWrapper<ApplyObjection> wrapper = Wrappers.query();
         if (applyObjectionReqDTO != null) {
-            wrapper.eq(applyObjectionReqDTO.getType() != null, ApplyObjection::getObjectionType, applyObjectionReqDTO.getType());
+            wrapper.eq(applyObjectionReqDTO.getType() != null, "c.objection_type", applyObjectionReqDTO.getType());
+            wrapper.eq(applyObjectionReqDTO.getBatchId() != null, "d.batch_id", applyObjectionReqDTO.getBatchId());
+            wrapper.eq(loginUserId != null, "c.user_id", loginUserId);
         }
         return applyObjectionMapper.getList(new Page(applyObjectionReqDTO.getPage(), applyObjectionReqDTO.getPageSize()), wrapper);
     }

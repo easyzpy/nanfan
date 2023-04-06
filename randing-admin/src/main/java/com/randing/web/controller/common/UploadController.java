@@ -6,9 +6,15 @@ import com.randing.common.exception.file.InvalidExtensionException;
 import com.randing.common.utils.DateUtils;
 import com.randing.common.utils.file.FileUploadUtils;
 import com.randing.common.utils.uuid.IdUtils;
+import com.randing.common.utils.uuid.UUID;
+import com.randing.system.domain.po.SelfExamFile;
+import com.randing.system.service.ISelfExamFileService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpRequest;
 import org.apache.http.entity.ContentType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,34 +34,32 @@ import java.io.OutputStream;
 @RestController
 @Slf4j
 public class UploadController {
+
+
+    @Autowired
+    private ISelfExamFileService selfExamFileService;
+
     @Value("${tomcatBasedir}")
     public String tomcatBasedir;
 
 
+    //common/image/unit/jpg/5dfcabfc-05cb-4ba2-96f8-e65fa97786db
     @PostMapping("uploadFile")
-    public AjaxResult<String> uploadFile(MultipartFile file, HttpServletRequest request) {
-        log.info("base:{}", tomcatBasedir);
-        try {
-            String contextPath = request.getServletContext().getRealPath("/");
-            File file1 = new File(contextPath);
-            String parentFile = file1.getParentFile().getAbsolutePath();
-            contextPath = parentFile + "testimage";
-            log.info("contextPath:{}", contextPath);
-            String extension = FileUploadUtils.getExtension(file);
-            String fileName = contextPath  +DateUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
-            File dest = new File(fileName);
-            if (!dest.getParentFile().exists()) {
-                dest.getParentFile().mkdirs();
-            }
-            log.info("filePath:{}", dest.getAbsolutePath());
-            file.transferTo(dest);
-        } catch (IOException e) {
-//            throw new RuntimeException(e);
-            e.printStackTrace();
-            throw new BaseException("上传失败");
-        }
-        return AjaxResult.success("success");
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "文件", name = "file", required = true),
+            @ApiImplicitParam(value = "自查表id", name = "selfExaminationId", required = true)
+    })
+    public AjaxResult<SelfExamFile> uploadFile(MultipartFile file, HttpServletRequest request) {
+//        log.info("base:{}", tomcatBasedir);
+//        String selfExaminationId = request.getParameter("selfExaminationId");
+//        if (selfExaminationId == null) {
+//            return AjaxResult.error("参数错误");
+//        }
+        SelfExamFile selfExamFile = selfExamFileService.uploadFile(file);
+
+        return AjaxResult.success(selfExamFile);
     }
+
     @GetMapping("/common/preview")
     public void filePreviewOrDownload(HttpServletRequest request, HttpServletResponse response) {
         String fileName = request.getParameter("fileName");
@@ -63,15 +67,22 @@ public class UploadController {
         response.reset();
         response.setCharacterEncoding("UTF-8");
 
-        File file = new File(tomcatBasedir +File.separator+ fileName);
+        File file = new File(tomcatBasedir + File.separator + fileName);
         FileInputStream fis = null;
         OutputStream os = null;
         try {
             fis = new FileInputStream(file);
 
-            //下载
-            response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "attachment;filename*=utf-8''" + System.currentTimeMillis() + fileName.substring(fileName.lastIndexOf(".")));
+            if (fileName.contains("pdf")) {
+                response.setContentType("application/pdf");
+//                response.setHeader("Content-Disposition", "attachment;filename*=utf-8''" + System.currentTimeMillis() + fileName.substring(fileName.lastIndexOf(".")));
+            } else {
+//                response.setContentType(ContentType.APPLICATION_OCTET_STREAM.getMimeType());
+                String extension = getExtension(fileName);
+                response.setContentType("image/"+extension);
+//                response.setHeader("Content-Disposition", "attachment;filename*=utf-8''" + fileName.substring(fileName.lastIndexOf("/")+1)+getExtension(fileName));
+
+            }
 
             os = response.getOutputStream();
             byte[] bytes = new byte[1024];
@@ -81,7 +92,7 @@ public class UploadController {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (os != null) {
                     os.close();
@@ -100,8 +111,8 @@ public class UploadController {
     }
 
     @GetMapping("/common/preview2/{fileName}")
-    public void filePreviewOrDownload(@PathVariable("fileName")String fileName
-                                      ,@RequestParam("url") String url
+    public void filePreviewOrDownload(@PathVariable("fileName") String fileName
+            , @RequestParam("url") String url
             , HttpServletRequest request, HttpServletResponse response) {
 //        String fileName = request.getParameter("fileName");
 
@@ -124,7 +135,7 @@ public class UploadController {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (os != null) {
                     os.close();
@@ -142,5 +153,20 @@ public class UploadController {
         }
     }
 
+    private String getExtension(String path) {
+//        "pdf".equals(extension) &&!"jpg".equals(extension) && !"png".equals(extension) && !"jpeg".equals(extension)&&!"gif".equals(extension)
+        if (path.contains("pdf")) {
+            return "pdf";
+        } else if (path.contains("jpg")) {
+            return "jpg";
+        } else if (path.contains("png")) {
+            return "png";
+        } else if (path.contains("jpeg")) {
+            return "jpeg";
+        } else if (path.contains("gif")) {
+            return "gif";
+        }
+        return null;
+    }
 
 }

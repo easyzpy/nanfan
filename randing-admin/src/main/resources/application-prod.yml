@@ -79,3 +79,5 @@ token:
     secret: abcdefghijklmnopqrstuvwxyz
     # 令牌有效期（默认30分钟）
     expireTime: 86400
+
+tomcatBasedir: D:/yz-nf-land-attach

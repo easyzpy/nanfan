@@ -282,7 +282,7 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
     @TableField(exist = false)
     private List<LandInfor> applyInfors;
 
-/*----------评分start---------*/
+    /*----------评分start---------*/
     @ApiModelProperty("中标地块")
     private String landInforName;
     @ApiModelProperty("中标地块id")
@@ -414,4 +414,15 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
     @ApiModelProperty("新技术就地转化评分")
     private String newTechniqueScore;
     /*----------评分end---------*/
+
+    //    <result column="oper_content" property="oprContent" />
+//        <result column="oper_time" property="operTime" />
+    @ApiModelProperty("操作类型")
+    private String operType;
+
+    @ApiModelProperty("操作内容")
+    private String operContent;
+
+    @ApiModelProperty("操作时间")
+    private LocalDateTime operTime;
 }

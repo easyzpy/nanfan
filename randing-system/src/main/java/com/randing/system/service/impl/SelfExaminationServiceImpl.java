@@ -5,6 +5,9 @@ import com.randing.common.exception.BaseException;
 import com.randing.common.utils.LoginUser;
 import com.randing.common.utils.bean.BeanUtils;
 import com.randing.common.utils.iface.dto.YzbUserInfo;
+import com.randing.system.domain.po.ReturnPeople;
+import com.randing.system.domain.po.SelfBaseFileRelation;
+import com.randing.system.domain.po.SelfExamFile;
 import com.randing.system.domain.po.SelfExamination;
 import com.randing.system.domain.po.SelfExaminationActivity;
 import com.randing.system.domain.po.SelfExaminationBase;
@@ -14,6 +17,7 @@ import com.randing.system.domain.po.SelfExaminationGainCheck;
 import com.randing.system.domain.po.SelfExaminationNewCategory;
 import com.randing.system.domain.po.SelfExaminationPermanent;
 import com.randing.system.domain.vo.SelfStep1ReqVo;
+import com.randing.system.domain.vo.Step10ReturnPeople;
 import com.randing.system.domain.vo.Step2SelfExaminationPermanentReqVo;
 import com.randing.system.domain.vo.Step3SelfExaminationBaseReqVo;
 import com.randing.system.domain.vo.Step4SelfExaminationActivityReqVo;
@@ -26,6 +30,9 @@ import com.randing.system.domain.vo.Step8SelfExaminationExtension;
 import com.randing.system.domain.vo.Step8SelfExaminationNewCategory;
 import com.randing.system.domain.vo.Step9SelfExamination;
 import com.randing.system.mapper.SelfExaminationMapper;
+import com.randing.system.service.IReturnPeopleService;
+import com.randing.system.service.ISelfBaseFileRelationService;
+import com.randing.system.service.ISelfExamFileService;
 import com.randing.system.service.ISelfExaminationActivityService;
 import com.randing.system.service.ISelfExaminationBaseService;
 import com.randing.system.service.ISelfExaminationExtensionService;
@@ -41,6 +48,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -71,6 +79,12 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
     private ISelfExaminationNewCategoryService selfExaminationNewCategoryService;
     @Autowired
     private ISelfExaminationExtensionService selfExaminationExtensionService;
+    @Autowired
+    private ISelfExamFileService fileService;
+    @Autowired
+    private ISelfBaseFileRelationService selfBaseFileRelationService;
+    @Autowired
+    private IReturnPeopleService returnPeopleService;
     @Override
     @Transactional
     public int step1save(SelfStep1ReqVo reqVo) {
@@ -129,15 +143,37 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
         }
         SelfExaminationBase selfExaminationBase = new SelfExaminationBase();
         BeanUtils.copyProperties(reqVo, selfExaminationBase);
-        selfExaminationBase.setBaseId(getUUID());
+//        selfExaminationBase.setBaseId(getUUID());
         selfExaminationBase.setSelfExaminationId(selfExamination.getSelfExaminationId());
-        List<SelfExaminationBase> list = selfExaminationBaseService.list(Wrappers.lambdaQuery(SelfExaminationBase.class).eq(SelfExaminationBase::getSelfExaminationId, selfExamination.getSelfExaminationId()));
+        List<SelfExaminationBase> list = selfExaminationBaseService.list(Wrappers.lambdaQuery(SelfExaminationBase.class)
+                .eq(SelfExaminationBase::getSelfExaminationId, selfExamination.getSelfExaminationId())
+                .eq(SelfExaminationBase::getBaseId, reqVo.getBaseID())
+        );
         if (!list.isEmpty()) {
             Long id = list.get(0).getId();
             selfExaminationBase.setId(id);
+        } else {
+            selfExaminationBase.setBaseId(getUUID());
+        }
+        selfExaminationBaseService.saveOrUpdate(selfExaminationBase);
+        //保存基地附件信息
+        if (!CollectionUtils.isEmpty(reqVo.getFileIds())) {
+            int count = fileService.count(Wrappers.lambdaQuery(SelfExamFile.class).in(SelfExamFile::getFileId, reqVo.getFileIds()));
+            if (count != reqVo.getFileIds().size()) {
+                throw new BaseException("图片数量上传异常");
+            }
+            selfBaseFileRelationService.remove(Wrappers.lambdaQuery(SelfBaseFileRelation.class).eq(SelfBaseFileRelation::getBaseId, selfExaminationBase.getBaseId()));
+            ArrayList<SelfBaseFileRelation> selfBaseFileRelations = new ArrayList<>();
+            for (String fileId : reqVo.getFileIds()) {
+                SelfBaseFileRelation selfBaseFileRelation = new SelfBaseFileRelation();
+                selfBaseFileRelation.setBaseId(selfExaminationBase.getBaseId());
+                selfBaseFileRelation.setFileId(fileId);
+                selfBaseFileRelations.add(selfBaseFileRelation);
+            }
+
+            selfBaseFileRelationService.saveBatch(selfBaseFileRelations);
         }
 
-        selfExaminationBaseService.saveOrUpdate(selfExaminationBase);
         return 0;
     }
 
@@ -148,6 +184,30 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
             return null;
         }
         List<SelfExaminationBase> list = selfExaminationBaseService.list(Wrappers.lambdaQuery(SelfExaminationBase.class).eq(SelfExaminationBase::getSelfExaminationId, selfExamination.getSelfExaminationId()));
+        //查询所有基地附件
+        if (!CollectionUtils.isEmpty(list)) {
+            List<SelfBaseFileRelation> fileRelationList = selfBaseFileRelationService.list(Wrappers.lambdaQuery(SelfBaseFileRelation.class).in(SelfBaseFileRelation::getBaseId, list.stream().map(SelfExaminationBase::getBaseId).collect(Collectors.toList())));
+            Map<String, List<SelfBaseFileRelation>> collect = fileRelationList.stream().collect(Collectors.groupingBy(SelfBaseFileRelation::getBaseId));
+            List<String> fileIds = fileRelationList.stream().map(SelfBaseFileRelation::getFileId).collect(Collectors.toList());
+//            List<SelfExamFile> selfExamFiles = fileService.listByIds(fileIds);
+            List<SelfExamFile> selfExamFiles = fileService.list(Wrappers.lambdaQuery(SelfExamFile.class).in(SelfExamFile::getFileId, fileIds));
+            Map<String, SelfExamFile> fileMap = selfExamFiles.stream().collect(Collectors.toMap(SelfExamFile::getFileId, v->v));
+
+            for (SelfExaminationBase base : list) {
+                List<SelfBaseFileRelation> fileRelationList1 = collect.get(base.getBaseId());
+                if (!CollectionUtils.isEmpty(fileRelationList1)) {
+                    ArrayList<SelfExamFile> selfExamFileArrayList = new ArrayList<>();
+                    for (SelfBaseFileRelation selfBaseFileRelation : fileRelationList1) {
+                        SelfExamFile selfExamFile = fileMap.get(selfBaseFileRelation.getFileId());
+                        if (selfExamFile != null) {
+                            selfExamFileArrayList.add(selfExamFile);
+                        }
+                    }
+                    base.setSelfExamFileList(selfExamFileArrayList);
+                }
+            }
+
+        }
         return list;
     }
 
@@ -369,6 +429,46 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
     public void step8DeleteExtension(Long id) {
         selfExaminationExtensionService.removeById(id);
     }
+
+    @Override
+    public void step10ReturnPeople(Step10ReturnPeople reqVo) {
+        SelfExamination selfExamination = getSelfExamination();
+        if (selfExamination == null) {
+            throw new BaseException("清先保存基本信息");
+        }
+        ReturnPeople returnPeople = new ReturnPeople();
+        BeanUtils.copyProperties(reqVo, returnPeople);
+        returnPeople.setReturnPeopleId(getUUID());
+        returnPeople.setSelfExaminationId(selfExamination.getSelfExaminationId());
+        List<ReturnPeople> list = returnPeopleService.list(Wrappers.lambdaQuery(ReturnPeople.class)
+                .eq(ReturnPeople::getSelfExaminationId, selfExamination.getSelfExaminationId()));
+        if (!list.isEmpty()) {
+            Long id = list.get(0).getId();
+            returnPeople.setId(id);
+        }
+
+        returnPeopleService.saveOrUpdate(returnPeople);
+
+    }
+    @Override
+    public void step10DeleteReturnPeople(Long id) {
+        returnPeopleService.removeById(id);
+    }
+    @Override
+    public List<ReturnPeople> step10RemarkList() {
+        SelfExamination selfExamination = getSelfExamination();
+        if (selfExamination == null) {
+            return null;
+        }
+        List<ReturnPeople> list = returnPeopleService.list(Wrappers.lambdaQuery(ReturnPeople.class)
+                .eq(ReturnPeople::getSelfExaminationId, selfExamination.getSelfExaminationId())
+                .orderByDesc(ReturnPeople::getAddTime)
+        );
+
+        return list;
+    }
+
+
 
     public SelfExaminationPermanent getExaminationPermanentByExaminationId(String examinationId) {
         if (examinationId == null) {

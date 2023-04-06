@@ -82,6 +82,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
 
         if (
                 url.startsWith("/nanland/api/token/getToken")
+                ||url.startsWith("/api/token/getToken")
+                ||url.startsWith("/api/common/preview")
+                ||url.startsWith("/nanland/api/common/preview")
                 ||url.startsWith("/doc.html")
                 ||url.startsWith("/webjars")
                 ||url.startsWith("/swagger-resources")

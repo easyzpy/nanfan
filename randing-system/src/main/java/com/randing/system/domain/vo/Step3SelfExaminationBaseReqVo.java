@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -17,6 +18,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Step3SelfExaminationBaseReqVo implements Serializable {
     private static final long serialVersionUID = -9151756505564447960L;
+
+    @ApiModelProperty("baseId")
+    private String baseID;
     /**
      * 位置
      */
@@ -249,6 +253,7 @@ public class Step3SelfExaminationBaseReqVo implements Serializable {
     @ApiModelProperty("硬化停车场的保建手续—基地内建设的附属设施")
     private String baseVehicleProcedures;
 
-
+    @ApiModelProperty("基地附件信息")
+    private List<String> fileIds;
 }
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.ReturnPeopleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.ReturnPeople">
+        <result column="id" property="id" />
+        <result column="return_people_id" property="returnPeopleId" />
+        <result column="people_name" property="peopleName" />
+        <result column="people_phone" property="peoplePhone" />
+        <result column="arrival_date" property="arrivalDate" />
+        <result column="place_departure" property="placeDeparture" />
+        <result column="via" property="via" />
+        <result column="mode_transportation" property="modeTransportation" />
+        <result column="symptom" property="symptom" />
+        <result column="symptom_mark" property="symptomMark" />
+        <result column="sanya_residential_address" property="sanyaResidentialAddress" />
+        <result column="company" property="company" />
+        <result column="address" property="address" />
+        <result column="base_contact" property="baseContact" />
+        <result column="base_contact_phone" property="baseContactPhone" />
+        <result column="vaccines" property="vaccines" />
+        <result column="vaccines_mark" property="vaccinesMark" />
+        <result column="nucleic_acid_test" property="nucleicAcidTest" />
+        <result column="add_time" property="addTime" />
+        <result column="add_people" property="addPeople" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_people" property="updatePeople" />
+        <result column="audit_status" property="auditStatus" />
+        <result column="audit_status_reason" property="auditStatusReason" />
+        <result column="self_examination_id" property="selfExaminationId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        return_people_id, people_name, people_phone, arrival_date, place_departure, via, mode_transportation, symptom, symptom_mark, sanya_residential_address, company, address, base_contact, base_contact_phone, vaccines, vaccines_mark, nucleic_acid_test, add_time, add_people, update_time, update_people, audit_status, audit_status_reason, self_examination_id
+    </sql>
+
+</mapper>

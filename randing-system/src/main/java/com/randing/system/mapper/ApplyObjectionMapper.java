@@ -20,5 +20,7 @@ import java.util.List;
  */
 public interface ApplyObjectionMapper extends BaseMapper<ApplyObjection> {
 
+    //applyInfoId 申请新地块
+    //applyId 原地块
     public Page<ApplyObjection> getList(IPage page, @Param(Constants.WRAPPER) Wrapper wrapper);
 }
