@@ -60,6 +60,7 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
                 .like(keepApplyReqDTO.getLandApplyPurpose() != null, "c.land_apply_purpose", keepApplyReqDTO.getLandApplyPurpose())
 //                //过滤创建者 暂时不加 不然没有数据了
                 .eq(loginUserId != null, "c.create_user", loginUserId)
+                .eq("g.oper_type", "用地审批")
                 .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("budget"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.budget")
                 .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("landApplyArea"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.land_apply_area")
                 .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("createTime"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.create_time")
