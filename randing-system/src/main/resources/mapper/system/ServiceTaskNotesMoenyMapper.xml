@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.randing.system.mapper.ServiceTaskNotesMoenyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.randing.system.domain.po.ServiceTaskNotesMoeny">
+        <id column="orders" property="orders" />
+        <result column="id" property="id" />
+        <result column="order_money" property="orderMoney" />
+        <result column="money_type" property="moneyType" />
+        <result column="order_status" property="orderStatus" />
+        <result column="return_money_status" property="returnMoneyStatus" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="service_take_notes_id" property="serviceTakeNotesId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        orders, order_money, money_type, order_status, return_money_status, create_time, create_by, update_time, update_by, service_take_notes_id
+    </sql>
+
+</mapper>

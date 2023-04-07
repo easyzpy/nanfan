@@ -417,12 +417,21 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
 
     //    <result column="oper_content" property="oprContent" />
 //        <result column="oper_time" property="operTime" />
-    @ApiModelProperty("操作类型")
+    @ApiModelProperty("操作类型-用地审批")
     private String operType;
 
-    @ApiModelProperty("操作内容")
+    @ApiModelProperty("操作内容-用地审批")
     private String operContent;
 
-    @ApiModelProperty("操作时间")
+    @ApiModelProperty("操作时间-用地审批")
     private LocalDateTime operTime;
+
+    @ApiModelProperty("操作类型-用地申请")
+    private String operTypeApply;
+
+    @ApiModelProperty("操作内容-用地申请")
+    private String operContentApply;
+
+    @ApiModelProperty("操作时间-用地申请")
+    private LocalDateTime operTimeApply;
 }

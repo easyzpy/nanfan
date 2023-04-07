@@ -8,11 +8,13 @@ import com.randing.common.utils.LoginUser;
 import com.randing.common.utils.bean.BeanUtils;
 import com.randing.system.domain.common.OrderByEnum;
 import com.randing.system.domain.po.LandApplyInfor;
+import com.randing.system.domain.po.LandApplyOper;
 import com.randing.system.domain.po.LandInfor;
 import com.randing.system.domain.po.NanfanLandApplyForm;
 import com.randing.system.domain.vo.KeepApplyReqDTO;
 import com.randing.system.domain.vo.base.NanfanLandApplyFormVo;
 import com.randing.system.mapper.LandApplyInforMapper;
+import com.randing.system.mapper.LandApplyOperMapper;
 import com.randing.system.mapper.LandInforMapper;
 import com.randing.system.mapper.NanfanLandApplyFormMapper;
 import com.randing.system.service.INanfanLandApplyFormService;
@@ -48,6 +50,8 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
     private LandApplyInforMapper landApplyInforMapper;
     @Resource
     private LandInforMapper landInforMapper;
+    @Resource
+    private LandApplyOperMapper landApplyOperMapper;
     @Override
     public Page<NanfanLandApplyFormVo> getKeepApplay(KeepApplyReqDTO keepApplyReqDTO) {
         Long loginUserId = LoginUser.getLoginUserId();
@@ -60,7 +64,7 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
                 .like(keepApplyReqDTO.getLandApplyPurpose() != null, "c.land_apply_purpose", keepApplyReqDTO.getLandApplyPurpose())
 //                //过滤创建者 暂时不加 不然没有数据了
                 .eq(loginUserId != null, "c.create_user", loginUserId)
-                .eq("g.oper_type", "用地审批")
+//                .eq("g.oper_type", "用地审批")
                 .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("budget"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.budget")
                 .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("landApplyArea"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.land_apply_area")
                 .orderBy(keepApplyReqDTO.getOrderName() != null && keepApplyReqDTO.getOrderName().equals("createTime"), keepApplyReqDTO.getOrderType() == OrderByEnum.asc, "c.create_time")
@@ -73,10 +77,14 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
         if (!CollectionUtils.isEmpty(keepApplay.getRecords())) {
             List<Long> applyIds = keepApplay.getRecords().stream().map(NanfanLandApplyFormVo::getId).collect(Collectors.toList());
             if (!CollectionUtils.isEmpty(applyIds)) {
+                //处理landInfo
                 List<LandApplyInfor> landApplyInfors = landApplyInforMapper.selectList(
                         Wrappers.lambdaQuery(LandApplyInfor.class).in(LandApplyInfor::getApplyId, applyIds)
                                 .isNotNull(LandApplyInfor::getInforId)
                 );
+                //处理审批时间
+//                applyIds
+
                 if (!CollectionUtils.isEmpty(landApplyInfors)) {
                     List<Integer> landInfoIds = landApplyInfors.stream().map(LandApplyInfor::getInforId).collect(Collectors.toList());
                     List<LandInfor> landInfors = landInforMapper.selectList(Wrappers.lambdaQuery(LandInfor.class).in(LandInfor::getId, landInfoIds));
@@ -98,6 +106,36 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
                         }
                     }
                 }
+
+                List<LandApplyOper> opers = landApplyOperMapper.selectList(Wrappers.lambdaQuery(LandApplyOper.class)
+//                        .eq(LandApplyOper::getOperType, "用地审批")
+                        .in(LandApplyOper::getApplyFormId, applyIds)
+                        .orderByDesc(LandApplyOper::getOperTime)
+                );
+                if (!CollectionUtils.isEmpty(opers)) {
+                    Map<Integer, List<LandApplyOper>> collect = opers.stream().collect(Collectors.groupingBy(LandApplyOper::getApplyFormId));
+
+                    //遍历塞值
+                    for (NanfanLandApplyFormVo record : keepApplay.getRecords()) {
+                        Long recordApplyId = record.getId();
+                        List<LandApplyOper> landApplyOpers = collect.get(Integer.parseInt(String.valueOf(recordApplyId)));
+                        if (!landApplyOpers.isEmpty()) {
+                            for (int i = 0; i < (Math.min(landApplyOpers.size(), 2)); i++) {
+                                LandApplyOper landApplyOper = landApplyOpers.get(i);
+                                if (landApplyOper.getOperType().equals("用地审批")) {
+                                    record.setOperContent(landApplyOper.getOperContent());
+                                    record.setOperType(landApplyOper.getOperType());
+                                    record.setOperTime(landApplyOper.getOperTime());
+                                } else {
+                                    record.setOperContentApply(landApplyOper.getOperContent());
+                                    record.setOperTypeApply(landApplyOper.getOperType());
+                                    record.setOperTimeApply(landApplyOper.getOperTime());
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
 
         }

@@ -84,9 +84,6 @@
         <result column="new_varieties_score" property="newVarietiesScore" />
         <result column="new_technique_score" property="newTechniqueScore" />
 
-        <result column="oper_type" property="operType" />
-        <result column="oper_content" property="operContent" />
-        <result column="oper_time" property="operTime" />
 
         <!--评分end-->
     </resultMap>
@@ -101,16 +98,12 @@
         select c.*, d.land_infor_id
             d_infor_id,
             e.land_name land_infor_name,
-            g.oper_type,
-            g.oper_content,
-            g.oper_time,
             f.*
         from nanfan_land_apply_form as c
 --          LEFT JOIN land_contract as lc on c.id = lc.apply_id
             LEFT JOIN land_infor_usage as d on c.id = d.apply_id
             LEFT JOIN land_infor as e on d.land_infor_id = e.id
             LEFT JOIN land_apply_score as f on c.id = f.apply_form_id
-            LEFT JOIN land_apply_oper as g on c.id = g.apply_form_id
         ${ew.customSqlSegment}
     </select>
 </mapper>
