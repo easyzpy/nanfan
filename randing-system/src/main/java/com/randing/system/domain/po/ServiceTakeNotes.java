@@ -22,7 +22,7 @@ public class ServiceTakeNotes implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @TableId
-    private Long id;
+    private String id;
 
     /**
      * 序号，确保数据在库中的有序性（服务跟踪表）

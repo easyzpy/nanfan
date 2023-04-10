@@ -2,13 +2,13 @@ package com.randing.system.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.randing.system.domain.po.LandRetreat;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.randing.common.utils.LoginUser;
 import com.randing.system.domain.po.ServiceTakeNotes;
 import com.randing.system.domain.po.ServiceTaskNotesMoeny;
-import com.randing.system.domain.vo.ServiceNoteReqDTO;
+import com.randing.system.domain.vo.NoteReqDTO;
 import com.randing.system.mapper.ServiceTakeNotesMapper;
 import com.randing.system.service.IServiceTakeNotesService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.randing.system.service.IServiceTaskNotesMoenyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +29,12 @@ public class ServiceTakeNotesServiceImpl extends ServiceImpl<ServiceTakeNotesMap
     @Autowired
     private IServiceTaskNotesMoenyService serviceTaskNotesMoenyService;
     @Override
-    public Page<ServiceTakeNotes> listPage(ServiceNoteReqDTO serviceNoteReqDTO) {
-        return baseMapper.selectPage(new Page<>(serviceNoteReqDTO.getPage(), serviceNoteReqDTO.getPageSize()), Wrappers.lambdaQuery(ServiceTakeNotes.class));
+    public Page<ServiceTakeNotes> listPage(NoteReqDTO serviceNoteReqDTO) {
+        Long loginUserId = LoginUser.getLoginUserId();
+        return baseMapper.selectPage(new Page<>(serviceNoteReqDTO.getPage(), serviceNoteReqDTO.getPageSize()), Wrappers.lambdaQuery(ServiceTakeNotes.class)
+                .eq(loginUserId != null, ServiceTakeNotes::getCreateBy, loginUserId)
+
+        );
     }
 
     @Override

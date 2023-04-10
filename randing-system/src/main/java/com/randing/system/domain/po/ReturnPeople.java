@@ -172,5 +172,17 @@ public class ReturnPeople implements Serializable {
     @ApiModelProperty("南繁单位自查信息表id")
     private String selfExaminationId;
 
+    /**
+     * 学历
+     */
+    @ApiModelProperty("学历")
+    private String education;
+
+    /**
+     * 主要科研工作内容
+     */
+    @ApiModelProperty("主要科研工作内容")
+    private String researchContent;
+
 
 }

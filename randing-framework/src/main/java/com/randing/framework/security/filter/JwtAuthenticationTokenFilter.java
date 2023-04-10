@@ -82,14 +82,19 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
 
         if (
                 url.startsWith("/nanland/api/token/getToken")
-                ||url.startsWith("/api/token/getToken")
-                ||url.startsWith("/api/common/preview")
-                ||url.startsWith("/nanland/api/common/preview")
-                ||url.startsWith("/doc.html")
-                ||url.startsWith("/webjars")
-                ||url.startsWith("/swagger-resources")
-                ||url.startsWith("/v2/api-docs")
-                ||url.startsWith("/nanland/api/ping")
+                        ||url.startsWith("/api/token/getToken")
+                        ||url.startsWith("/nanland/api/common/preview")
+                        ||url.startsWith("/api/common/preview")
+
+                        ||url.startsWith("/doc.html")
+                        ||url.startsWith("/nanland/doc.html")
+                        ||url.startsWith("/webjars")
+                        ||url.startsWith("/nanland/webjars")
+                        ||url.startsWith("/swagger-resources")
+                        ||url.startsWith("/nanland/swagger-resources")
+                        ||url.startsWith("/v2/api-docs")
+                        ||url.startsWith("/nanland/v2/api-docs")
+                        ||url.startsWith("/nanland/api/ping")
 
         ) {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(new JwtUser(), null, null);

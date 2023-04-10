@@ -31,14 +31,6 @@ public class SelfExamFileServiceImpl extends ServiceImpl<SelfExamFileMapper, Sel
     private static final String commonFilePath = "/common/image/selfexam/";
     @Override
     public SelfExamFile uploadFile(MultipartFile file) {
-//        if (selfExaminationId == null) {
-//            throw new BaseException("参数错误");
-//        }
-//        try {
-//            int i = Integer.parseInt(selfExaminationId);
-//        } catch (NumberFormatException e) {
-//            throw new BaseException("参数错误1");
-//        }
 
         String extension = FileUploadUtils.getExtension(file);
         if (!"pdf".equals(extension) &&!"jpg".equals(extension) && !"png".equals(extension) && !"jpeg".equals(extension)&&!"gif".equals(extension)) {
@@ -59,6 +51,7 @@ public class SelfExamFileServiceImpl extends ServiceImpl<SelfExamFileMapper, Sel
         try {
             file.transferTo(dest);
         } catch (IOException e) {
+            log.error("e", e);
             throw new BaseException("上传失败");
         }
         return selfExamFile;

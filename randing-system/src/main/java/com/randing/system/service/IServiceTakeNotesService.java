@@ -1,10 +1,10 @@
 package com.randing.system.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.randing.system.domain.po.ServiceTakeNotes;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.randing.system.domain.po.ServiceTakeNotes;
 import com.randing.system.domain.po.ServiceTaskNotesMoeny;
-import com.randing.system.domain.vo.ServiceNoteReqDTO;
+import com.randing.system.domain.vo.NoteReqDTO;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface IServiceTakeNotesService extends IService<ServiceTakeNotes> {
 
-    Page<ServiceTakeNotes> listPage(ServiceNoteReqDTO serviceNoteReqDTO);
+    Page<ServiceTakeNotes> listPage(NoteReqDTO serviceNoteReqDTO);
 
     List<ServiceTaskNotesMoeny> getNotesMoeny(String serviceTakeNotesId);
 }
