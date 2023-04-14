@@ -48,6 +48,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException
     {
+        ///nanland
         String contextPath = request.getServletContext().getContextPath();
         log.info("contextPath:{}", contextPath);
 //        LoginUser loginUser = tokenService.getLoginUser(request);
@@ -83,38 +84,31 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
         log.info(url);
 
         if (
-                url.startsWith("/nanland/api/token/getToken")
+                url.startsWith(contextPath+ "/api/token/getToken")
                         ||url.startsWith("/api/token/getToken")
-                        ||url.startsWith("/mapi_nfland/api/token/getToken")
 
 
-                        ||url.startsWith("/nanland/api/common/preview")
+                        ||url.startsWith(contextPath+ "/api/common/preview")
                         ||url.startsWith("/api/common/preview")
-                        ||url.startsWith("/mapi_nfland/api/common/preview")
 
 
-                        ||url.startsWith("/nanland/doc.html")
+                        ||url.startsWith(contextPath+ "/doc.html")
                         ||url.startsWith("/doc.html")
-                        ||url.startsWith("/mapi_nfland/doc.html")
 
 
-                        ||url.startsWith("/nanland/webjars")
+                        ||url.startsWith(contextPath+ "/webjars")
                         ||url.startsWith("/webjars")
-                        ||url.startsWith("/mapi_nfland/webjars")
 
 
-                        ||url.startsWith("/nanland/swagger-resources")
+                        ||url.startsWith(contextPath+ "/swagger-resources")
                         ||url.startsWith("/swagger-resources")
-                        ||url.startsWith("/mapi_nfland/swagger-resources")
 
 
-                        ||url.startsWith("/nanland/v2/api-docs")
+                        ||url.startsWith(contextPath+ "/v2/api-docs")
                         ||url.startsWith("/v2/api-docs")
-                        ||url.startsWith("/mapi_nfland/v2/api-docs")
 
 
-                        ||url.startsWith("/nanland/api/ping")
-                        ||url.startsWith("/mapi_nfland/api/ping")
+                        ||url.startsWith(contextPath+ "/api/ping")
                         ||url.startsWith("/api/ping")
 
         ) {
