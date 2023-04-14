@@ -48,6 +48,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException
     {
+        String contextPath = request.getServletContext().getContextPath();
+        log.info("contextPath:{}", contextPath);
 //        LoginUser loginUser = tokenService.getLoginUser(request);
 //        if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication()))
 //        {
@@ -83,18 +85,37 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
         if (
                 url.startsWith("/nanland/api/token/getToken")
                         ||url.startsWith("/api/token/getToken")
+                        ||url.startsWith("/mapi_nfland/api/token/getToken")
+
+
                         ||url.startsWith("/nanland/api/common/preview")
                         ||url.startsWith("/api/common/preview")
+                        ||url.startsWith("/mapi_nfland/api/common/preview")
 
-                        ||url.startsWith("/doc.html")
+
                         ||url.startsWith("/nanland/doc.html")
-                        ||url.startsWith("/webjars")
+                        ||url.startsWith("/doc.html")
+                        ||url.startsWith("/mapi_nfland/doc.html")
+
+
                         ||url.startsWith("/nanland/webjars")
-                        ||url.startsWith("/swagger-resources")
+                        ||url.startsWith("/webjars")
+                        ||url.startsWith("/mapi_nfland/webjars")
+
+
                         ||url.startsWith("/nanland/swagger-resources")
-                        ||url.startsWith("/v2/api-docs")
+                        ||url.startsWith("/swagger-resources")
+                        ||url.startsWith("/mapi_nfland/swagger-resources")
+
+
                         ||url.startsWith("/nanland/v2/api-docs")
+                        ||url.startsWith("/v2/api-docs")
+                        ||url.startsWith("/mapi_nfland/v2/api-docs")
+
+
                         ||url.startsWith("/nanland/api/ping")
+                        ||url.startsWith("/mapi_nfland/api/ping")
+                        ||url.startsWith("/api/ping")
 
         ) {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(new JwtUser(), null, null);

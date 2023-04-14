@@ -162,4 +162,41 @@ public class LandRetreat extends BasePage implements Serializable {
     @ApiModelProperty("退地附件")
     @TableField(exist = false)
     private List<LandRetreatFile> landRetreatFileList;
+
+
+    /**
+     * 土地总面积
+     */
+    @ApiModelProperty("土地总面积")
+    @TableField(exist = false)
+    private Double landAreaTotal;
+
+    /**
+     * 土地可用面积
+     */
+    @TableField(exist = false)
+    @ApiModelProperty("土地可用面积")
+    private Double landAreaSurplus;
+
+    /**
+     * 土地已用面积
+     */
+    @ApiModelProperty("土地已用面积")
+    @TableField(exist = false)
+    private Double landAreaUsable;
+
+    /**
+     * 地块名称
+     */
+    @ApiModelProperty("地块名称")
+    @TableField(exist = false)
+    private String landName;
+
+    /**
+     * 申请用地面积（亩）
+     */
+    @ApiModelProperty("申请用地面积（亩）")
+    @TableField(exist = false)
+    private Double landApplyArea;
+
 }

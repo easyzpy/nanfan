@@ -1,7 +1,7 @@
-ALTER TABLE `nfland`.`return_people`
-    ADD COLUMN `education` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学历' AFTER `self_examination_id`,
+ALTER TABLE `return_people`
+ADD COLUMN `education` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学历' AFTER `self_examination_id`,
 ADD COLUMN `research_content` varchar(255) NULL COMMENT '主要科研工作内容' AFTER `education`;
-
+ADD COLUMN `getout_time` datetime NULL COMMENT '离岛时间' AFTER `research_content`;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;

@@ -121,7 +121,7 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
 
     @Override
     public List<String> landAscriptionList() {
-        List<LandInfor> landInfors = baseMapper.selectList(new QueryWrapper<LandInfor>().select("DISTINCT land_ascription"));
+        List<LandInfor> landInfors = baseMapper.selectList(new QueryWrapper<LandInfor>().select("DISTINCT land_ascription").isNotNull("land_ascription"));
         if (!CollectionUtils.isEmpty(landInfors)) {
             List<String> collect = landInfors.stream().map(LandInfor::getLandAscription).collect(Collectors.toList());
             return collect;

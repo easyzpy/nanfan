@@ -65,4 +65,9 @@ public class Step10ReturnPeople implements Serializable {
     @NotBlank(message = "主要科研工作内容不能为空")
     private String researchContent;
 
+    /**
+     * 离岛时间
+     */
+    @ApiModelProperty("离岛时间")
+    private LocalDateTime getoutTime;
 }

@@ -17,6 +17,8 @@
         <result column="infor_id" property="inforId" />
         <result column="ori_info_name" property="oriInfoName" />
         <result column="new_info_name" property="newInfoName" />
+        <result column="ori_land_crop_type" property="oriLandCropType" />
+        <result column="new_land_crop_type" property="newLandCropType" />
         <association property="formEntity" column="apply_id" javaType="com.randing.system.domain.po.NanfanLandApplyForm" >
             <result column="id" property="id" />
             <result column="land_apply_unit" property="landApplyUnit" />
@@ -109,7 +111,9 @@
     <select id="getList" resultMap="BaseResultMap">
         select c.*, d.*
              ,e.land_name new_info_name
+             ,e.land_crop_type new_land_crop_type
              , f.land_name ori_info_name
+             , f.land_crop_type ori_land_crop_type
         from apply_objection as c
          LEFT JOIN nanfan_land_apply_form as d on c.apply_id = d.id
          LEFT JOIN land_infor e on e.id = c.apply_infor_id

@@ -105,12 +105,26 @@ public class ApplyObjection implements Serializable {
     private String batchName;
 
     @TableField(exist = false)
+    @ApiModelProperty("原地块名称")
     private String oriInfoName;
 
     @TableField(exist = false)
+    @ApiModelProperty("新地块名称")
     private String newInfoName;
 
+    /**
+     * 作物类型
+     */
+    @ApiModelProperty("作物类型")
+    @TableField(exist = false)
+    private String oriLandCropType;
 
+    /**
+     * 作物类型
+     */
+    @ApiModelProperty("作物类型")
+    @TableField(exist = false)
+    private String newLandCropType;
 
 
 }

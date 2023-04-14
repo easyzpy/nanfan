@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -27,12 +28,15 @@ import java.util.List;
 @Service
 public class LandRetreatServiceImpl extends ServiceImpl<LandRetreatMapper, LandRetreat> implements ILandRetreatService {
 
-    @Autowired
+    @Resource
     private LandRetreatFileMapper landRetreatFileMapper;
+    @Resource
+    private LandRetreatMapper landRetreatMapper;
+
     @Override
     public Page<LandRetreat> listPage(LandRetreat landRetreat) {
         Long loginUserId = LoginUser.getLoginUserId();
-        return baseMapper.selectPage(new Page<>(landRetreat.getPage(), landRetreat.getPageSize()), Wrappers.lambdaQuery(LandRetreat.class)
+        return landRetreatMapper.selectCustomPage(new Page<>(landRetreat.getPage(), landRetreat.getPageSize()), Wrappers.lambdaQuery(LandRetreat.class)
                 .eq(landRetreat.getStatus() != null, LandRetreat::getStatus, landRetreat.getStatus())
                 .eq(StringUtils.isNotBlank(landRetreat.getRetreatApplicant()), LandRetreat::getRetreatApplicant, landRetreat.getRetreatApplicant())
                 .eq(loginUserId != null, LandRetreat::getAddUser, loginUserId)

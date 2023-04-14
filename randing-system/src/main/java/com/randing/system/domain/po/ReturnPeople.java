@@ -183,6 +183,10 @@ public class ReturnPeople implements Serializable {
      */
     @ApiModelProperty("主要科研工作内容")
     private String researchContent;
-
+    /**
+     * 离岛时间
+     */
+    @ApiModelProperty("离岛时间")
+    private LocalDateTime getoutTime;
 
 }
