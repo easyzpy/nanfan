@@ -25,10 +25,11 @@ public interface LandContractMapper extends BaseMapper<LandContract> {
     private Long landId;
     @TableField(exist = false)
     private String landLocation;*/
-    @Select("SELECT *" +
+    @Select("SELECT c.*" +
             ", d.land_name" +
             ",d.id land_id" +
             ",d.land_location land_location " +
+            ",d.land_img_url land_img_url " +
             "FROM land_contract as c " +
             "LEFT JOIN land_infor as d on c.choice_land_id = d.id " +
             "${ew.customSqlSegment}")

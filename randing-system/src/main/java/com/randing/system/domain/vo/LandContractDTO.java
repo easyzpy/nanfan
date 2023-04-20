@@ -156,5 +156,10 @@ public class LandContractDTO implements Serializable {
     private Long landId;
     @TableField(exist = false)
     private String landLocation;
+    /**
+     * 土地主图路径
+     */
+    @TableField(exist = false)
+    private String landImgUrl;
 
 }

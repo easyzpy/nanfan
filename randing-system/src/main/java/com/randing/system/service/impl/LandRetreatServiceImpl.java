@@ -1,5 +1,6 @@
 package com.randing.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -36,12 +37,14 @@ public class LandRetreatServiceImpl extends ServiceImpl<LandRetreatMapper, LandR
     @Override
     public Page<LandRetreat> listPage(LandRetreat landRetreat) {
         Long loginUserId = LoginUser.getLoginUserId();
-        return landRetreatMapper.selectCustomPage(new Page<>(landRetreat.getPage(), landRetreat.getPageSize()), Wrappers.lambdaQuery(LandRetreat.class)
-                .eq(landRetreat.getStatus() != null, LandRetreat::getStatus, landRetreat.getStatus())
-                .eq(StringUtils.isNotBlank(landRetreat.getRetreatApplicant()), LandRetreat::getRetreatApplicant, landRetreat.getRetreatApplicant())
-                .eq(loginUserId != null, LandRetreat::getAddUser, loginUserId)
+        QueryWrapper<Class<LandRetreat>> eq = Wrappers.query(LandRetreat.class)
+                .eq(landRetreat.getStatus() != null, "c.status", landRetreat.getStatus())
+                .eq(StringUtils.isNotBlank(landRetreat.getRetreatApplicant()), "c.retreat_applicant", landRetreat.getRetreatApplicant())
+                .eq(loginUserId != null, "c.add_user", loginUserId)
+                .eq(landRetreat.getId() != null, "c.id", landRetreat.getId())
+                ;
 
-        );
+        return landRetreatMapper.selectCustomPage(new Page<>(landRetreat.getPage(), landRetreat.getPageSize()),eq);
 
     }
 
@@ -52,10 +55,17 @@ public class LandRetreatServiceImpl extends ServiceImpl<LandRetreatMapper, LandR
      */
     @Override
     public LandRetreat findById(Long id) {
-        LandRetreat landRetreat = baseMapper.selectById(id);
-        if (landRetreat == null) {
-            return null;
-        }
+//        LandRetreat landRetreat = baseMapper.selectById(id);
+//        if (landRetreat == null) {
+//            return null;
+//        }
+        LandRetreat landRetreat = new LandRetreat();
+        landRetreat.setId(id);
+        landRetreat.setPage(0L);
+        landRetreat.setPageSize(1L);
+        Page<LandRetreat> landRetreatPage = this.listPage(landRetreat);
+        landRetreat = landRetreatPage.getRecords().get(0);
+
         List<LandRetreatFile> landRetreatFiles = landRetreatFileMapper.selectList(
                 Wrappers.lambdaQuery(LandRetreatFile.class)
                         .eq(LandRetreatFile::getLandRetreatId, landRetreat.getRetreatId())
