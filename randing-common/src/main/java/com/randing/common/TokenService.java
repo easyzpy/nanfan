@@ -1,6 +1,7 @@
 package com.randing.common;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.randing.common.utils.jwt.JwtUser;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;

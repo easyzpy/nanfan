@@ -22,17 +22,19 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -85,29 +87,31 @@ public class ApiController {
         } catch (Exception e) {
             throw new BaseException("获取用户信息失败");
         }
+//        {"id":"6089819bb6b2ffd7786a1c81","identityType":4,"isIdentity":1,"isVerified":0,"name":"万琪慧","nickname":"","phone":"13635452958","photo":"//static.yzbays.cn/statics/authing-console/default-user-avatar.png","username":"13635452958"}
         log.info("user origin phone :{}", userInfo.getData().getPhone());
-//        userInfo.getData().setPhone("13635452958");
-        User userByPhone = getUserByPhone(userInfo.getData().getPhone());
+
+        User userByPhone = getUserByPhone(userInfo.getData());
         com.randing.common.utils.jwt.User user = new com.randing.common.utils.jwt.User();
         BeanUtils.copyProperties(userByPhone, user);
         //生成token
         JwtUser jwtUser = new JwtUser();
-        jwtUser.setYzbToken(accessToken);
-        jwtUser.setRefreshKey(refreshKey);
-        jwtUser.setUserInfo(userInfo.getData());
+//        jwtUser.setYzbToken(accessToken);
+//        jwtUser.setRefreshKey(refreshKey);
+//        jwtUser.setUserInfo(userInfo.getData());
         jwtUser.setNanUser(user);
         String token = tokenService.createToken(jwtUser);
-        HashMap<String, Object> resMap = new HashMap<>();
         JwtResBean build = JwtResBean.builder().nanUser(user).token(token).build();
         return AjaxResult.success(build);
 
     }
 
-    public User getUserByPhone(String phone) {
-        User user = userMapper.selectOne(Wrappers.lambdaQuery(User.class).eq(User::getContactPhone, phone));
+    public User getUserByPhone(YzbUserInfo yzbUserInfo) {
+        User user = userMapper.selectOne(Wrappers.lambdaQuery(User.class).eq(User::getContactPhone, yzbUserInfo.getPhone()));
         if (user == null) {
-            log.info("user is null");
-            return null;
+            /*log.info("user is null");
+            return null;*/
+            //用户第一次登录南繁出现没有查到的情况
+            user = initUserAndUserRole(yzbUserInfo);
         }
         List<UserRole> userRoles = userRoleMapper.selectList(Wrappers.lambdaQuery(UserRole.class)
                 .eq(UserRole::getUserId, user.getId())
@@ -115,9 +119,53 @@ public class ApiController {
         if (CollectionUtils.isEmpty(userRoles)) {
             throw new BaseException("此用户竟然没有角色");
         }
-        List<Role> roles = roleMapper.selectList(Wrappers.lambdaQuery(Role.class).in(Role::getRoleId, userRoles.stream().map(UserRole::getRoleId).collect(Collectors.toList())));
+        List<Role> roles = roleMapper.selectList(Wrappers.lambdaQuery(Role.class).select(Role::getId,Role::getRoleId,Role::getRoleType)
+                .in(Role::getRoleId, userRoles.stream()
+                        .map(UserRole::getRoleId).collect(Collectors.toList())));
 
         user.setRoles(roles);
         return user;
     }
+    /*{
+  "id":"6089819bb6b2ffd7786a1c81",
+  "identityType":4,
+  "isIdentity":1,
+  "isVerified":0,
+  "name":"万琪慧",
+  "nickname":"",
+//  "phone":"13635452958",
+//  "photo":"//static.yzbays.cn/statics/authing-console/default-user-avatar.png",
+//  "username":"13635452958"
+}*/
+    @Transactional
+    public User initUserAndUserRole(YzbUserInfo yzbUserInfo) {
+        User user = new User();
+        user.setSubId(yzbUserInfo.getId());
+//        user.setSystemType();
+        user.setContactPhone(yzbUserInfo.getPhone());
+        user.setLoginName(yzbUserInfo.getUsername());
+        user.setName(yzbUserInfo.getName());
+        user.setUnit(null);
+        user.setCreateTime(LocalDateTime.now());
+
+
+        userMapper.insert(user);
+
+        //初始化角色
+        String roleName = "申报用户";
+        Role role = roleMapper.selectOne(Wrappers.lambdaQuery(Role.class).eq(Role::getRoleName, roleName));
+        if (role == null) {
+            throw new BaseException("没有可用角色赋予用户");
+        }
+        UserRole userRole = new UserRole();
+        userRole.setUserId(user.getId().intValue());
+        userRole.setRoleId(role.getRoleId());
+        int insert = userRoleMapper.insert(userRole);
+        if (insert < 0) {
+            throw new BaseException("用户角色新增失败");
+        }
+//        user.setRoles(Collections.singletonList(role));
+        return user;
+    }
+
 }

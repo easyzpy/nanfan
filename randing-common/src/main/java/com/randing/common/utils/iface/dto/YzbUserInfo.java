@@ -29,7 +29,7 @@ public class YzbUserInfo implements Serializable {
      */
     private String photo;
     /**
-     *联系方式
+     * 联系方式
      */
     private String phone;
     /**
@@ -45,14 +45,13 @@ public class YzbUserInfo implements Serializable {
      */
     private Integer identityType;
     /**
-     *是否已选择身份 1.是 0.否
+     * 是否已选择身份 1.是 0.否
      */
     private Integer isIdentity;
-    /**是否已实名认证 1.是 0.否
-     *
+    /**
+     * 是否已实名认证 1.是 0.否
      */
     private Integer isVerified;
-
 
 
 }

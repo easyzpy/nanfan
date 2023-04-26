@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -62,6 +63,7 @@ public class User implements Serializable {
 
     private Integer delFlag;
 
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
@@ -73,6 +75,12 @@ public class User implements Serializable {
      */
     @ApiModelProperty("系统类别：0、土地系统，1、单位信息系统")
     private String systemType;
+
+    /**
+     * 崖州湾用户id
+     */
+    @ApiModelProperty
+    private String subId;
 
     @TableField(exist = false)
     private List<Role> roles;

@@ -91,7 +91,7 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
         Long nanUserId = jwtUser.getNanUser().getId();
         List<LandFavorites> landFavorites = landFavoritesMapper.selectList(Wrappers.lambdaQuery(LandFavorites.class).eq(LandFavorites::getUserId, nanUserId));
         if (CollectionUtils.isEmpty(landFavorites)) {
-            return null;
+            return new Page<>(1,10,0);
         }
         landInforVo.setIds(landFavorites.stream().map(LandFavorites::getLandId).collect(Collectors.toList()));
         return this.listPage(landInforVo);
