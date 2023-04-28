@@ -141,11 +141,12 @@ public class ApiController {
     public User initUserAndUserRole(YzbUserInfo yzbUserInfo) {
         User user = new User();
         user.setSubId(yzbUserInfo.getId());
-//        user.setSystemType();
+        user.setSystemType("0");
         user.setContactPhone(yzbUserInfo.getPhone());
-        user.setLoginName(yzbUserInfo.getUsername());
+//        user.setLoginName(yzbUserInfo.getUsername());
         user.setName(yzbUserInfo.getName());
         user.setUnit(null);
+        user.setLoginName(yzbUserInfo.getPhone());
         user.setCreateTime(LocalDateTime.now());
 
 
