@@ -75,11 +75,13 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
                 .orderBy(landInforVo.getLandPriceOrder() != null, landInforVo.getLandPriceOrder() == OrderByEnum.asc, LandInfor::getLandPrice)
                 .orderBy(landInforVo.getLandMaxPriceOrder() != null, landInforVo.getLandMaxPriceOrder() == OrderByEnum.asc, LandInfor::getLandMaxPrice)
                 .orderBy(landInforVo.getLandReleaseTimeOrder() != null, landInforVo.getLandReleaseTimeOrder() == OrderByEnum.asc, LandInfor::getLandReleaseTime)
+                .orderByAsc(LandInfor::getLandAscription)
                 .orderBy(landInforVo.getLandAreaTotalOrder() == null
                         && landInforVo.getLandPriceOrder() == null
                         && landInforVo.getLandMaxPriceOrder() == null
                         && landInforVo.getLandReleaseTimeOrder() == null, false, LandInfor::getLandReleaseTime
                 )
+
         );
         return landInforPage;
 
