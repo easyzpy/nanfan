@@ -4,23 +4,23 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.randing.common.utils.bean.BeanUtils;
 import com.randing.common.utils.jwt.JwtUser;
 import com.randing.system.domain.common.OrderByEnum;
 import com.randing.system.domain.po.LandFavorites;
 import com.randing.system.domain.po.LandInfor;
+import com.randing.system.domain.po.LandInforPicture;
 import com.randing.system.domain.po.LandInforService;
 import com.randing.system.domain.po.LandSevice;
 import com.randing.system.domain.vo.LandInforVo;
 import com.randing.system.mapper.LandFavoritesMapper;
 import com.randing.system.mapper.LandInforMapper;
+import com.randing.system.mapper.LandInforPictureMapper;
 import com.randing.system.mapper.LandInforServiceMapper;
 import com.randing.system.mapper.LandSeviceMapper;
-import com.randing.system.service.ILandFavoritesService;
 import com.randing.system.service.ILandInforService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -48,39 +48,39 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
 
     @Autowired
     private LandSeviceMapper landSeviceMapper;
+
+    @Autowired
+    private LandInforPictureMapper landInforPictureMapper;
     @Override
     public Page<LandInfor> listPage(LandInforVo landInforVo) {
-        Page<LandInfor> landInforPage = baseMapper.selectPage(new Page<>(landInforVo.getPage(), landInforVo.getPageSize()), Wrappers.lambdaQuery(LandInfor.class)
-                .like(StringUtils.isNotBlank(landInforVo.getLandName()), LandInfor::getLandName, landInforVo.getLandName())
-                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilAcidBase()), LandInfor::getLandSoilAcidBase, landInforVo.getLandSoilAcidBase())
-                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilType()), LandInfor::getLandSoilType, landInforVo.getLandSoilType())
-                .eq(StringUtils.isNotBlank(landInforVo.getLandCropType()), LandInfor::getLandCropType, landInforVo.getLandCropType())
-                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilNature()), LandInfor::getLandSoilNature, landInforVo.getLandSoilNature())
+        QueryWrapper<LandInfor> wrapper = Wrappers.query();
+                wrapper.like(StringUtils.isNotBlank(landInforVo.getLandName()), "land_name", landInforVo.getLandName())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilAcidBase()), "LandSoilAcidBase", landInforVo.getLandSoilAcidBase())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilType()), "LandSoilType", landInforVo.getLandSoilType())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandCropType()), "land_crop_type", landInforVo.getLandCropType())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilNature()), "land_soil_nature", landInforVo.getLandSoilNature())
                 //三亚陵水
-                .eq(StringUtils.isNotBlank(landInforVo.getLandAscription()), LandInfor::getLandAscription, landInforVo.getLandAscription())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandAscription()), "land_ascription", landInforVo.getLandAscription())
                 //土地可用面积
-                .ge(landInforVo.getLandAreaSurplusStart() != null, LandInfor::getLandAreaSurplus, landInforVo.getLandAreaSurplusStart())
-                .le(landInforVo.getLandAreaSurplusEnd() != null, LandInfor::getLandAreaSurplus, landInforVo.getLandAreaSurplusEnd())
+                .ge(landInforVo.getLandAreaSurplusStart() != null, "land_area_surplus", landInforVo.getLandAreaSurplusStart())
+                .le(landInforVo.getLandAreaSurplusEnd() != null, "land_area_surplus", landInforVo.getLandAreaSurplusEnd())
                 //土地总面积
-                .ge(landInforVo.getLandAreaTotalStart() != null, LandInfor::getLandAreaTotal, landInforVo.getLandAreaTotalStart())
-                .le(landInforVo.getLandAreaTotalEnd() != null, LandInfor::getLandAreaTotal, landInforVo.getLandAreaTotalEnd())
+                .ge(landInforVo.getLandAreaTotalStart() != null, "land_area_total", landInforVo.getLandAreaTotalStart())
+                .le(landInforVo.getLandAreaTotalEnd() != null, "land_area_total", landInforVo.getLandAreaTotalEnd())
                 //土地已用面积
-                .ge(landInforVo.getLandAreaUsableStart() != null, LandInfor::getLandAreaUsable, landInforVo.getLandAreaUsableStart())
-                .le(landInforVo.getLandAreaUsableEnd() != null, LandInfor::getLandAreaUsable, landInforVo.getLandAreaUsableEnd())
-                .ge(landInforVo.getLandPrice() != null, LandInfor::getLandPrice, landInforVo.getLandPrice())
-                .le(landInforVo.getLandMaxPrice() != null, LandInfor::getLandMaxPrice, landInforVo.getLandMaxPrice())
-                .in(!CollectionUtils.isEmpty(landInforVo.getIds()), LandInfor::getId, landInforVo.getIds())
-                .orderByAsc(LandInfor::getLandType)
-                .orderBy(landInforVo.getLandAreaTotalOrder() != null, landInforVo.getLandAreaTotalOrder() == OrderByEnum.asc, LandInfor::getLandAreaTotal)
-                .orderBy(landInforVo.getLandPriceOrder() != null, landInforVo.getLandPriceOrder() == OrderByEnum.asc, LandInfor::getLandPrice)
-                .orderBy(landInforVo.getLandMaxPriceOrder() != null, landInforVo.getLandMaxPriceOrder() == OrderByEnum.asc, LandInfor::getLandMaxPrice)
-                .orderBy(landInforVo.getLandReleaseTimeOrder() != null, landInforVo.getLandReleaseTimeOrder() == OrderByEnum.asc, LandInfor::getLandReleaseTime)
-                .orderByAsc(LandInfor::getLandAscription)
-                .orderBy(landInforVo.getLandAreaTotalOrder() == null
-                        && landInforVo.getLandPriceOrder() == null
-                        && landInforVo.getLandMaxPriceOrder() == null
-                        && landInforVo.getLandReleaseTimeOrder() == null, false, LandInfor::getLandReleaseTime
-                )
+                .ge(landInforVo.getLandAreaUsableStart() != null, "land_area_usable", landInforVo.getLandAreaUsableStart())
+                .le(landInforVo.getLandAreaUsableEnd() != null, "land_area_usable", landInforVo.getLandAreaUsableEnd())
+                .ge(landInforVo.getLandPrice() != null, "land_price", landInforVo.getLandPrice())
+                .le(landInforVo.getLandMaxPrice() != null, "land_max_price", landInforVo.getLandMaxPrice())
+                .in(!CollectionUtils.isEmpty(landInforVo.getIds()), "id", landInforVo.getIds())
+                .orderBy(landInforVo.getLandAreaTotalOrder() != null, landInforVo.getLandAreaTotalOrder() == OrderByEnum.asc, "land_area_total")
+                .orderBy(landInforVo.getLandPriceOrder() != null, landInforVo.getLandPriceOrder() == OrderByEnum.asc, "land_price")
+                .orderBy(landInforVo.getLandMaxPriceOrder() != null, landInforVo.getLandMaxPriceOrder() == OrderByEnum.asc, "land_max_price")
+                .orderBy(landInforVo.getLandReleaseTimeOrder() != null, landInforVo.getLandReleaseTimeOrder() == OrderByEnum.asc, "land_release_time")
+
+                .orderByDesc("land_mold =1 and land_type = 0")
+                .orderByAsc("land_sequence");
+        Page<LandInfor> landInforPage = baseMapper.selectPage(new Page<>(landInforVo.getPage(), landInforVo.getPageSize()),wrapper
 
         );
         return landInforPage;
@@ -108,7 +108,7 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
         //查询收藏状态
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
-        Long nanUserId = jwtUser.getNanUser().getId();
+//        Long nanUserId = jwtUser.getNanUser().getId();
         Integer integer = landFavoritesMapper.selectCount(Wrappers.lambdaQuery(LandFavorites.class).eq(LandFavorites::getLandId, id)
                 .eq(LandFavorites::getUserId, ((JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNanUser().getId()));
         landInforVo.setFavoriteStatus(integer ==0?0:1);
@@ -118,6 +118,9 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
             List<LandSevice> landSevices = landSeviceMapper.selectList(Wrappers.lambdaQuery(LandSevice.class).in(LandSevice::getId, landInforServices.stream().map(LandInforService::getServiceId).collect(Collectors.toList())));
             landInforVo.setLandServices(landSevices);
         }
+        //查询图片
+        List<LandInforPicture> landInforPictures = landInforPictureMapper.selectList(Wrappers.lambdaQuery(LandInforPicture.class).eq(LandInforPicture::getInforId, id));
+        landInforVo.setPictureEntities(landInforPictures);
         return landInforVo;
     }
 

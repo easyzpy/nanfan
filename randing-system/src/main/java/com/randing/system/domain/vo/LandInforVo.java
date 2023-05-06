@@ -2,6 +2,7 @@ package com.randing.system.domain.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.randing.system.domain.common.OrderByEnum;
+import com.randing.system.domain.po.LandInforPicture;
 import com.randing.system.domain.po.LandSevice;
 import com.randing.system.domain.vo.base.BasePage;
 import io.swagger.annotations.ApiModelProperty;
@@ -271,6 +272,8 @@ public class LandInforVo extends BasePage {
     @TableField(exist = false)
     private List<LandSevice> landServices;
 
+    @TableField(exist = false)
+    private List<LandInforPicture> pictureEntities;
 
 
 }
