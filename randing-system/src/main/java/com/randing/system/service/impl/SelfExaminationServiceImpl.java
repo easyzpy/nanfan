@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.randing.common.exception.BaseException;
 import com.randing.common.utils.LoginUser;
 import com.randing.common.utils.bean.BeanUtils;
-import com.randing.common.utils.iface.dto.YzbUserInfo;
+import com.randing.common.utils.jwt.User;
 import com.randing.system.domain.po.ReturnPeople;
 import com.randing.system.domain.po.SelfBaseFileRelation;
 import com.randing.system.domain.po.SelfExamFile;
@@ -88,8 +88,7 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
     @Override
     @Transactional
     public int step1save(SelfStep1ReqVo reqVo) {
-        YzbUserInfo userInfo = LoginUser.getUser().getUserInfo();
-        String phone = userInfo.getPhone();
+        String phone = getUserPhone();
         SelfExamination selfExamination = new SelfExamination();
         BeanUtils.copyProperties(reqVo, selfExamination);
         SelfExamination dbSelfExamination = this.getSelfExamination();
@@ -482,8 +481,7 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
     }
     @Override
     public SelfExamination getSelfExamination() {
-        YzbUserInfo userInfo = LoginUser.getUser().getUserInfo();
-        String phone = userInfo.getPhone();
+        String phone = getUserPhone();
         if (StringUtils.isBlank(phone)) {
             throw new BaseException("手机号获取异常");
         }
@@ -492,6 +490,12 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
             return null;
         }
         return selfExaminations.get(0);
+    }
+
+    public static String getUserPhone() {
+        User nanUser = LoginUser.getUser().getNanUser();
+        String phone = nanUser.getContactPhone();
+        return phone;
     }
 
     @Override

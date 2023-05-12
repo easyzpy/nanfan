@@ -103,7 +103,7 @@ public class LandInforVo extends BasePage {
      * 土地地块gis标记
      */
     @ApiModelProperty("土地地块gis标记")
-    private Blob loadGisSign;
+    private String loadGisSign;
 
     /**
      * 土地VR链接地址

@@ -73,6 +73,7 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
                 .ge(landInforVo.getLandPrice() != null, "land_price", landInforVo.getLandPrice())
                 .le(landInforVo.getLandMaxPrice() != null, "land_max_price", landInforVo.getLandMaxPrice())
                 .in(!CollectionUtils.isEmpty(landInforVo.getIds()), "id", landInforVo.getIds())
+                .isNotNull("land_sequence")
                 .orderBy(landInforVo.getLandAreaTotalOrder() != null, landInforVo.getLandAreaTotalOrder() == OrderByEnum.asc, "land_area_total")
                 .orderBy(landInforVo.getLandPriceOrder() != null, landInforVo.getLandPriceOrder() == OrderByEnum.asc, "land_price")
                 .orderBy(landInforVo.getLandMaxPriceOrder() != null, landInforVo.getLandMaxPriceOrder() == OrderByEnum.asc, "land_max_price")
@@ -80,9 +81,7 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
 
                 .orderByDesc("land_mold =1 and land_type = 0")
                 .orderByAsc("land_sequence");
-        Page<LandInfor> landInforPage = baseMapper.selectPage(new Page<>(landInforVo.getPage(), landInforVo.getPageSize()),wrapper
-
-        );
+        Page<LandInfor> landInforPage = baseMapper.selectPage(new Page<>(landInforVo.getPage(), landInforVo.getPageSize()),wrapper);
         return landInforPage;
 
     }
@@ -106,8 +105,8 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
         LandInforVo landInforVo = new LandInforVo();
         BeanUtils.copyProperties(landInfor, landInforVo);
         //查询收藏状态
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
 //        Long nanUserId = jwtUser.getNanUser().getId();
         Integer integer = landFavoritesMapper.selectCount(Wrappers.lambdaQuery(LandFavorites.class).eq(LandFavorites::getLandId, id)
                 .eq(LandFavorites::getUserId, ((JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getNanUser().getId()));

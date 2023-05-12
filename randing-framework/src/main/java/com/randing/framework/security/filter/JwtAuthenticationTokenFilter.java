@@ -123,7 +123,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
                 response.getWriter().write(JSONObject.toJSONString(AjaxResult.error(501, "token is null")));
                 return;
             }
-            JwtUser jwtUser = tokenService.parseToken(authorization);
+            JwtUser jwtUser = null;
+            try {
+                jwtUser = tokenService.parseToken(authorization);
+            } catch (Exception e) {
+                response.setContentType(ContentType.JSON.getValue());
+                response.getWriter().write(JSONObject.toJSONString(AjaxResult.error(503, "token illegal")));
+                return;
+            }
             if (jwtUser.isExpired()) {
                 response.setContentType(ContentType.JSON.getValue());
                 response.getWriter().write(JSONObject.toJSONString(AjaxResult.error(502, "token is expire")));
