@@ -3,6 +3,8 @@ package com.randing.system.service;
 import com.randing.system.domain.po.Unit;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUnitService extends IService<Unit> {
 
+    List<Unit> findByLikeUnitName(Unit unit);
 }
