@@ -503,7 +503,7 @@ public class SelfExaminationServiceImpl extends ServiceImpl<SelfExaminationMappe
         return super.saveOrUpdate(entity);
     }
 
-    public String getUUID() {
+    public static String getUUID() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 }

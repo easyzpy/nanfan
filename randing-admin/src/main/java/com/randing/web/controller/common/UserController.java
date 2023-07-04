@@ -3,6 +3,7 @@ package com.randing.web.controller.common;
 import com.randing.common.core.domain.AjaxResult;
 import com.randing.common.exception.BaseException;
 import com.randing.common.utils.LoginUser;
+import com.randing.system.domain.po.Unit;
 import com.randing.system.domain.po.User;
 import com.randing.system.service.IUserService;
 import io.swagger.annotations.Api;
@@ -41,9 +42,11 @@ public class UserController {
 
     @PostMapping("/user/bindUnit")
     @ApiOperation("用户绑定企业信息")
-    public AjaxResult bindUnit(@RequestBody User user) {
-        if (user == null || StringUtils.isEmpty(user.getUnit())) {
+    public AjaxResult bindUnit(@RequestBody Unit unit) {
+        if (unit == null) {
             throw new BaseException("参数错误");
         }
+        int i = userService.bindUnit(unit);
+        return AjaxResult.success();
     }
 }

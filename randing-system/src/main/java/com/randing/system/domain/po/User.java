@@ -66,6 +66,7 @@ public class User implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
     private Integer updateUser;

@@ -17,6 +17,9 @@ public class IdUtils
         return UUID.randomUUID().toString();
     }
 
+    public static String getUUID() {
+        return java.util.UUID.randomUUID().toString().replaceAll("-", "");
+    }
     /**
      * 简化的UUID，去掉了横线
      * 
