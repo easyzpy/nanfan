@@ -8,6 +8,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 崖州湾实验室南繁配套用地申请表
@@ -34,18 +37,21 @@ public class NanfanLandApplyForm implements Serializable {
      * 填报人
      */
     @ApiModelProperty("填报人")
+    @NotBlank(message = "申请人姓名不能为空")
     private String inputPerson;
 
     /**
      * 申请用地面积（亩）
      */
     @ApiModelProperty("申请用地面积（亩）")
+    @NotNull(message = "申请用地面积（亩）不能为空")
     private Double landApplyArea;
 
     /**
      * 申请用地类型
      */
     @ApiModelProperty("申请用地类型")
+    @NotBlank(message = "种植作物类型")
     private String landApplyType;
 
     /**
@@ -63,19 +69,22 @@ public class NanfanLandApplyForm implements Serializable {
     /**
      * 依托项目名称
      */
-    @ApiModelProperty("依托项目名称")
+    @ApiModelProperty("依托项目名称(科研项目名称)")
+    @NotBlank(message = "科研项目名称不能为空")
     private String relyProjectName;
 
     /**
      * 申请用地理由（重点说明用地面积的依据）
      */
-    @ApiModelProperty("申请用地理由（重点说明用地面积的依据）")
+    @ApiModelProperty("科研用地计划")
+    @NotBlank(message = "科研用地计划不能为空")
     private String landApplyReson;
 
     /**
      * 费用预算
      */
     @ApiModelProperty("费用预算")
+    @NotNull(message = "土地租赁费用预算（元/年）不能为空")
     private Double budget;
 
     /**
@@ -130,6 +139,7 @@ public class NanfanLandApplyForm implements Serializable {
      * 申请人联系方式
      */
     @ApiModelProperty("申请人联系方式")
+    @NotBlank(message = "联系方式不能为空")
     private String landApplyPersonCantact;
 
     /**
@@ -183,12 +193,14 @@ public class NanfanLandApplyForm implements Serializable {
      * 申请用地用途
      */
     @ApiModelProperty("申请用地用途")
+    @NotBlank(message = "申请用地用途不能为空")
     private String landApplyPurpose;
 
     /**
      * 科研用地计划pdf路径
      */
     @ApiModelProperty("科研用地计划pdf路径")
+    @NotBlank(message = "科研用地计划附件不能为空")
     private String landApplyResonAttach;
 
     /**

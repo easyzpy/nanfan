@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +30,7 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
     /**
      * 用地申请单位
      */
+    @NotBlank(message = "用地申请单位不能为空")
     @ApiModelProperty("用地申请单位")
     private String landApplyUnit;
 
@@ -36,6 +38,7 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
      * 填报人
      */
     @ApiModelProperty("填报人")
+    @NotBlank(message = "填报人不能为空")
     private String inputPerson;
 
     /**
@@ -293,32 +296,95 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
 
     /**
      * 用地申报单位评分标注
+     * o = [{
+     *             value: "20",
+     *             label: "崖州湾科技城管理局注册过的单位、企业"
+     *         }, {
+     *             value: "15",
+     *             label: "非入驻园区的企事业单位"
+     *         }, {
+     *             value: "10",
+     *             label: "其他"
+     *         }]
      */
-    @ApiModelProperty("用地申报单位评分标注")
+    @ApiModelProperty("用地申报单位评分标注 单位类型 20崖州湾科技城管理局注册过的单位、企业, 15非入驻园区的企事业单位, 10其他")
     private String landApplyUnitScore;
 
     /**
      * 用地申报单位评分标注附件
      */
+    ///common/image/landApplyUnit/pdf/91805896-7b79-4e43-9323-a1456ee73096
     @ApiModelProperty("用地申报单位评分标注附件")
+    @NotBlank(message = "附件： 用地申报单位评分附件不能为空")
     private String researchDirectionsScoreAttach;
 
     /**
      * 科研方向评分标准
+     * c = [{
+     *             value: "25",
+     *             label: "国家级重大项目"
+     *         }, {
+     *             value: "22",
+     *             label: "省级重点项目"
+     *         }, {
+     *             value: "20",
+     *             label: "地市级或校内项目"
+     *         }, {
+     *             value: "18",
+     *             label: "横向项目或企业自筹项目"
+     *         }, {
+     *             value: "16",
+     *             label: "其他项目"
+     *         }]
      */
-    @ApiModelProperty("科研方向评分标准")
+    @ApiModelProperty("科研方向评分标准(科研项目级别) c = [{\n" +
+            "            value: \"25\",\n" +
+            "            label: \"国家级重大项目\"\n" +
+            "        }, {\n" +
+            "            value: \"22\",\n" +
+            "            label: \"省级重点项目\"\n" +
+            "        }, {\n" +
+            "            value: \"20\",\n" +
+            "            label: \"地市级或校内项目\"\n" +
+            "        }, {\n" +
+            "            value: \"18\",\n" +
+            "            label: \"横向项目或企业自筹项目\"\n" +
+            "        }, {\n" +
+            "            value: \"16\",\n" +
+            "            label: \"其他项目\"\n" +
+            "        }]")
+    @NotBlank(message = "科研项目级别不能为空")
     private String researchDirectionsScore;
 
     /**
      * 科研方向评分标准附件
      */
-    @ApiModelProperty("科研方向评分标准附件")
+    @ApiModelProperty("科研方向评分附件")
+    @NotBlank(message = "科研方向评分附件不能为空")
     private String startResearchActivityScoreAttach;
 
     /**
      * 开展科研活动评分标准
      */
-    @ApiModelProperty("开展科研活动评分标准")
+    @ApiModelProperty("开展科研活动评分标准 d = [{\n" +
+            "            value: \"20\",\n" +
+            "            label: \"长期育种\"\n" +
+            "        }, {\n" +
+            "            value: \"18\",\n" +
+            "            label: \"加代、扩繁\"\n" +
+            "        }, {\n" +
+            "            value: \"17\",\n" +
+            "            label: \"科研成果认定(品种审定）\"\n" +
+            "        }, {\n" +
+            "            value: \"16\",\n" +
+            "            label: \"品种展示\"\n" +
+            "        }, {\n" +
+            "            value: \"16.1\",\n" +
+            "            label: \"成果就地转化推广（制种）\"\n" +
+            "        }, {\n" +
+            "            value: \"15\",\n" +
+            "            label: \"其他\"\n" +
+            "        }]")
     private String startResearchActivityScore;
 
     /**

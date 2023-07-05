@@ -44,4 +44,6 @@ public interface INanfanLandApplyFormService extends IService<NanfanLandApplyFor
     Page<NanfanLandApplyFormVo> AllApproApply(KeepApplyReqDTO keepApplyReqDTO);
 
     NanfanLandApplyFormVo getApplyDetail(Long id);
+
+    NanfanLandApplyFormVo landApply();
 }
