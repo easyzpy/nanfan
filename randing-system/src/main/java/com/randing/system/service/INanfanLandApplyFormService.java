@@ -5,6 +5,7 @@ import com.randing.system.domain.po.NanfanLandApplyForm;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.randing.system.domain.vo.KeepApplyReqDTO;
 import com.randing.system.domain.vo.base.NanfanLandApplyFormVo;
+import com.randing.system.domain.vo.base.NanfanLandApplyPostVo;
 
 /**
  * <p>
@@ -45,5 +46,5 @@ public interface INanfanLandApplyFormService extends IService<NanfanLandApplyFor
 
     NanfanLandApplyFormVo getApplyDetail(Long id);
 
-    NanfanLandApplyFormVo landApply();
+    NanfanLandApplyFormVo landApply(NanfanLandApplyPostVo postVo);
 }

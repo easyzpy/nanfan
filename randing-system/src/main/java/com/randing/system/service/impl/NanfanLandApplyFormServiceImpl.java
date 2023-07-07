@@ -12,6 +12,7 @@ import com.randing.system.domain.po.LandInfor;
 import com.randing.system.domain.po.NanfanLandApplyForm;
 import com.randing.system.domain.vo.KeepApplyReqDTO;
 import com.randing.system.domain.vo.base.NanfanLandApplyFormVo;
+import com.randing.system.domain.vo.base.NanfanLandApplyPostVo;
 import com.randing.system.mapper.LandApplyInforMapper;
 import com.randing.system.mapper.LandApplyOperMapper;
 import com.randing.system.mapper.LandInforMapper;
@@ -180,8 +181,8 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
         return keepApplay.getRecords().get(0);
     }
     @Override
-    public NanfanLandApplyFormVo landApply(){
-
+    public NanfanLandApplyFormVo landApply(NanfanLandApplyPostVo postVo){
+        
         return null;
     }
 

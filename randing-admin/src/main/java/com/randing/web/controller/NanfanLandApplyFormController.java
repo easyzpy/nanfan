@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.common.core.domain.AjaxResult;
 import com.randing.system.domain.vo.KeepApplyReqDTO;
 import com.randing.system.domain.vo.base.NanfanLandApplyFormVo;
+import com.randing.system.domain.vo.base.NanfanLandApplyPostVo;
 import com.randing.system.service.INanfanLandApplyFormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -70,6 +71,12 @@ public class NanfanLandApplyFormController {
     public AjaxResult<NanfanLandApplyFormVo> findById(@RequestParam("id") Long id) {
 //        return AjaxResult.success(nanfanLandApplyFormService.findById(id));
         return AjaxResult.success(nanfanLandApplyFormService.findById(id));
+    }
+    @PostMapping("applySave")
+    public AjaxResult applySave(@RequestBody NanfanLandApplyPostVo postVo) {
+
+        nanfanLandApplyFormService.landApply(postVo);
+
     }
 }
 

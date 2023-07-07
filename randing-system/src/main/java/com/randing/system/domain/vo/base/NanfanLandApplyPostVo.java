@@ -2,33 +2,33 @@ package com.randing.system.domain.vo.base;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.randing.system.domain.common.OrderByEnum;
+import com.randing.system.domain.enumeration.ResearchDirectionEnum;
 import com.randing.system.domain.po.LandContract;
 import com.randing.system.domain.po.LandInfor;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * <p>
- * 崖州湾实验室南繁配套用地申请表
- * </p>
- *
- * @author Leen
- * @since 2022-12-22
- */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class NanfanLandApplyFormVo extends BasePage implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class NanfanLandApplyPostVo {
+
 
     private static final long serialVersionUID = 1L;
 
     /**
      * 用地申请单位
      */
+    @NotBlank(message = "用地申请单位不能为空")
     @ApiModelProperty("用地申请单位")
     private String landApplyUnit;
 
@@ -36,18 +36,21 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
      * 填报人
      */
     @ApiModelProperty("填报人")
+    @NotBlank(message = "申请人姓名不能为空")
     private String inputPerson;
 
     /**
      * 申请用地面积（亩）
      */
     @ApiModelProperty("申请用地面积（亩）")
+    @NotNull(message = "申请用地面积（亩）不能为空")
     private Double landApplyArea;
 
     /**
      * 申请用地类型
      */
     @ApiModelProperty("申请用地类型;new:作物类型")
+    @NotBlank(message = "种植作物类型")
     private String landApplyType;
 
     /**
@@ -66,18 +69,21 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
      * 依托项目名称
      */
     @ApiModelProperty("依托项目名称; new:用地用途")
+    @NotBlank(message = "科研项目名称不能为空")
     private String relyProjectName;
 
     /**
      * 申请用地理由（重点说明用地面积的依据）
      */
     @ApiModelProperty("申请用地理由（重点说明用地面积的依据）")
+    @NotBlank(message = "科研用地计划不能为空")
     private String landApplyReson;
 
     /**
      * 费用预算
      */
     @ApiModelProperty("费用预算")
+    @NotNull(message = "土地租赁费用预算（元/年）不能为空")
     private Double budget;
 
     /**
@@ -132,6 +138,7 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
      * 申请人联系方式
      */
     @ApiModelProperty("申请人联系方式")
+    @NotBlank(message = "联系方式不能为空")
     private String landApplyPersonCantact;
 
     /**
@@ -174,12 +181,14 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
      * 申请用地用途
      */
     @ApiModelProperty("申请用地用途")
+    @NotBlank(message = "申请用地用途不能为空")
     private String landApplyPurpose;
 
     /**
      * 科研用地计划pdf路径
      */
     @ApiModelProperty("科研用地计划pdf路径")
+    @NotBlank(message = "科研用地计划附件不能为空")
     private String landApplyResonAttach;
 
     /**
@@ -251,6 +260,7 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
     @ApiModelProperty("是否续租下一个南繁季")
     private Integer renewalQuarter;
     @ApiModelProperty("地块租赁方式(短租、长租)")
+    @NotBlank()
     private String leaseMethod;
     @ApiModelProperty("长租时间（由用户输入）")
     private String longLeaseTime;
@@ -312,6 +322,7 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
      */
     ///common/image/landApplyUnit/pdf/91805896-7b79-4e43-9323-a1456ee73096
     @ApiModelProperty("用地申报单位评分标注附件")
+    @NotBlank(message = "附件： 用地申报单位评分附件不能为空")
     private String researchDirectionsScoreAttach;
 
     /**
@@ -349,12 +360,14 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
             "            value: \"16\",\n" +
             "            label: \"其他项目\"\n" +
             "        }]")
-    private String researchDirectionsScore;
+    @NotBlank(message = "科研项目级别不能为空")
+    private ResearchDirectionEnum researchDirectionsScore;
 
     /**
      * 科研方向评分标准附件
      */
     @ApiModelProperty("科研方向评分附件")
+    @NotBlank(message = "科研方向评分附件不能为空")
     private String startResearchActivityScoreAttach;
 
     /**
@@ -494,4 +507,5 @@ public class NanfanLandApplyFormVo extends BasePage implements Serializable {
 
     @ApiModelProperty("操作时间-用地申请")
     private LocalDateTime operTimeApply;
+
 }
