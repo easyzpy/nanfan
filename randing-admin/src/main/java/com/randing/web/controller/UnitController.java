@@ -3,17 +3,14 @@ package com.randing;
 
 import com.randing.common.core.domain.AjaxResult;
 import com.randing.common.exception.BaseException;
-import com.randing.common.utils.uuid.UUID;
 import com.randing.system.domain.po.Unit;
 import com.randing.system.service.IUnitService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -55,7 +52,7 @@ public class UnitController {
 ////            throw new BaseException("联系方式 不能为空");
 ////        }
 //    }
-    @ApiOperation("单位列表 模糊查询按照单位名称")
+    @ApiOperation("单位列表 模糊查询按照单位名称或企业代码creditCode 20230709")
     @RequestMapping("/unit/findByUnitName")
     public AjaxResult<List<Unit>> findByUnitName(@RequestBody Unit unit) {
         if (unit == null || StringUtils.isEmpty(unit.getUnitName())) {

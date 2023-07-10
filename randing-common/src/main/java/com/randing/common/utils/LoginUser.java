@@ -25,4 +25,9 @@ public class LoginUser {
         JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
         return jwtUser;
     }
+
+    public static Long getId() {
+        return getUser().getNanUser().getId();
+    }
+
 }

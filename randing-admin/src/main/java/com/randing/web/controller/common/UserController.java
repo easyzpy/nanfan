@@ -9,7 +9,6 @@ import com.randing.system.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,15 +32,15 @@ public class UserController {
      * @return
      */
     @GetMapping("/user/getUserInfo")
-    @ApiOperation("获取用户信息 若unitid为空 无法填写申请")
+    @ApiOperation("获取用户信息 若unitid为空 无法填写申请 20230709")
     public AjaxResult<User> checkUnit() {
-        Long loginUserId = LoginUser.getLoginUserId();
-        User byId = userService.getById(loginUserId);
+        Long loginUserId = LoginUser.getId();
+        User byId = userService.getUserInfo(loginUserId);
         return AjaxResult.success(byId);
     }
 
     @PostMapping("/user/bindUnit")
-    @ApiOperation("用户绑定企业信息")
+    @ApiOperation("用户绑定企业信息 20230709")
     public AjaxResult bindUnit(@RequestBody Unit unit) {
         if (unit == null) {
             throw new BaseException("参数错误");

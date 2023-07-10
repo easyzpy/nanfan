@@ -1,14 +1,15 @@
 package com.randing.system.domain.po;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -90,6 +91,7 @@ public class Unit implements Serializable {
      * 修改时间
      */
     @ApiModelProperty("修改时间")
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateDate;
 
     /**
@@ -104,6 +106,13 @@ public class Unit implements Serializable {
     @ApiModelProperty("单位简称")
     @NotBlank(message = "单位简称不能为空")
     private String unitSimpleName;
+
+    @ApiModelProperty("营业执照 fileUrl")
+    @TableField(exist = false)
+    private String fileUrl;
+    @ApiModelProperty("营业执照 fileName 文件原名")
+    @TableField(exist = false)
+    private String fileName;
 
 
 }

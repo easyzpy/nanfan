@@ -31,7 +31,18 @@ public class ApplyBatchController {
     @GetMapping("getList")
     @ApiOperation("申请批次 列表")
     public AjaxResult<List<ApplyBatchVo>> getList() {
-        return AjaxResult.success(applyBatchService.getList());
+        return AjaxResult.success(applyBatchService.getList(null));
+    }
+
+    @GetMapping("getActiveBatch")
+    @ApiOperation("申请批次(有效) 列表 20230709")
+    public AjaxResult<ApplyBatchVo> getActiveBatch() {
+        List<ApplyBatchVo> list = applyBatchService.getList(1);
+        ApplyBatchVo re = null;
+        if (list != null) {
+            re = list.get(0);
+        }
+        return AjaxResult.success(re);
     }
 
 

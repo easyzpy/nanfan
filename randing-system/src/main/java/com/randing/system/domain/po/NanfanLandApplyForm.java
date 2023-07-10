@@ -3,6 +3,8 @@ package com.randing.system.domain.po;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -156,11 +158,10 @@ public class NanfanLandApplyForm implements Serializable {
      */
     @ApiModelProperty("投资控股公司业务审核意见，日期")
     private String holdingUnitBusinessLeaderDate;
-
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-
     private Integer createUser;
-
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
     private Integer updateUser;
@@ -254,6 +255,31 @@ public class NanfanLandApplyForm implements Serializable {
      */
     @ApiModelProperty("预计培训农民人次")
     private Integer train;
+
+    @ApiModelProperty("根据本年科研计划需求，租地时间是否能足够（0：否，1：是）")
+    private Integer timeEnough;
+
+    @ApiModelProperty("满足本年科研计划需要延长租地(天)")
+    private Integer timeEnoughTime;
+
+    @ApiModelProperty("是否继续续租")
+    private Integer renewal;
+
+    @ApiModelProperty("是否续租下一个南繁季")
+    private Integer renewalQuarter;
+
+    @ApiModelProperty("地块租赁方式(短租、长租)")
+    private String leaseMethod;
+
+    @ApiModelProperty("长租时间（由用户输入）")
+    private String longLeaseTime;
+
+    @ApiModelProperty("提交时间")
+    private LocalDateTime pushTime;
+
+
+
+
 
 
 }

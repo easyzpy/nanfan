@@ -15,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IUserService extends IService<User> {
 
     int bindUnit(Unit unit);
+
+    User getUserInfo(Long userId);
 }

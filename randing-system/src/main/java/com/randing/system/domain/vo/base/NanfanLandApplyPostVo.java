@@ -2,7 +2,6 @@ package com.randing.system.domain.vo.base;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.randing.system.domain.common.OrderByEnum;
-import com.randing.system.domain.enumeration.ResearchDirectionEnum;
 import com.randing.system.domain.po.LandContract;
 import com.randing.system.domain.po.LandInfor;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,6 +24,8 @@ public class NanfanLandApplyPostVo {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("id")
+    private Integer id;
     /**
      * 用地申请单位
      */
@@ -225,6 +226,7 @@ public class NanfanLandApplyPostVo {
      * 所属批次id
      */
     @ApiModelProperty("所属批次id")
+    @NotBlank(message = "所属批次不能为空")
     private String batchId;
 
     /**
@@ -252,6 +254,7 @@ public class NanfanLandApplyPostVo {
     private Integer train;
 
     @ApiModelProperty("根据本年科研计划需求，租地时间是否能足够（0：否，1：是）")
+    @NotNull(message = "根据本年科研计划需求，租地时间是否能足够不能为空")
     private Integer timeEnough;
     @ApiModelProperty("满足本年科研计划需要延长租地(天)")
     private Integer timeEnoughTime;
@@ -260,9 +263,9 @@ public class NanfanLandApplyPostVo {
     @ApiModelProperty("是否续租下一个南繁季")
     private Integer renewalQuarter;
     @ApiModelProperty("地块租赁方式(短租、长租)")
-    @NotBlank()
+    @NotBlank(message = "地块租赁方式不能为空")
     private String leaseMethod;
-    @ApiModelProperty("长租时间（由用户输入）")
+    @ApiModelProperty("长租时间（由用户输入） 如果是长租 时间必填")
     private String longLeaseTime;
     @ApiModelProperty("提交时间")
     private LocalDateTime pushTime;
@@ -314,7 +317,7 @@ public class NanfanLandApplyPostVo {
      *             label: "其他"
      *         }]
      */
-    @ApiModelProperty("用地申报单位评分标注 单位类型 20崖州湾科技城管理局注册过的单位、企业, 15非入驻园区的企事业单位, 10其他")
+    @ApiModelProperty("单位类型 单位类型 20崖州湾科技城管理局注册过的单位、企业, 15非入驻园区的企事业单位, 10其他")
     private String landApplyUnitScore;
 
     /**
@@ -361,19 +364,19 @@ public class NanfanLandApplyPostVo {
             "            label: \"其他项目\"\n" +
             "        }]")
     @NotBlank(message = "科研项目级别不能为空")
-    private ResearchDirectionEnum researchDirectionsScore;
+    private String researchDirectionsScore;
 
     /**
      * 科研方向评分标准附件
      */
     @ApiModelProperty("科研方向评分附件")
-    @NotBlank(message = "科研方向评分附件不能为空")
+//    @NotBlank(message = "科研方向评分附件不能为空")
     private String startResearchActivityScoreAttach;
 
     /**
      * 开展科研活动评分标准
      */
-    @ApiModelProperty("开展科研活动评分标准 d = [{\n" +
+    @ApiModelProperty("开展南繁活动类型 d = [{\n" +
             "            value: \"20\",\n" +
             "            label: \"长期育种\"\n" +
             "        }, {\n" +
@@ -397,13 +400,28 @@ public class NanfanLandApplyPostVo {
     /**
      * 开展科研活动评分标准附件
      */
-    @ApiModelProperty("开展科研活动评分标准附件")
+    @ApiModelProperty("开展南繁活动类型附件")
     private String landQuitLandRestoreScoreAttach;
 
     /**
      * 用地退出土地评分标准
      */
-    @ApiModelProperty("用地退出土地评分标准")
+    @ApiModelProperty("用地退出土地恢复  [{\n" +
+            "            value: \"15\",\n" +
+            "            label: \"土地恢复资金投入占土地租赁投入的20%以上\"\n" +
+            "        }, {\n" +
+            "            value: \"10\",\n" +
+            "            label: \"土地恢复资金投入占土地租赁投入的10%以上\"\n" +
+            "        }, {\n" +
+            "            value: \"5\",\n" +
+            "            label: \"土地恢复资金投入占土地租赁投入的5%以上\"\n" +
+            "        }, {\n" +
+            "            value: \"2\",\n" +
+            "            label: \"土地恢复措施\"\n" +
+            "        }, {\n" +
+            "            value: \"-10\",\n" +
+            "            label: \"无土地恢复资金投入或措施方案\"\n" +
+            "        }]")
     private String landQuitLandRestoreScore;
 
     /**
@@ -415,7 +433,19 @@ public class NanfanLandApplyPostVo {
     /**
      * 带动当地发展评分标准
      */
-    @ApiModelProperty("带动当地发展评分标准")
+    @ApiModelProperty("带动当地发展   [{\n" +
+            "            value: \"15\",\n" +
+            "            label: \"聘用本地农业技术人员并雇用本地农工\"\n" +
+            "        }, {\n" +
+            "            value: \"10\",\n" +
+            "            label: \"聘用本地农业技术人员\"\n" +
+            "        }, {\n" +
+            "            value: \"10.1\",\n" +
+            "            label: \"雇用本地农工\"\n" +
+            "        }, {\n" +
+            "            value: \"5\",\n" +
+            "            label: \"其他带动当地发展的措施\"\n" +
+            "        }]")
     private String driveLandGrowScore;
 
     /**

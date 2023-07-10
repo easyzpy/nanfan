@@ -1,12 +1,13 @@
 package com.randing.system.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.randing.common.utils.LoginUser;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.randing.common.exception.BaseException;
+import com.randing.common.utils.StringUtils;
 import com.randing.common.utils.uuid.UUID;
 import com.randing.system.domain.po.Unit;
 import com.randing.system.mapper.UnitMapper;
 import com.randing.system.service.IUnitService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,16 +30,10 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements IU
 
     @Transactional
     public int insert(Unit unit) {
-
-
         unit.setUnitId(UUID.randomUUID().toString().replaceAll("-", ""));
         return -1;
     }
 
-//    public boolean getUnitByUserId(u) {
-//        Long loginUserId = LoginUser.getLoginUserId();
-//
-//    }
 
     public static boolean patternCreditCode(String registerCode) {
         Pattern compile = Pattern.compile(socialCodeRex);
@@ -48,7 +43,12 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements IU
 
     @Override
     public List<Unit> findByLikeUnitName(Unit unit) {
-        return baseMapper.selectList(Wrappers.lambdaQuery(Unit.class).like(Unit::getUnitAddress, unit.getUnitName()));
-//        return null;
+        if (StringUtils.isEmpty(unit.getUnitName()) && StringUtils.isEmpty(unit.getCreditCode())) {
+            throw new BaseException("参数错误");
+        }
+        return baseMapper.selectList(Wrappers.lambdaQuery(Unit.class)
+                .like(StringUtils.isNotEmpty(unit.getUnitName()), Unit::getUnitName, unit.getUnitName())
+                .eq(StringUtils.isNotEmpty(unit.getCreditCode()), Unit::getCreditCode, unit.getCreditCode())
+        );
     }
 }

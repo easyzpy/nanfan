@@ -86,4 +86,6 @@ public class User implements Serializable {
     @TableField(exist = false)
     private List<Role> roles;
 
+    @TableField(exist = false)
+    private Unit unitEntity;
 }

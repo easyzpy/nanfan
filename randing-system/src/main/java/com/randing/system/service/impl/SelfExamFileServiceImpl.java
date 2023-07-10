@@ -1,6 +1,7 @@
 package com.randing.system.service.impl;
 
 import com.randing.common.exception.BaseException;
+import com.randing.common.utils.StringUtils;
 import com.randing.common.utils.file.FileUploadUtils;
 import com.randing.common.utils.uuid.UUID;
 import com.randing.system.domain.po.SelfExamFile;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * <p>
@@ -29,6 +31,50 @@ public class SelfExamFileServiceImpl extends ServiceImpl<SelfExamFileMapper, Sel
     @Value("${tomcatBasedir}")
     public String tomcatBasedir;
     private static final String commonFilePath = "/common/image/selfexam/";
+    ///common/image/landApplyUnit/jpg
+    private static final String applyLandFilePath = "/common/image/landApplyUnit/";
+    private static final String unitFilePath = "/common/image/unit/";
+    private static final String[] applyLandExtension = new String[]{"jpg", "jpeg", "png", "pdf", "pbg"};
+
+    static {
+        Arrays.sort(applyLandExtension);
+    }
+
+    @Override
+    public SelfExamFile uploadUnitFile(MultipartFile file) {
+        SelfExamFile upload = this.upload(file, unitFilePath);
+        return upload;
+    }
+    @Override
+    public SelfExamFile uploadApplyLandFile(MultipartFile file) {
+        SelfExamFile upload = this.upload(file, applyLandFilePath);
+        return upload;
+    }
+    @Override
+    public SelfExamFile upload(MultipartFile file, String path) {
+        String extension = FileUploadUtils.getExtension(file);
+        if (Arrays.binarySearch(applyLandExtension, extension) < 0) {
+            throw new BaseException("仅允许格式为" + StringUtils.join(applyLandExtension, ",") + "的文件");
+        }
+        String fileName = tomcatBasedir + path + "base/" + extension + "/" + UUID.randomUUID();
+        SelfExamFile selfExamFile = new SelfExamFile();
+        selfExamFile.setFileId(UUID.randomUUID().toString());
+        selfExamFile.setFileName(file.getOriginalFilename());
+        selfExamFile.setFileUrl(fileName.substring(fileName.indexOf(path)));
+//        baseMapper.insert(selfExamFile);
+        File dest = new File(fileName);
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+        log.info("filePath:{}", dest.getAbsolutePath());
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            log.error("e", e);
+            throw new BaseException("上传失败");
+        }
+        return selfExamFile;
+    }
     @Override
     public SelfExamFile uploadFile(MultipartFile file) {
 

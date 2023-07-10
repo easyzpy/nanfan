@@ -87,26 +87,20 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
                 url.startsWith(contextPath+ "/api/token/getToken")
                         ||url.startsWith("/api/token/getToken")
 
-
                         ||url.startsWith(contextPath+ "/api/common/preview")
                         ||url.startsWith("/api/common/preview")
-
 
                         ||url.startsWith(contextPath+ "/doc.html")
                         ||url.startsWith("/doc.html")
 
-
                         ||url.startsWith(contextPath+ "/webjars")
                         ||url.startsWith("/webjars")
-
 
                         ||url.startsWith(contextPath+ "/swagger-resources")
                         ||url.startsWith("/swagger-resources")
 
-
                         ||url.startsWith(contextPath+ "/v2/api-docs")
                         ||url.startsWith("/v2/api-docs")
-
 
                         ||url.startsWith(contextPath+ "/api/ping")
                         ||url.startsWith("/api/ping")
@@ -131,12 +125,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
                 response.getWriter().write(JSONObject.toJSONString(AjaxResult.error(503, "token illegal")));
                 return;
             }
-            if (jwtUser.isExpired()) {
-                response.setContentType(ContentType.JSON.getValue());
-                response.getWriter().write(JSONObject.toJSONString(AjaxResult.error(502, "token is expire")));
-
-                return;
-            }
+//            if (jwtUser.isExpired()) {
+//                response.setContentType(ContentType.JSON.getValue());
+//                response.getWriter().write(JSONObject.toJSONString(AjaxResult.error(502, "token is expire")));
+//
+//                return;
+//            }
             if (jwtUser.isExpiredHalf()) {
                 String token = tokenService.createToken(jwtUser);
                 response.addHeader("refresh-token", token);

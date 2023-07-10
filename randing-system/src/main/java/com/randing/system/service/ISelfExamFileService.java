@@ -14,6 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface ISelfExamFileService extends IService<SelfExamFile> {
 
+
+    SelfExamFile uploadUnitFile(MultipartFile file);
+
+    SelfExamFile uploadApplyLandFile(MultipartFile file);
+
+    SelfExamFile upload(MultipartFile file, String path);
+
     SelfExamFile uploadFile(MultipartFile file);
 
 }

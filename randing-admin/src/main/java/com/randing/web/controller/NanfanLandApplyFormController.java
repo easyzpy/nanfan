@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * <p>
  * 崖州湾实验室南繁配套用地申请表 前端控制器
@@ -73,10 +76,11 @@ public class NanfanLandApplyFormController {
         return AjaxResult.success(nanfanLandApplyFormService.findById(id));
     }
     @PostMapping("applySave")
+    @ApiOperation("土地申请new 详情 20230709")
     public AjaxResult applySave(@RequestBody NanfanLandApplyPostVo postVo) {
 
         nanfanLandApplyFormService.landApply(postVo);
-
+        return AjaxResult.success();
     }
 }
 

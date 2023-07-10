@@ -3,13 +3,18 @@ package com.randing.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.randing.common.exception.BaseException;
 import com.randing.common.utils.LoginUser;
 import com.randing.common.utils.bean.BeanUtils;
 import com.randing.system.domain.common.OrderByEnum;
+import com.randing.system.domain.po.ApplyBatch;
 import com.randing.system.domain.po.LandApplyInfor;
 import com.randing.system.domain.po.LandApplyOper;
+import com.randing.system.domain.po.LandApplyScore;
 import com.randing.system.domain.po.LandInfor;
 import com.randing.system.domain.po.NanfanLandApplyForm;
+import com.randing.system.domain.vo.ApplyBatchVo;
 import com.randing.system.domain.vo.KeepApplyReqDTO;
 import com.randing.system.domain.vo.base.NanfanLandApplyFormVo;
 import com.randing.system.domain.vo.base.NanfanLandApplyPostVo;
@@ -17,14 +22,18 @@ import com.randing.system.mapper.LandApplyInforMapper;
 import com.randing.system.mapper.LandApplyOperMapper;
 import com.randing.system.mapper.LandInforMapper;
 import com.randing.system.mapper.NanfanLandApplyFormMapper;
+import com.randing.system.service.IApplyBatchService;
+import com.randing.system.service.ILandApplyScoreService;
 import com.randing.system.service.INanfanLandApplyFormService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -180,9 +189,179 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
         }
         return keepApplay.getRecords().get(0);
     }
+
+    @Autowired
+    private IApplyBatchService applyBatchService;
+    @Autowired
+    private ILandApplyScoreService landApplyScoreService;
     @Override
-    public NanfanLandApplyFormVo landApply(NanfanLandApplyPostVo postVo){
-        
+    @Transactional
+    public NanfanLandApplyFormVo landApply(NanfanLandApplyPostVo dto){
+        boolean isEdit = false;
+        if (dto.getId() != null) {
+            isEdit = true;
+        }
+        if (dto.getDelFlag() == null || dto.getDelFlag() != 2 && dto.getDelFlag() != 3) {
+            throw new BaseException("状态标识异常");
+        }
+        //需要验证<批次> 和 <批次日期和地块出租日期是否对应>
+        ApplyBatch byId = applyBatchService.getOne(Wrappers.lambdaQuery(ApplyBatch.class).eq(ApplyBatch::getBatchId, dto.getBatchId()));
+        if (byId == null) {
+            throw new BaseException("所属批次不能为空");
+        }
+        //根据本年科研计划需求，租地时间是否能足够 如果选择否 则需要验证延长时间
+        if (dto.getTimeEnough() != 0 && dto.getTimeEnough() != 1) {
+            throw new BaseException("根据本年科研计划需求，租地时间是否能足够不能为空");
+        }
+        if (dto.getTimeEnough() == 0 && dto.getTimeEnoughTime() == null) {
+            throw new BaseException("满足本年科研计划需要延长租地(天)不能为空");
+        }
+        if (CollectionUtils.isEmpty(dto.getApplyInfors())) {
+            throw new BaseException("第一优先不能为空");
+        }
+        //判断批次是否可用
+        List<ApplyBatchVo> list = applyBatchService.getList(1);
+        if (CollectionUtils.isEmpty(list)) {
+            throw new BaseException("无可用批次");
+        }
+        boolean flag = false;
+        for (ApplyBatchVo f : list) {
+            if (f.getBatchId().equals(dto.getBatchId())) {
+                flag = true;
+            }
+        }
+
+        if (!flag) {
+            throw new BaseException("当前批次不可用");
+        }
+        List<LandInfor> applyInfors = dto.getApplyInfors();
+        applyInfors.forEach(ai->{
+            if (ai.getId() == null) {
+                throw new BaseException("参数错误");
+            }
+        });
+        List<Long> collect = applyInfors.stream().map(LandInfor::getId).collect(Collectors.toList());
+        List<LandInfor> landInfors = landInforMapper.selectList(Wrappers.lambdaQuery(LandInfor.class).in(LandInfor::getId, collect));
+        if (landInfors.size() != collect.size()) {
+            throw new BaseException("地块选择错误");
+        }
+        landInfors.forEach(f->{
+            if (!f.getLandType().equals("0")) {
+                throw new BaseException("选择土地必须为可申请状态");
+            }
+            String landCropType = f.getLandCropType();
+            if (landCropType == null) {
+                throw new BaseException(f.getLandName() + "地块无合适的作物类型");
+            }
+            boolean contains = landCropType.contains(dto.getLandApplyType().trim());
+            if (!contains) {
+                throw new BaseException(f.getLandName() + "地块作物类型不匹配");
+            }
+
+            //校验土地
+        });
+        String landApplyUnitScore = dto.getLandApplyUnitScore();
+        if (landApplyUnitScore !=null
+                && !landApplyUnitScore.equals("20")
+                && !landApplyUnitScore.equals("15")
+                && !landApplyUnitScore.equals("10")
+        ) {
+            throw new BaseException("请选择正确的单位类型");
+        }
+        String researchDirectionsScore = dto.getResearchDirectionsScore();
+        if (researchDirectionsScore !=null
+                && !researchDirectionsScore.equals("25")
+                && !researchDirectionsScore.equals("22")
+                && !researchDirectionsScore.equals("20")
+                && !researchDirectionsScore.equals("18")
+                && !researchDirectionsScore.equals("16")
+        ) {
+            throw new BaseException("请选择正确的科研项目级别");
+        }
+        String startResearchActivityScore = dto.getStartResearchActivityScore();
+        if (startResearchActivityScore !=null
+                && !startResearchActivityScore.equals("20")
+                && !startResearchActivityScore.equals("18")
+                && !startResearchActivityScore.equals("16")
+                && !startResearchActivityScore.equals("16.1")
+                && !startResearchActivityScore.equals("15")
+        ) {
+            throw new BaseException("请选择正确的开展南繁活动类型");
+        }
+
+        String landQuitLandRestoreScore = dto.getLandQuitLandRestoreScore();
+        if (landQuitLandRestoreScore !=null
+                && !landQuitLandRestoreScore.equals("15")
+                && !landQuitLandRestoreScore.equals("10")
+                && !landQuitLandRestoreScore.equals("5")
+                && !landQuitLandRestoreScore.equals("2")
+                && !landQuitLandRestoreScore.equals("-10")
+        ) {
+            throw new BaseException("请选择正确的用地退出土地恢复");
+        }
+
+        String driveLandGrowScore = dto.getDriveLandGrowScore();
+        if (driveLandGrowScore !=null
+                && !driveLandGrowScore.equals("15")
+                && !driveLandGrowScore.equals("10")
+                && !driveLandGrowScore.equals("10.1")
+                && !driveLandGrowScore.equals("5")
+        ) {
+            throw new BaseException("请选择正确的带动当地发展");
+        }
+        NanfanLandApplyForm nanfanLandApplyForm = new NanfanLandApplyForm();
+        BeanUtils.copyProperties(dto,nanfanLandApplyForm);
+        nanfanLandApplyForm.setCreateUser(LoginUser.getId().intValue());
+        /*
+        计算总分 start
+         */
+        BigDecimal sum = new BigDecimal("0");
+        if (researchDirectionsScore != null) {
+            sum = sum.add(new BigDecimal(landApplyUnitScore));
+        }
+        if (researchDirectionsScore != null) {
+            sum = sum.add(new BigDecimal(researchDirectionsScore));
+        }
+        if (startResearchActivityScore != null) {
+            sum = sum.add(new BigDecimal(startResearchActivityScore));
+        }
+        if (landQuitLandRestoreScore != null) {
+            sum = sum.add(new BigDecimal(landQuitLandRestoreScore));
+        }
+        if (driveLandGrowScore != null) {
+            sum = sum.add(new BigDecimal(driveLandGrowScore));
+        }
+        nanfanLandApplyForm.setSumScore(sum.doubleValue());
+        /*
+        计算总分 end
+         */
+        //提交时间
+        //2 保存不提交 3 提交（待审批）
+        if (dto.getDelFlag() == 3) {
+            nanfanLandApplyForm.setPushTime(LocalDateTime.now());
+        }
+        //申请用地地址 使用第一优先地址
+        nanfanLandApplyForm.setLandApplyAddress(landInfors.get(0).getLandName());
+        this.saveOrUpdate(nanfanLandApplyForm);
+        //保存优先级表
+        if (isEdit) {
+            landApplyInforMapper.delete(Wrappers.lambdaQuery(LandApplyInfor.class).eq(LandApplyInfor::getApplyId, nanfanLandApplyForm.getId().intValue()));
+        }
+        LandApplyInfor landApplyInfor = new LandApplyInfor();
+        for (LandInfor landInfor : landInfors) {
+            landApplyInfor.setApplyId(nanfanLandApplyForm.getId().intValue());
+            landApplyInfor.setInforId(landInfor.getId().intValue());
+            landApplyInforMapper.insert(landApplyInfor);
+        }
+        //保存评分
+        LandApplyScore landApplyScore = new LandApplyScore();
+        BeanUtils.copyProperties(dto, landApplyScore);
+        landApplyScore.setApplyFormId(nanfanLandApplyForm.getId().intValue());
+        if (isEdit) {
+            landApplyScoreService.remove(Wrappers.lambdaQuery(LandApplyScore.class).eq(LandApplyScore::getApplyFormId, nanfanLandApplyForm.getId().intValue()));
+        }
+        landApplyScoreService.save(landApplyScore);
+        //第一第二第三优先校验
         return null;
     }
 

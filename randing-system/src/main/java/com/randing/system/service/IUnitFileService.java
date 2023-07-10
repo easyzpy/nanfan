@@ -1,5 +1,6 @@
 package com.randing.system.service;
 
+import com.randing.system.domain.po.Unit;
 import com.randing.system.domain.po.UnitFile;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUnitFileService extends IService<UnitFile> {
 
+    void saveUnitFile(Unit unit);
 }

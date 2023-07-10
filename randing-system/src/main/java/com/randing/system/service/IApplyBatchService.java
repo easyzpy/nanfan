@@ -16,5 +16,5 @@ import java.util.List;
  */
 public interface IApplyBatchService extends IService<ApplyBatch> {
 
-    List<ApplyBatchVo> getList();
+    List<ApplyBatchVo> getList(Integer isActive);
 }

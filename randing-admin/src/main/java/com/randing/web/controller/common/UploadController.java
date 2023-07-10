@@ -1,25 +1,19 @@
 package com.randing.web.controller.common;
 
 import com.randing.common.core.domain.AjaxResult;
-import com.randing.common.exception.BaseException;
-import com.randing.common.exception.file.InvalidExtensionException;
-import com.randing.common.utils.DateUtils;
-import com.randing.common.utils.file.FileUploadUtils;
-import com.randing.common.utils.uuid.IdUtils;
-import com.randing.common.utils.uuid.UUID;
 import com.randing.system.domain.po.SelfExamFile;
 import com.randing.system.service.ISelfExamFileService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpRequest;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +27,7 @@ import java.io.OutputStream;
 
 @RestController
 @Slf4j
+@Api("土地申请")
 public class UploadController {
 
 
@@ -55,7 +50,15 @@ public class UploadController {
 //        if (selfExaminationId == null) {
 //            return AjaxResult.error("参数错误");
 //        }
+        //ssh -R 80:127.0.0.1:8095 sh@sh3.neiwangyun.net
         SelfExamFile selfExamFile = selfExamFileService.uploadFile(file);
+
+        return AjaxResult.success(selfExamFile);
+    }
+    @PostMapping("uploadApplyLandFile")
+    @ApiOperation("土地申请上传文件 20230709")
+    public AjaxResult<SelfExamFile> uploadApplyLandFile(MultipartFile file, HttpServletRequest request) {
+        SelfExamFile selfExamFile = selfExamFileService.uploadApplyLandFile(file);
 
         return AjaxResult.success(selfExamFile);
     }

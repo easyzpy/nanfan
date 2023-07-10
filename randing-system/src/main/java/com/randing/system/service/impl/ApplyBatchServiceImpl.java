@@ -25,8 +25,8 @@ import java.util.List;
 public class ApplyBatchServiceImpl extends ServiceImpl<ApplyBatchMapper, ApplyBatch> implements IApplyBatchService {
 
     @Override
-    public List<ApplyBatchVo> getList() {
-        List<ApplyBatch> applyBatches = baseMapper.selectList(Wrappers.emptyWrapper());
+    public List<ApplyBatchVo> getList(Integer isActive) {
+        List<ApplyBatch> applyBatches = baseMapper.selectList(Wrappers.lambdaQuery(ApplyBatch.class).eq(isActive!=null, ApplyBatch::getActivity, isActive).orderByDesc(ApplyBatch::getId));
         ArrayList<ApplyBatchVo> reList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(applyBatches)) {
             for (ApplyBatch applyBatch : applyBatches) {
