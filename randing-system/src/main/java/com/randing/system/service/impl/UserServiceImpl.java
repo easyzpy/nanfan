@@ -58,7 +58,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         unitService.updateById(unit);
 //        如果传了营业执照 干掉以前的 重新生成一个
         unitFileService.remove(Wrappers.lambdaQuery(UnitFile.class).eq(UnitFile::getUnitId, unit.getUnitId()));
-        unitFileService.saveUnitFile(unit);
+        if (StringUtils.isNotEmpty(unit.getFileUrl()) && StringUtils.isNotEmpty(unit.getFileName())) {
+            unitFileService.saveUnitFile(unit);
+        }
         return 0;
     }
 
