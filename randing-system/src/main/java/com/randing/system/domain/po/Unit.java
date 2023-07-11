@@ -114,5 +114,8 @@ public class Unit implements Serializable {
     @TableField(exist = false)
     private String fileName;
 
+    @TableField(exist = false)
+    @ApiModelProperty("用户联系手机号")
+    private String userContractPhone;
 
 }

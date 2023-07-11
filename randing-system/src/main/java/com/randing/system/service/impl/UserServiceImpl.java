@@ -48,6 +48,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         User user = new User();
         user.setId(loginUserId);
         user.setUnit(unit.getUnitId());
+        if (StringUtils.isNotEmpty(unit.getUserContractPhone())) {
+            user.setContactPhone(unit.getUserContractPhone());
+        }
         saveOrUpdate(user);
 
         LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
