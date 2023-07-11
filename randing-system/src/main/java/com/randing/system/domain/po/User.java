@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -88,4 +89,6 @@ public class User implements Serializable {
 
     @TableField(exist = false)
     private Unit unitEntity;
+
+
 }

@@ -62,6 +62,13 @@ public class UploadController {
 
         return AjaxResult.success(selfExamFile);
     }
+    @PostMapping("uploadUnitFile")
+    @ApiOperation("营业执照上传文件 20230709")
+    public AjaxResult<SelfExamFile> uploadUnitFile(MultipartFile file, HttpServletRequest request) {
+        SelfExamFile selfExamFile = selfExamFileService.uploadUnitFile(file);
+
+        return AjaxResult.success(selfExamFile);
+    }
 
     @GetMapping("/common/preview")
     public void filePreviewOrDownload(HttpServletRequest request, HttpServletResponse response) {

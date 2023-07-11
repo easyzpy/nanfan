@@ -43,12 +43,12 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements IU
 
     @Override
     public List<Unit> findByLikeUnitName(Unit unit) {
-        if (StringUtils.isEmpty(unit.getUnitName()) && StringUtils.isEmpty(unit.getCreditCode())) {
+        if (StringUtils.isEmpty(unit.getUnitName())) {
             throw new BaseException("参数错误");
         }
         return baseMapper.selectList(Wrappers.lambdaQuery(Unit.class)
                 .like(StringUtils.isNotEmpty(unit.getUnitName()), Unit::getUnitName, unit.getUnitName())
-                .eq(StringUtils.isNotEmpty(unit.getCreditCode()), Unit::getCreditCode, unit.getCreditCode())
+//                .eq(StringUtils.isNotEmpty(unit.getCreditCode()), Unit::getCreditCode, unit.getCreditCode())
         );
     }
 }
