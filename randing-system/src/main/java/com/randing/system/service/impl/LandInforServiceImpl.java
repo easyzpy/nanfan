@@ -57,7 +57,7 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
                 wrapper.like(StringUtils.isNotBlank(landInforVo.getLandName()), "land_name", landInforVo.getLandName())
                 .eq(StringUtils.isNotBlank(landInforVo.getLandSoilAcidBase()), "LandSoilAcidBase", landInforVo.getLandSoilAcidBase())
                 .eq(StringUtils.isNotBlank(landInforVo.getLandSoilType()), "LandSoilType", landInforVo.getLandSoilType())
-                .eq(StringUtils.isNotBlank(landInforVo.getLandCropType()), "land_crop_type", landInforVo.getLandCropType())
+                .like(StringUtils.isNotBlank(landInforVo.getLandCropType()), "land_crop_type", landInforVo.getLandCropType())
                 .eq(StringUtils.isNotBlank(landInforVo.getLandSoilNature()), "land_soil_nature", landInforVo.getLandSoilNature())
                 //三亚陵水
                 .eq(StringUtils.isNotBlank(landInforVo.getLandAscription()), "land_ascription", landInforVo.getLandAscription())
