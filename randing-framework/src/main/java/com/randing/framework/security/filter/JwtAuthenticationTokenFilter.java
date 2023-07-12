@@ -105,6 +105,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
                         ||url.startsWith(contextPath+ "/api/ping")
                         ||url.startsWith("/api/ping")
 
+                        ||url.startsWith(contextPath+ "/api/applyWordTemplate")
+                        ||url.startsWith("/api/applyWordTemplate")
+
         ) {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(new JwtUser(), null, null);
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

@@ -6,6 +6,9 @@ import com.randing.system.domain.po.ApplyObjection;
 import com.randing.system.domain.vo.ApplyObjectionReqDTO;
 import com.randing.system.mapper.ApplyBatchMapper;
 import com.randing.system.service.IApplyObjectionService;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +17,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.UUID;
+
+import static freemarker.template.Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -44,4 +57,32 @@ public class ApplicationTest {
         Page<ApplyObjection> list = applyObjectionService.getList(dto);
         System.out.println();
     }
+    @Test
+    public void test25() {
+
+        Configuration configuration = new Configuration(DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
+        configuration.setDefaultEncoding("UTF-8");
+        // 模板文件所在路径
+        configuration.setClassForTemplateLoading(this.getClass(), "/templates");
+        Template t = null;
+        try {
+            // 获取模板文件
+            t = configuration.getTemplate("123.xml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        HashMap<String, String> dataMap = new HashMap<>();
+        dataMap.put("text1", "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈");
+        // 导出文件
+        File outFile = new File("C:\\Users\\28544\\Desktop\\"+ UUID.randomUUID().toString()+".doc");
+        try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8))) {
+            if (t != null) {
+                // 将填充数据填入模板文件并输出到目标文件
+                t.process(dataMap, out);
+            }
+        } catch (IOException | TemplateException e1) {
+            e1.printStackTrace();
+        }
+    }
+
 }
