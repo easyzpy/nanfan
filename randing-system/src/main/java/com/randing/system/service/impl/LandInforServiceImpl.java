@@ -54,9 +54,11 @@ public class LandInforServiceImpl extends ServiceImpl<LandInforMapper, LandInfor
     @Override
     public Page<LandInfor> listPage(LandInforVo landInforVo) {
         QueryWrapper<LandInfor> wrapper = Wrappers.query();
-                wrapper.like(StringUtils.isNotBlank(landInforVo.getLandName()), "land_name", landInforVo.getLandName())
-                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilAcidBase()), "LandSoilAcidBase", landInforVo.getLandSoilAcidBase())
-                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilType()), "LandSoilType", landInforVo.getLandSoilType())
+        wrapper.like(StringUtils.isNotBlank(landInforVo.getLandName()), "land_name", landInforVo.getLandName())
+                .eq(landInforVo.getLandMold() != null, "land_mold", landInforVo.getLandMold())
+                .eq(landInforVo.getLandType() != null, "land_type", landInforVo.getLandType())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilAcidBase()), "Land_soil_acid_base", landInforVo.getLandSoilAcidBase())
+                .eq(StringUtils.isNotBlank(landInforVo.getLandSoilType()), "Land_soil_type", landInforVo.getLandSoilType())
                 .like(StringUtils.isNotBlank(landInforVo.getLandCropType()), "land_crop_type", landInforVo.getLandCropType())
                 .eq(StringUtils.isNotBlank(landInforVo.getLandSoilNature()), "land_soil_nature", landInforVo.getLandSoilNature())
                 //三亚陵水

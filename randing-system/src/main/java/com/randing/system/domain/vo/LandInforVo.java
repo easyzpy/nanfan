@@ -275,5 +275,16 @@ public class LandInforVo extends BasePage {
     @TableField(exist = false)
     private List<LandInforPicture> pictureEntities;
 
-
+    /**
+     *  地块类型:
+     *  1,可选地块  空闲<p/>
+     *  2,项目用地  锁定<p/>
+     *  3,不可选地块  使用中<p/>
+     */
+    @ApiModelProperty("地块类型: 1,可选地块 空闲\n" +
+            "\n" +
+            "2,项目用地 锁定\n" +
+            "\n" +
+            "3,不可选地块 使用中")
+    private Integer landMold;
 }

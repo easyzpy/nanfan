@@ -257,8 +257,15 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
             if (!contains) {
                 throw new BaseException(f.getLandName() + "地块作物类型不匹配");
             }
-
-            //校验土地
+            //校验土地<可用面积> 和<申请面积>
+            //土地可用面积
+            Double landAreaSurplus = f.getLandAreaSurplus();
+            //申请面积
+            Double landApplyArea = dto.getLandApplyArea();
+            if (landAreaSurplus < landApplyArea) {
+                //申请面积大于土地可用面积
+                throw new BaseException(f.getLandName() + "可用面积小于申请面积");
+            }
         });
         String landApplyUnitScore = dto.getLandApplyUnitScore();
         if (landApplyUnitScore !=null
