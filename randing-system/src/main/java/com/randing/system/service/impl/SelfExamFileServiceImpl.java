@@ -30,10 +30,12 @@ import java.util.Arrays;
 public class SelfExamFileServiceImpl extends ServiceImpl<SelfExamFileMapper, SelfExamFile> implements ISelfExamFileService {
     @Value("${tomcatBasedir}")
     public String tomcatBasedir;
-    private static final String commonFilePath = "/common/image/selfexam/";
+
+    private static final String virtualPath = "/common/image";
+    private static final String commonFilePath = "/selfexam/";
     ///common/image/landApplyUnit/jpg
-    private static final String applyLandFilePath = "/common/image/landApplyUnit/";
-    private static final String unitFilePath = "/common/image/unit/";
+    private static final String applyLandFilePath = "/landApplyUnit/";
+    private static final String unitFilePath = "/unit/";
     private static final String[] applyLandExtension = new String[]{"jpg", "jpeg", "png", "pdf", "pbg"};
 
     static {
@@ -56,11 +58,11 @@ public class SelfExamFileServiceImpl extends ServiceImpl<SelfExamFileMapper, Sel
         if (Arrays.binarySearch(applyLandExtension, extension) < 0) {
             throw new BaseException("仅允许格式为" + StringUtils.join(applyLandExtension, ",") + "的文件");
         }
-        String fileName = tomcatBasedir + path + "base/" + extension + "/" + UUID.randomUUID();
+        String fileName = tomcatBasedir + path  + extension + "/" + UUID.randomUUID();
         SelfExamFile selfExamFile = new SelfExamFile();
         selfExamFile.setFileId(UUID.randomUUID().toString());
         selfExamFile.setFileName(file.getOriginalFilename());
-        selfExamFile.setFileUrl(fileName.substring(fileName.indexOf(path)));
+        selfExamFile.setFileUrl(virtualPath + fileName.substring(fileName.indexOf(path)));
 //        baseMapper.insert(selfExamFile);
         File dest = new File(fileName);
         if (!dest.getParentFile().exists()) {
@@ -86,7 +88,7 @@ public class SelfExamFileServiceImpl extends ServiceImpl<SelfExamFileMapper, Sel
         SelfExamFile selfExamFile = new SelfExamFile();
         selfExamFile.setFileId(UUID.randomUUID().toString());
         selfExamFile.setFileName(file.getOriginalFilename());
-        selfExamFile.setFileUrl(fileName.substring(fileName.indexOf(commonFilePath)));
+        selfExamFile.setFileUrl(virtualPath  +fileName.substring(fileName.indexOf(commonFilePath)));
 //        selfExamFile.setSelfExaminationId(selfExaminationId);
         baseMapper.insert(selfExamFile);
         File dest = new File(fileName);

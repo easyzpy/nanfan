@@ -117,7 +117,7 @@ public class ApiController {
                 .eq(UserRole::getUserId, user.getId())
         );
         if (CollectionUtils.isEmpty(userRoles)) {
-            throw new BaseException("此用户竟然没有角色");
+            throw new BaseException("此用户没有角色");
         }
         List<Role> roles = roleMapper.selectList(Wrappers.lambdaQuery(Role.class).select(Role::getId,Role::getRoleId,Role::getRoleType)
                 .in(Role::getRoleId, userRoles.stream()
