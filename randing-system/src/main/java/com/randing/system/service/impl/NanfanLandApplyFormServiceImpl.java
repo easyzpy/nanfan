@@ -368,6 +368,13 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
             landApplyScoreService.remove(Wrappers.lambdaQuery(LandApplyScore.class).eq(LandApplyScore::getApplyFormId, nanfanLandApplyForm.getId().intValue()));
         }
         landApplyScoreService.save(landApplyScore);
+        //保存操作申请操作表
+        LandApplyOper landApplyOper = new LandApplyOper();
+        landApplyOper.setApplyFormId(nanfanLandApplyForm.getId().intValue());
+        landApplyOper.setOperType("用地申请");
+        landApplyOper.setOperContent("保存用地申请");
+        landApplyOper.setOperTime(LocalDateTime.now());
+        landApplyOperMapper.insert(landApplyOper);
         //第一第二第三优先校验
         return null;
     }
