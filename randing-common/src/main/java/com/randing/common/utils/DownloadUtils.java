@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class DownloadUtils {
@@ -27,19 +28,19 @@ public class DownloadUtils {
             String finalFileName = null;
             //IE浏览器
             if(StringUtils.contains(userAgent, "MSIE")||StringUtils.contains(userAgent,"Trident")){
-                finalFileName = URLEncoder.encode(fileName,"UTF8");
+                finalFileName = URLEncoder.encode(fileName,"UTF-8");
 
             }else if(StringUtils.contains(userAgent, "Mozilla")){
                 //google,火狐浏览器
-                finalFileName = new String(fileName.getBytes(), "ISO8859-1");
+                finalFileName = new String(fileName.getBytes(), StandardCharsets.UTF_8);
             }else{
                 //其他浏览器
-                finalFileName = URLEncoder.encode(fileName,"UTF8");
+                finalFileName = URLEncoder.encode(fileName,"UTF-8");
             }
             //设置HTTP响应头
             response.reset();//重置 响应头
-            response.setContentType("application/x-download");
-            response.addHeader("Content-Disposition" ,"attachment;filename=\"" +finalFileName+ "\"");
+            response.setContentType("application/x-download;charset=UTF-8");
+            response.addHeader("Content-Disposition" ,"attachment;filename=" +  URLEncoder.encode(fileName, "UTF-8"));
 
             // 循环取出流中的数据
             byte[] b = new byte[1024];
