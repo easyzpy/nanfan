@@ -249,14 +249,15 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
             if (!f.getLandType().equals("0")) {
                 throw new BaseException("选择土地必须为可申请状态");
             }
-            String landCropType = f.getLandCropType();
-            if (landCropType == null) {
-                throw new BaseException(f.getLandName() + "地块无合适的作物类型");
-            }
-            boolean contains = landCropType.contains(dto.getLandApplyType().trim());
-            if (!contains) {
-                throw new BaseException(f.getLandName() + "地块作物类型不匹配");
-            }
+//            String landCropType = f.getLandCropType();
+//            if (landCropType == null) {
+//                throw new BaseException(f.getLandName() + "地块无合适的作物类型");
+//            }
+//            boolean contains = landCropType.contains(dto.getLandApplyType().trim());
+            //万总说不用校验这个
+//            if (!contains) {
+//                throw new BaseException(f.getLandName() + "地块作物类型不匹配");
+//            }
             //校验土地<可用面积> 和<申请面积>
             //土地可用面积
             Double landAreaSurplus = f.getLandAreaSurplus();

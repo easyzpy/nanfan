@@ -36,7 +36,7 @@ public class SelfExamFileServiceImpl extends ServiceImpl<SelfExamFileMapper, Sel
     ///common/image/landApplyUnit/jpg
     private static final String applyLandFilePath = "/landApplyUnit/";
     private static final String unitFilePath = "/unit/";
-    private static final String[] applyLandExtension = new String[]{"jpg", "jpeg", "png", "pdf", "pbg"};
+    private static final String[] applyLandExtension = new String[]{"jpg", "jpeg", "png", "pdf", "pbg", "doc", "docx"};
 
     static {
         Arrays.sort(applyLandExtension);
