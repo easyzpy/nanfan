@@ -38,6 +38,7 @@ public class ApplyObjectionServiceImpl extends ServiceImpl<ApplyObjectionMapper,
             wrapper.eq(applyObjectionReqDTO.getBatchId() != null, "d.batch_id", applyObjectionReqDTO.getBatchId());
             wrapper.eq(loginUserId != null, "c.user_id", loginUserId);
         }
+        wrapper.orderByDesc("c.add_time");
         return applyObjectionMapper.getList(new Page(applyObjectionReqDTO.getPage(), applyObjectionReqDTO.getPageSize()), wrapper);
     }
 

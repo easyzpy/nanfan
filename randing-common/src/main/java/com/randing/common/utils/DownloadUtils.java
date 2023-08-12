@@ -39,8 +39,8 @@ public class DownloadUtils {
             }
             //设置HTTP响应头
             response.reset();//重置 响应头
-            response.setContentType("application/x-download;charset=UTF-8");
-            response.addHeader("Content-Disposition" ,"attachment;filename=" +  URLEncoder.encode(fileName, "UTF-8"));
+            response.setContentType("application/octet-stream;charset=utf-8");
+            response.setHeader("content-disposition","attachment;filename*=UTF-8''" + URLEncoder.encode(fileName,"UTF-8"));
 
             // 循环取出流中的数据
             byte[] b = new byte[1024];

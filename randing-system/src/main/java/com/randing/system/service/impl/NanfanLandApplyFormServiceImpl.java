@@ -230,9 +230,14 @@ public class NanfanLandApplyFormServiceImpl extends ServiceImpl<NanfanLandApplyF
                 flag = true;
             }
         }
-
         if (!flag) {
             throw new BaseException("当前批次不可用");
+        }
+        ApplyBatchVo applyBatchVo = list.get(0);
+        LocalDateTime endTime = applyBatchVo.getEndTime();
+        LocalDateTime startTime = applyBatchVo.getStartTime();
+        if (LocalDateTime.now().isBefore(startTime) || LocalDateTime.now().isAfter(endTime)) {
+            throw new BaseException("未在可申请的时间段");
         }
         List<LandInfor> applyInfors = dto.getApplyInfors();
         applyInfors.forEach(ai->{
