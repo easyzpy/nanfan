@@ -53,6 +53,8 @@ public class User implements Serializable {
      */
     @ApiModelProperty("联系 电话")
     private String contactPhone;
+    @ApiModelProperty("联系 电话")
+    private String contactPhoneMac;
 
     /**
      * 性别 0 女 1 男

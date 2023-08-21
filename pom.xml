@@ -288,6 +288,13 @@
                 <artifactId>spire.doc.free</artifactId>
                 <version>5.2.0</version>
             </dependency>
+            <dependency>
+                <groupId>net.sf.json-lib</groupId>
+                <artifactId>json-lib</artifactId>
+                <version>2.2.2</version>
+                <classifier>jdk15</classifier>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

@@ -79,5 +79,6 @@ token:
     secret: abcdefghijklmnopqrstuvwxyz
     # 令牌有效期（默认30分钟）
     expireTime: 86400
-
+secret:
+    url: http://218.77.206.15:8010/
 tomcatBasedir: C:/yz-nf-land-attach

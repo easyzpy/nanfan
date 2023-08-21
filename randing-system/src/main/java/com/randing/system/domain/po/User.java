@@ -83,6 +83,10 @@ public class User implements Serializable {
      */
     @ApiModelProperty
     private String subId;
+    @ApiModelProperty
+    private String userMac;
+    @ApiModelProperty
+    private String roleMac;
 
     @TableField(exist = false)
     private List<Role> roles;

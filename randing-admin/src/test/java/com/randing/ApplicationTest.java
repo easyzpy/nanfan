@@ -1,11 +1,17 @@
 package com.randing;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.randing.system.domain.po.ApplyBatch;
 import com.randing.system.domain.po.ApplyObjection;
+import com.randing.system.domain.po.User;
+import com.randing.system.domain.po.UserRole;
 import com.randing.system.domain.vo.ApplyObjectionReqDTO;
 import com.randing.system.mapper.ApplyBatchMapper;
+import com.randing.system.mapper.UserMapper;
+import com.randing.system.mapper.UserRoleMapper;
 import com.randing.system.service.IApplyObjectionService;
+import com.randing.system.service.impl.DeanSimpleUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -14,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -24,7 +31,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.sql.Wrapper;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import static freemarker.template.Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS;
@@ -32,12 +41,29 @@ import static freemarker.template.Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENT
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Slf4j
+@ActiveProfiles("local")
 public class ApplicationTest {
     @Autowired
     private IApplyObjectionService applyObjectionService;
     @Resource
     private ApplyBatchMapper applyBatchMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+    @Autowired
+    private DeanSimpleUtil deanSimpleUtil;
+    @Test
+    public void test03(){
+        User user = userMapper.selectById(529);
+        List<UserRole> userRoles = userRoleMapper.selectList(Wrappers.lambdaQuery(UserRole.class).eq(UserRole::getUserId, user.getId()));
+        String s = deanSimpleUtil.sm4Dec(user.getContactPhone());
+        System.out.println(s);
+        System.out.println(deanSimpleUtil.sm3Hmac(user.getId()+ user.getName()+ user.getLoginName()+ user.getContactPhone()));
+        System.out.println(deanSimpleUtil.sm3Hmac(user.getId()+ userRoles.get(0).getRoleId()));
 
+//        boolean b1 = deanSimpleUtil.sm3HmacVerify("425" + "姚超凡" + "+at1r6Qwy9oZdjid+iS9jw=="+ "+at1r6Qwy9oZdjid+iS9jw==" + "", "tTCoMUgt0Vq8hVP85SoTqIim+Pgt5K6mD8gDsEaUl2M=");
+    }
     @Test
     public void test02() {
 //        ApplyBatch applyBatch = applyBatchMapper.selectById(11);

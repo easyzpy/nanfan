@@ -30,30 +30,6 @@ import java.util.List;
 public class UnitController {
     @Autowired
     private IUnitService unitService;
-//    @PostMapping("add")
-//    public void insert(@RequestBody Unit unit) {
-//
-//        if (unit == null) {
-//            throw new BaseException("参数错误");
-//        }
-//        String unitName = unit.getUnitName();//单位名称
-//        if (StringUtils.isBlank(unitName)) {
-//            throw new BaseException("单位/个人单位名称 不能为空");
-//        }
-//        String unitAddress = unit.getUnitAddress();//南繁地址
-//        if (StringUtils.isBlank(unitAddress)) {
-//            throw new BaseException("南繁地址 不能为空");
-//        }
-//        String contactsPhone = unit.getContactsPhone();//联系方式
-//        if ((StringUtils.isBlank(contactsPhone))) {
-//            throw new BaseException("联系方式 不能为空");
-//        }
-//
-////        String contactsPhone = unit.getContactsPhone();//联系方式
-////        if ((StringUtils.isBlank(contactsPhone))) {
-////            throw new BaseException("联系方式 不能为空");
-////        }
-//    }
     @ApiOperation("单位列表 模糊查询按照单位名称 20230709")
     @RequestMapping(value = "/unit/findByUnitName", method = RequestMethod.POST)
     public AjaxResult<List<Unit>> findByUnitName(@RequestBody Unit unit) {

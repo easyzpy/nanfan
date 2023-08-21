@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.randing.common.exception.BaseException;
+//import com.randing.common.utils.DeanSimpleUtil;
 import com.randing.common.utils.LoginUser;
 import com.randing.common.utils.StringUtils;
 import com.randing.system.domain.po.Unit;
 import com.randing.system.domain.po.UnitFile;
 import com.randing.system.domain.po.User;
+import com.randing.system.domain.po.UserRole;
 import com.randing.system.mapper.UserMapper;
+import com.randing.system.mapper.UserRoleMapper;
 import com.randing.system.service.IUnitFileService;
 import com.randing.system.service.IUnitService;
 import com.randing.system.service.IUserService;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -34,6 +38,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private IUnitService unitService;
     @Autowired
     private IUnitFileService unitFileService;
+    @Autowired
+    private DeanSimpleUtil deanSimpleUtil;
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public int bindUnit(Unit unit) {
@@ -45,12 +53,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new BaseException("单位名称不能为空");
         }
         Long loginUserId = LoginUser.getId();
-        User user = new User();
-        user.setId(loginUserId);
+//        User user = new User();
+//        user.setId(loginUserId);
+        User user = userMapper.selectById(loginUserId);
         user.setUnit(unit.getUnitId());
         if (StringUtils.isNotEmpty(unit.getUserContractPhone())) {
-            user.setContactPhone(unit.getUserContractPhone());
+            String encodePhone = deanSimpleUtil.sm4Enc(unit.getUserContractPhone());
+            user.setContactPhone(encodePhone);
         }
+        List<UserRole> userRoles = userRoleMapper.selectList(Wrappers.lambdaQuery(UserRole.class).eq(UserRole::getUserId, loginUserId).orderByAsc(UserRole::getId));
+        user.setUserMac(deanSimpleUtil.getUserMac(String.valueOf(user.getId()), user.getName(), user.getLoginName(), user.getContactPhone(), user.getUnit()));
+        user.setRoleMac(deanSimpleUtil.getRoleMac(String.valueOf(user.getId()), userRoles));
         saveOrUpdate(user);
 
         LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();

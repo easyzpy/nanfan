@@ -17,6 +17,7 @@ import com.randing.system.domain.po.UserRole;
 import com.randing.system.mapper.RoleMapper;
 import com.randing.system.mapper.UserMapper;
 import com.randing.system.mapper.UserRoleMapper;
+import com.randing.system.service.impl.DeanSimpleUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Wrapper;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -53,6 +55,8 @@ public class ApiController {
     private RoleMapper roleMapper;
     @Autowired
     private UserRoleMapper userRoleMapper;
+    @Autowired
+    private DeanSimpleUtil deanSimpleUtil;
 
     @GetMapping("ping")
     public String ping() {
@@ -87,12 +91,14 @@ public class ApiController {
         } catch (Exception e) {
             throw new BaseException("获取用户信息失败");
         }
-//        {"id":"6089819bb6b2ffd7786a1c81","identityType":4,"isIdentity":1,"isVerified":0,"name":"万琪慧","nickname":"","phone":"13635452958","photo":"//static.yzbays.cn/statics/authing-console/default-user-avatar.png","username":"13635452958"}
+
         log.info("user origin phone :{}", userInfo.getData().getPhone());
 
         User userByPhone = getUserByPhone(userInfo.getData());
         com.randing.common.utils.jwt.User user = new com.randing.common.utils.jwt.User();
         BeanUtils.copyProperties(userByPhone, user);
+        user.setContactPhoneMac(user.getContactPhone());
+        user.setContactPhone(userInfo.getData().getPhone());
         //生成token
         JwtUser jwtUser = new JwtUser();
 //        jwtUser.setYzbToken(accessToken);
@@ -106,7 +112,9 @@ public class ApiController {
     }
 
     public User getUserByPhone(YzbUserInfo yzbUserInfo) {
-        User user = userMapper.selectOne(Wrappers.lambdaQuery(User.class).eq(User::getContactPhone, yzbUserInfo.getPhone()));
+        String encodePhone = deanSimpleUtil.sm4Enc(yzbUserInfo.getPhone());
+        String phone = yzbUserInfo.getPhone();
+        User user = userMapper.selectOne(Wrappers.lambdaQuery(User.class).eq(User::getContactPhone, encodePhone));
         if (user == null) {
             /*log.info("user is null");
             return null;*/
@@ -139,14 +147,16 @@ public class ApiController {
 }*/
     @Transactional
     public User initUserAndUserRole(YzbUserInfo yzbUserInfo) {
+        String phone = deanSimpleUtil.sm4Enc(yzbUserInfo.getPhone());
+        //目前loginName 和 contractPhone都使用phone
         User user = new User();
         user.setSubId(yzbUserInfo.getId());
         user.setSystemType("0");
-        user.setContactPhone(yzbUserInfo.getPhone());
+        user.setContactPhone(phone);
 //        user.setLoginName(yzbUserInfo.getUsername());
         user.setName(yzbUserInfo.getName());
         user.setUnit(null);
-        user.setLoginName(yzbUserInfo.getPhone());
+        user.setLoginName(phone);
         user.setCreateTime(LocalDateTime.now());
 
 
@@ -154,18 +164,27 @@ public class ApiController {
 
         //初始化角色
         String roleName = "申报用户";
+
         Role role = roleMapper.selectOne(Wrappers.lambdaQuery(Role.class).eq(Role::getRoleName, roleName));
         if (role == null) {
             throw new BaseException("没有可用角色赋予用户");
         }
-        UserRole userRole = new UserRole();
-        userRole.setUserId(user.getId().intValue());
-        userRole.setRoleId(role.getRoleId());
-        int insert = userRoleMapper.insert(userRole);
-        if (insert < 0) {
-            throw new BaseException("用户角色新增失败");
+        List<UserRole> userRoles = userRoleMapper.selectList(Wrappers.lambdaQuery(UserRole.class).eq(UserRole::getUserId, user.getId()).eq(UserRole::getRoleId, role.getRoleId()));
+        UserRole userRole;
+        if (userRoles.isEmpty()) {
+            userRole = new UserRole();
+            userRole.setUserId(user.getId().intValue());
+            userRole.setRoleId(role.getRoleId());
+            int insert = userRoleMapper.insert(userRole);
+            if (insert < 0) {
+                throw new BaseException("用户角色新增失败");
+            }
+        } else {
+            userRole = userRoles.get(0);
         }
-//        user.setRoles(Collections.singletonList(role));
+        user.setUserMac(deanSimpleUtil.getUserMac(String.valueOf(user.getId()), user.getName(), user.getLoginName(), user.getContactPhone(), user.getUnit()));
+        user.setRoleMac(deanSimpleUtil.getRoleMac(String.valueOf(user.getId()), Collections.singletonList(userRole)));
+        userMapper.updateById(user);
         return user;
     }
 
