@@ -94,5 +94,11 @@ public class User implements Serializable {
     @TableField(exist = false)
     private Unit unitEntity;
 
+    @TableField(exist = false)
+    private String contactPhoneMac;
+
+    @TableField(exist = false)
+    private String loginNameMac;
+
 
 }

@@ -17,4 +17,6 @@ public interface IUserService extends IService<User> {
     int bindUnit(Unit unit);
 
     User getUserInfo(Long userId);
+
+    User decodeUser(User user);
 }

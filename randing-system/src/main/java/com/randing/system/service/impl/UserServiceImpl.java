@@ -87,7 +87,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             Unit byId1 = unitService.getOne(Wrappers.lambdaQuery(Unit.class).eq(Unit::getUnitId, byId.getUnit()));
             byId.setUnitEntity(byId1);
         }
-        return byId;
+        User user = this.decodeUser(byId);
+        return user;
+    }
+    @Override
+    public User decodeUser(User user) {
+        try{
+            if (StringUtils.isNotEmpty(user.getContactPhone())) {
+                String s = deanSimpleUtil.sm4Dec(user.getContactPhone());
+                user.setContactPhoneMac(user.getContactPhone());
+                user.setContactPhone(s);
+            }
+            if (StringUtils.isNotEmpty(user.getLoginName())) {
+                String s = deanSimpleUtil.sm4Dec(user.getLoginName());
+                user.setLoginNameMac(user.getLoginName());
+                user.setLoginName(s);
+            }
+            return user;
+        }catch (Exception e){
+            log.error("e", e);
+            return user;
+        }
+
     }
 
 }

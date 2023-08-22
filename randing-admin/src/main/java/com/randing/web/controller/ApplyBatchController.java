@@ -41,7 +41,7 @@ public class ApplyBatchController {
     public AjaxResult<ApplyBatchVo> getActiveBatch() {
         List<ApplyBatchVo> list = applyBatchService.getList(1);
         if (CollectionUtils.isEmpty(list)) {
-            throw new BaseException("");
+            throw new BaseException("没有可用的批次");
         }
         ApplyBatchVo re = null;
         if (list != null) {
