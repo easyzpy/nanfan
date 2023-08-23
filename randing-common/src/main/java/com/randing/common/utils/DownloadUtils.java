@@ -54,12 +54,12 @@ public class DownloadUtils {
         }catch(Exception e) {
             e.printStackTrace();
         }finally {
-            if (inStream != null) {
-                try {
+           try {
+                if (inStream != null) {
                     inStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
