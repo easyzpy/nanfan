@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -17,11 +18,11 @@ public class DownloadUtils {
 //        File fileUrl = new File("classpath:attachment"+filePath);
         //浏览器下载后的文件名称showValue,从url中截取到源文件名称以及，以及文件类型，如board.docx;
         ClassPathResource classPathResource = new ClassPathResource(filePath);
+        InputStream inStream = null;
         try{
             //根据条件得到文件路径
             //将文件读入文件流
-//            InputStream inStream = Files.newInputStream(fileUrl.toPath());
-            InputStream inStream = Files.newInputStream(classPathResource.getFile().toPath());
+            inStream = Files.newInputStream(classPathResource.getFile().toPath());
             //获得浏览器代理信息
             final String userAgent = request.getHeader("USER-AGENT");
             //判断浏览器代理并分别设置响应给浏览器的编码格式
@@ -52,6 +53,14 @@ public class DownloadUtils {
             response.getOutputStream().close();
         }catch(Exception e) {
             e.printStackTrace();
+        }finally {
+            if (inStream != null) {
+                try {
+                    inStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

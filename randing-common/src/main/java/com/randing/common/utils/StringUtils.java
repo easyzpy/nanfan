@@ -449,18 +449,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         return sb.toString();
     }
 
-    /**
-     * 生成随机数
-     * Param num 随机数位数
-     */
-    public static String toRandom(int num) {
-        Random random = new Random();
-        String result = "";
-        for (int i = 0; i < num; i++) {
-            result += random.nextInt(10);
-        }
-        return  result;
-    }
 
     /**
      * 获取字符串中的数字

@@ -16,18 +16,10 @@ public class AjaxResult<T> implements Serializable//extends HashMap<String, Obje
 {
     private static final long serialVersionUID = 1L;
 
-    //    /** 状态码 */
-//    public static final String CODE_TAG = "code";
-//
-//    /** 返回内容 */
-//    public static final String MSG_TAG = "msg";
-//
-//    /** 数据对象 */
-//    public static final String DATA_TAG = "data";
     private int code;
     private String msg;
 
-    private T data;
+    private transient T data;
 
     /**
      * 初始化一个新创建的 AjaxResult 对象，使其表示一个空消息。
@@ -46,8 +38,6 @@ public class AjaxResult<T> implements Serializable//extends HashMap<String, Obje
     {
         this.code = code;
         this.msg = msg;
-//        super.put(CODE_TAG, code);
-//        super.put(MSG_TAG, msg);
     }
 
     /**
@@ -59,13 +49,10 @@ public class AjaxResult<T> implements Serializable//extends HashMap<String, Obje
      */
     public AjaxResult(int code, String msg, T data)
     {
-//        super.put(CODE_TAG, code);
-//        super.put(MSG_TAG, msg);
         this.code = code;
         this.msg = msg;
         if (StringUtils.isNotNull(data))
         {
-//            super.put(DATA_TAG, data);
             this.data = data;
         }
     }
