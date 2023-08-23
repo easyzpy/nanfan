@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import org.apache.commons.io.IOUtils;
 
 public class DownloadUtils {
 
@@ -54,13 +55,7 @@ public class DownloadUtils {
         }catch(Exception e) {
             e.printStackTrace();
         }finally {
-           try {
-                if (inStream != null) {
-                    inStream.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+           IOUtils.closeQuietly(inStream);
         }
     }
 }
